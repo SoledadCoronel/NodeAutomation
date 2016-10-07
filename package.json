@@ -1,0 +1,29 @@
+{
+  "name": "node_api_test",
+  "version": "0.1.0",
+  "description": "Package json for appium test ",
+  "main": "login.js",
+  "scripts": {
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register"
+  },
+  "keywords": [
+    "node.js",
+    "eclipse",
+    "nodeclipse"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "chai-colors": "^1.0.1",
+    "chai-http": "^3.0.0",
+    "jsonapi-serializer": "^3.4.1",
+    "mocha": "^3.0.2",
+    "random-js": "^1.0.8",
+  },
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-register": "^6.14.0"
+  }
+}
