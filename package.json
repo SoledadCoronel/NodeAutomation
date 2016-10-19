@@ -4,7 +4,9 @@
   "description": "Package json for appium test ",
   "main": "login.js",
   "scripts": {
-    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register"
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register",
+    "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
+    "api": "clear && mocha test/api.js --compilers js:babel-register"
   },
   "keywords": [
     "node.js",
