@@ -2,10 +2,14 @@ class User {
 
 	constructor (data = {}) {
 		this.id = data.id;
-    	this.firstName = data.firstName;
-	    this.lastName = data.lastName;
+    	this['first-name'] = data.firstName;
+	    this['last-name'] = data.lastName;
+	    this.email = data.email;
+	    this.status = data.status;
+	    this['login-enabled'] = data['login-enabled'];
+	    this.role = data.role;
     	this.profile = data.profile;
-    	this.groupItems = data.groupItems || [];
+    	this['group-items'] = data['group-items'] || [];
     }
 
 };
