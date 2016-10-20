@@ -15,8 +15,6 @@ let adminsGroupItem = new GroupItem({
     id: 2,
     name: 'Admins'
 });
-
-
 let user1 = new User({
     id: 1,
     'first-name': 'Adolfo',
