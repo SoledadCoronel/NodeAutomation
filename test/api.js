@@ -1,6 +1,7 @@
 import User from './../src/models/user';
 import Profile from './../src/models/profile';
 import GroupItem from './../src/models/groupItem';
+import Role from './../src/models/role';
 import UserSerializer from './../src/serializers/userSerializer';
 
 let userSerializer = new UserSerializer();
@@ -15,26 +16,41 @@ let adminsGroupItem = new GroupItem({
     name: 'Admins'
 });
 
+
 let user1 = new User({
     id: 1,
-    firstName: 'Adolfo',
-    lastName: 'Castro',
+    'first-name': 'Adolfo',
+    'last-name': 'Castro',
+    'email' : 'adolfo.castro@gointegro.com',
+    'status' : 'active',
+    'login-enabled' : false,
+    role: new Role({
+      id: 1,
+      name: 'spaceAdmin'
+    }),
     profile: new Profile({
       id: 1,
       name: 'El papa'
     }),
-    groupItems: [defaultGroupItem, adminsGroupItem]
+    'group-items': [defaultGroupItem, adminsGroupItem]
 });
 
 let user2 = new User({
     id: 2,
-    firstName: 'Jaime',
-    lastName: 'Frastai',
+    'first-name': 'Jaime',
+    'last-name': 'Frastai',
+    'email' : 'jaime.frastai@gointegro.com',
+    'status' : 'active',
+    'login-enabled' : false,
+    role: new Role({
+      id: 2,
+      name: 'basic'
+    }),
     profile: new Profile({
       id: 2,
       name: 'Palta manager'
     }),
-    groupItems: [defaultGroupItem]
+    'group-items': [defaultGroupItem]
 });
 
 let data = [user1, user2];
@@ -56,6 +72,12 @@ describe('test deserializer ', function() {
               profile: {
                 data: {
                   type: 'profiles',
+                  id: '1'
+                }
+              },
+              role: {
+                data: {
+                  type: 'roles',
                   id: '1'
                 }
               },
