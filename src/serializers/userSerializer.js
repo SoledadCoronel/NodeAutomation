@@ -15,20 +15,22 @@ class UserSerializer {
                 'login-enabled',
                 'role',
                 'profile',
-                'groupItems',
+                'group-items',
             ],
             profile: {
                 ref: (user, profile) => profile.id,
                 attributes: ['name'],
                 included: true
             },
-            groupItems: {
+            'group-items': {
                 ref: (user, groupItem) => groupItem.id,
                 attributes: ['name'],
                 included: true
             },
             role: {
-                ref: (user, role)
+                ref: (user, role) => role.id,
+                attributes: ['name'],
+                included: true
             }
         });
 
@@ -43,6 +45,13 @@ class UserSerializer {
             'group-items': {
                 valueForRelationship: function (relationship) {
                     return new GroupItem({
+                        id: relationship.id,
+                    });
+                }
+            },
+            roles: {
+                valueForRelationship: function (relationship) {
+                    return new Role({
                         id: relationship.id,
                     });
                 }
