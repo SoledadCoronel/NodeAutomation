@@ -1,4 +1,6 @@
 
+import PlatformFixture from './../../src/fixtures/platform';
+
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
@@ -9,6 +11,14 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 describe('my suite - platform', function() {
+	var fixture = new PlatformFixture();
+
+	before(function(done) {
+		fixture.load().then(() => {
+			done();
+		});
+
+	});
 	
 	/*it('should list ALL platforms on /platforms GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
