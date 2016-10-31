@@ -4,7 +4,7 @@
   "description": "Package json for appium test ",
   "main": "login.js",
   "scripts": {
-    "test": "clear && mocha \"test/platforms/*@(.js)\" --compilers js:babel-register --timeout 15000",
+    "test": "clear && mocha \"test/platforms/*@(.js)\" --compilers js:babel-register --timeout 25000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha test/api.js --compilers js:babel-register"
   },

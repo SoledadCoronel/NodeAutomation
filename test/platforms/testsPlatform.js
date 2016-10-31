@@ -29,9 +29,9 @@ describe('my suite - platform', function() {
 		});
 	});*/
 
-	it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
+	it('should list a existing SINGLE platform on /platforms/<subdomain> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/platforms?filter[subdomain]=qago65809261')
+		.get('/platforms?filter[subdomain]=' + fixture.references.platformA.subdomain)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
@@ -40,6 +40,22 @@ describe('my suite - platform', function() {
 			//res.should.be.json;
 		done();
 		});
+	});
+
+	it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/platforms/' + fixture.references.platformA.id)
+		.then(function(res) {
+			console.log(res.body);
+			res.should.have.status(200);
+			//res.body[0].should.have.property('name');
+			//res.body.should.have.property('name');
+			//res.should.be.json;
+		})
+		.catch(function (e){
+   			console.error(e);
+ 
+		})
 	});
 
 	it('should not add a SINGLE platform on /platforms POST)', function() {
@@ -86,7 +102,7 @@ describe('my suite - platform', function() {
 		});
 	});
 
-	it('should add a SINGLE platform on /platforms POST)', function() {
+	/*it('should add a SINGLE platform on /platforms POST)', function() {
 		var random = new Random();
 
 		var platform = 
@@ -133,7 +149,7 @@ describe('my suite - platform', function() {
 			res.body.should.have.property('language');
 		done();
 		});
-	});
+	});*/
 
 	it('should update a SINGLE platform on /platforms/<id> PATCH');
 
