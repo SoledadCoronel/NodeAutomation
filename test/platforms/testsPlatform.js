@@ -1,6 +1,6 @@
 
 import PlatformFixture from './../../src/fixtures/platform';
-//import Oauth from './../../src/fixtures/oauth2';
+import Oauth from './../../src/fixtures/oauth2';
 
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
@@ -14,11 +14,15 @@ chai.use(chaiColors);
 describe('my suite - platform', function() {
 
 	var fixture = new PlatformFixture();
-	//var oauth = new Oauth();
+	var oauth = new Oauth(fixture);
 
 	before(function(done) {
 		fixture.load().then(() => {
-			done();
+
+			oauth.load().then(() => {
+				done();
+			});
+		//done();
 		});
 	});
 
@@ -37,7 +41,7 @@ describe('my suite - platform', function() {
 		});
 	});
 
-	it('Should the admin user to log on the existing platform on /oauth/token POST', function(done) {
+	/*it('Should the admin user to log on the existing platform on /oauth/token POST', function(done) {
 
 		chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')
@@ -54,7 +58,7 @@ describe('my suite - platform', function() {
 			res.should.have.status(200);
 		done();
  		});
-	});
+	});*/
 
 	// ESTE TESTS NECESITA AUTENTICACION
 	/*it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
