@@ -18,7 +18,6 @@ class Oauth {
 
     load() {
     	var oauth = this;
-    	//var fixture = new PlatformFixture();
 
       	return chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')

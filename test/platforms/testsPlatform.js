@@ -22,12 +22,10 @@ describe('my suite - platform', function() {
 			oauth.load().then(() => {
 				done();
 			});
-		//done();
 		});
 	});
 
 
-	// ESTE TEST PASA
 	it('should list a existing SINGLE platform on /platforms/<subdomain> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/platforms?filter[subdomain]=' + fixture.references.platformA.subdomain)
@@ -41,30 +39,23 @@ describe('my suite - platform', function() {
 		});
 	});
 
-	/*it('Should the admin user to log on the existing platform on /oauth/token POST', function(done) {
 
+	// ESTE TESTS NECESITA AUTENTICACION
+	it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.post('/oauth/token')
-		.set('content-type', 'application/x-www-form-urlencoded')
-		.send({ username: 'soledad.coronel@gointegro.com',
-				password: 'coquito25',
-				subdomain: fixture.references.platformA.subdomain,
-				client_id: 'xquxqcct2m80ocswgksskgcs04gokg4ccg8wosk4o8skc0gsw',
-				client_secret: 'xlqzn4qpq2o44g4kks8o40w0gkw004sck440osc0cso8g8844',
-				grant_type: 'password' 
-			})
+		.get('/platforms/' + fixture.references.platformA.id)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
+			//res.body[0].should.have.property('name');
+			//res.body.should.have.property('name');
+			//res.should.be.json;
 		done();
- 		});
-	});*/
-
-	// ESTE TESTS NECESITA AUTENTICACION
-	/*it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/platforms/' + fixture.references.platformA.id)
-		.then(function(res) {
+		});
+		/*.then(function(res) {
 			console.log(res.body);
 			res.should.have.status(200);
 			//res.body[0].should.have.property('name');
@@ -74,103 +65,55 @@ describe('my suite - platform', function() {
 		.catch(function (e){
    			console.error(e);
  
-		})
-	});*/
+		})*/
+	});
 
-	/*it('should not add a SINGLE platform on /platforms POST)', function() {
-		var random = new Random();
-
-		var platform = 
-		{
-  			"data": 
-  			[
-    			{
-      				"type": "platforms",
-      				"attributes": 
-      				{
-        			"name": "miPrimerTest"+random.integer(1, 10000),
-        			"timezone": "America/Argentina/Buenos_Aires",
-        			"status": "active",
-        			"users-range": "0-50",
-        			"language": "es"
-      				}
-    			},
-    			{
-      				"type": "users",
-      				"attributes": 
-      				{
-        				"name": "Soledad",
-        				"last-name": "Coronel",
-        				"email": "soledad.coronel@gointegro.com",
-        				"password": "coquito25"
-      				}
-    			}
-  			]
-		}
-		chai.request('http://platform-ms.cd.gointegro.net')
-		.post('/platforms')
-		.send(platform)
+	it('it should GET all the platforms', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/platforms')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
 		.end(function(err, res) {
 			console.log(res.body);
-			res.should.have.status(400);
-			res.body.should.have.property('message').eql('Bad Request');
-			res.body.should.have.property('errors');
-			res.body.errors.should.have.property('subdomain');
-			res.body.errors.subdomain.should.have.property('kind').eql('required');
+			res.should.have.status(200);
 		done();
 		});
-	});*/
+	});
 
-	/*it('should add a SINGLE platform on /platforms POST)', function() {
-		var random = new Random();
 
-		var platform = 
-		{
-  			"data": 
-  			[
-    			{
-      				"type": "platforms",
-      				"attributes": 
-      				{
-        			"name": "miPrimerTest"+random.integer(1, 10000),
-        			"subdomain": "miPrimerTest"+random.integer(1, 10000),
-        			"timezone": "America/Argentina/Buenos_Aires",
-        			"status": "active",
-        			"users-range": "0-50",
-        			"language": "es"
-      				}
-    			},
-    			{
-      				"type": "users",
-      				"attributes": 
-      				{
-        				"name": "Soledad",
-        				"last-name": "Coronel",
-        				"email": "soledad.coronel@gointegro.com",
-        				"password": "coquito25"
-      				}
-    			}
-  			]
-		}
-		chai.request('http://platform-ms.cd.gointegro.net')
-		.post('/platforms')
-		.send(platform)
+	it('should update a SINGLE platform on /platforms/<id> PATCH', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.patch('/platforms/' + fixture.references.platformA.id)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.send({'data': 
+				{
+				 'type': 'platforms',
+				 'id': fixture.references.platformA.id,
+				 'attributes': 
+				 {'name': 'plataformaNode'}
+				}
+			})
 		.end(function(err, res) {
 			console.log(res.body);
-			res.should.have.status(201);
-			res.body.should.be.a('object');
-			res.body.should.have.property('message').eql('Created');
-			res.body.should.have.property('name');
-			res.body.should.have.property('subdomain');
-			res.body.should.have.property('timezone');
-			res.body.should.have.property('status');
-			res.body.should.have.property('users-range');
-			res.body.should.have.property('language');
+			res.should.have.status(200);
 		done();
 		});
-	});*/
+	});
 
-	it('should update a SINGLE platform on /platforms/<id> PATCH');
+	it('it should GET all the roles', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/roles')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.end(function(err, res) {
+			console.log(res.body);
+			res.should.have.status(200);
+		done();
+		});
+	});
 
-	it('should delete a SINGLE platform on /platforms/<id> DELETE');
 });
