@@ -1,5 +1,3 @@
-import PlatformFixture from './../../src/fixtures/platform';
-
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
@@ -9,7 +7,7 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-class Oauth {
+class OauthFixture {
 
 	constructor (platformFixture) {
 		this.platformFixture = platformFixture;
@@ -35,14 +33,14 @@ class Oauth {
 				'platform_id' : res.body.platform_id,
 				'user_id': res.body.user_id
 			};
-			console.log(res.body);
-			console.log(oauth.references['tokenA']);
+			//console.log(res.body);
+			//console.log(oauth.references['tokenA']);
 
 		}); 
 	}
 };
 
-export default Oauth;
+export default OauthFixture;
 
 
 

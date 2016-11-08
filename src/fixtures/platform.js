@@ -15,7 +15,7 @@ class PlatformFixture {
     }
 
     load (callback) {
-    	var fixtureP = this;
+    	var fixture = this;
 		var random = new Random();
 
 		var platform = 
@@ -50,12 +50,12 @@ class PlatformFixture {
 		.post('/platforms')
 		.send(platform)
 		.then(function(res) {
-			fixtureP.references['platformA'] = {
+			fixture.references['platformA'] = {
 				'subdomain': res.body.data.attributes.subdomain, 
 				'id': res.body.data.id
 			};
-			console.log(res.body);
-			console.log(fixtureP.references['platformA']);
+			//console.log(res.body);
+			//console.log(fixture.references['platformA']);
 
 		});    	
     }

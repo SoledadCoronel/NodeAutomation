@@ -1,6 +1,6 @@
 
 import PlatformFixture from './../../src/fixtures/platform';
-import Oauth from './../../src/fixtures/oauth2';
+import OauthFixture from './../../src/fixtures/oauth2';
 
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
@@ -13,13 +13,13 @@ chai.use(chaiColors);
 
 describe('my suite - platform', function() {
 
-	var fixture = new PlatformFixture();
-	var oauth = new Oauth(fixture);
+	var platformFixture = new PlatformFixture();
+	var oauthFixture = new OauthFixture(platformFixture);
 
 	before(function(done) {
-		fixture.load().then(() => {
+		platformFixture.load().then(() => {
 
-			oauth.load().then(() => {
+			oauthFixture.load().then(() => {
 				done();
 			});
 		});
@@ -28,7 +28,7 @@ describe('my suite - platform', function() {
 
 	it('should list a existing SINGLE platform on /platforms/<subdomain> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/platforms?filter[subdomain]=' + fixture.references.platformA.subdomain)
+		.get('/platforms?filter[subdomain]=' + platformFixture.references.platformA.subdomain)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
@@ -43,10 +43,10 @@ describe('my suite - platform', function() {
 	// ESTE TESTS NECESITA AUTENTICACION
 	it('should list a existing SINGLE platform on /platforms/<id> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/platforms/' + fixture.references.platformA.id)
+		.get('/platforms/' + platformFixture.references.platformA.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
@@ -73,7 +73,7 @@ describe('my suite - platform', function() {
 		.get('/platforms')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
@@ -84,14 +84,14 @@ describe('my suite - platform', function() {
 
 	it('should update a SINGLE platform on /platforms/<id> PATCH', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.patch('/platforms/' + fixture.references.platformA.id)
+		.patch('/platforms/' + platformFixture.references.platformA.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.send({'data': 
 				{
 				 'type': 'platforms',
-				 'id': fixture.references.platformA.id,
+				 'id': platformFixture.references.platformA.id,
 				 'attributes': 
 				 {'name': 'plataformaNode'}
 				}
@@ -108,7 +108,7 @@ describe('my suite - platform', function() {
 		.get('/roles')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauth.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
 			console.log(res.body);
 			res.should.have.status(200);
