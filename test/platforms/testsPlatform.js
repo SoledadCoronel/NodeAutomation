@@ -1,6 +1,6 @@
 
 import PlatformFixture from './../../src/fixtures/platform';
-import OauthFixture from './../../src/fixtures/oauth2';
+import OauthFixture from './../../src/fixtures/oauth2AdminUser';
 
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
@@ -18,7 +18,6 @@ describe('my suite - platform', function() {
 
 	before(function(done) {
 		platformFixture.load().then(() => {
-
 			oauthFixture.load().then(() => {
 				done();
 			});

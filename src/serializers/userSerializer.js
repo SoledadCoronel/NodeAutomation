@@ -8,7 +8,7 @@ class UserSerializer {
     constructor (config = {}) {
         this.serializer = new Serializer('users', {
             attributes: [
-                'first-name',
+                'name',
                 'last-name',
                 'email',
                 'status',
@@ -17,7 +17,7 @@ class UserSerializer {
                 'profile',
                 'group-items',
             ],
-            profile: {
+           /* profile: {
                 ref: (user, profile) => profile.id,
                 attributes: ['name'],
                 included: true
@@ -26,7 +26,7 @@ class UserSerializer {
                 ref: (user, groupItem) => groupItem.id,
                 attributes: ['name'],
                 included: true
-            },
+            },*/
             role: {
                 ref: (user, role) => role.id,
                 attributes: ['name'],
@@ -60,7 +60,12 @@ class UserSerializer {
     }
 
     serialize (data = {}) {
-        return this.serializer.serialize(data);
+        
+        let serialized = this.serializer.serialize(data);
+        if (!data.id) {
+            delete serialized.data.id;
+        }
+        return serialized;
     }
 
     deserialize (data = {}) {

@@ -7,40 +7,38 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-class OauthFixture {
+/*class OauthFixtureBasic {
 
 	constructor (platformFixture) {
 		this.platformFixture = platformFixture;
 		this.references = {};
-    }
+	}
 
-    load() {
-    	var oauth = this;
+	load() {
+
+		var oauthBasic = this;
+		var userBasic = this;
 
       	return chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')
 		.set('content-type', 'application/x-www-form-urlencoded')
-		.send({ username: 'soledad.coronel@gointegro.com',
+		.send({ username: user.references.basicUserA.email,
 				password: 'coquito25',
-				subdomain: oauth.platformFixture.references.platformA.subdomain,
+				subdomain: oauthBasic.platformFixture.references.platformA.subdomain,
 				client_id: 'xquxqcct2m80ocswgksskgcs04gokg4ccg8wosk4o8skc0gsw',
 				client_secret: 'xlqzn4qpq2o44g4kks8o40w0gkw004sck440osc0cso8g8844',
 				grant_type: 'password' 
 			})
 		.then(function(res) {
-			oauth.references['tokenA'] = {
+			oauthBasic.references['tokenA'] = {
 				'access_token': res.body.access_token, 
 				'platform_id' : res.body.platform_id,
 				'user_id': res.body.user_id
 			};
-			//console.log(res.body);
-			//console.log(oauth.references['tokenA']);
 
+			return oauthBasic;
 		}); 
+
 	}
-};
 
-export default OauthFixture;
-
-
-
+}*/

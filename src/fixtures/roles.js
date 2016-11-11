@@ -15,30 +15,31 @@ class RoleFixture {
 
 	constructor (oauthFixture) {
 		this.oauthFixture = oauthFixture;
-		this.references = {};
+		this.references = {'rolesA': {}};
     }
 
     load() {
-    	var fixture = this;
+    	var roles = this;
+    	var oauthFixture = this.oauthFixture;
 
       	return chai.request('http://api.cd.gointegro.net')
 		.get('/roles')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + fixture.oauthFixture.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.then(function(res) {
 			for (var i in res.body.data) {
 				let role = res.body.data[i];
 				
 				switch (role.attributes.name) {
-					case fixture.ROLE_ADMIN:
-						fixture.references['rolesA']['admin'] = role;
+					case ROLE_ADMIN:
+						roles.references['rolesA']['admin'] = role;
 						break;
-					case fixture.ROLE_BASIC:
-						fixture.references['rolesA']['basic'] = role;
+					case ROLE_BASIC:
+						roles.references['rolesA']['basic'] = role;
 						break;
-					case fixture.ROLE_SPACE_ADMIN:
-						fixture.references['rolesA']['spaceAdmin'] = role;
+					case ROLE_SPACE_ADMIN:
+						roles.references['rolesA']['spaceAdmin'] = role;
 						break;
 				}
 			}
