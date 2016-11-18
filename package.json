@@ -5,7 +5,7 @@
   "main": "login.js",
   "scripts": {
     "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --timeout 40000",
-    "singletest": "clear && mocha \"test/users/*@(.js)\" --compilers js:babel-register --timeout 40000",
+    "singletest": "clear && mocha \"test/social/*@(.js)\" --compilers js:babel-register --timeout 40000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha test/api.js --compilers js:babel-register"
   },

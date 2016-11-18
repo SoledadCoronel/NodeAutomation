@@ -5,6 +5,9 @@ import RoleFixture from './../../src/fixtures/roles';
 import BasicUserFixture from './../../src/fixtures/basicUser';
 import InvitationBasicUserFixture from './../../src/fixtures/invitationBasicUser';
 import InvitationBasicUserCompleteFixture from './../../src/fixtures/invitationBasicUserComplete';
+import AdminSpaceUserFixture from './../../src/fixtures/adminSpaceUser';
+import InvitationAdminSpaceUserFixture from './../../src/fixtures/invitationAdminSpaceUser';
+import InvitationAdminSpaceUserCompleteFixture from './../../src/fixtures/invitationAdminSpaceUserComplete';
 import User from './../../src/models/user';
 import Role from './../../src/models/role';
 import UserSerializer from './../../src/serializers/userSerializer';
@@ -18,7 +21,7 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-describe('my suite - users', function() {
+describe('SUITE - USERS', function() {
 
 	var platformFixture = new PlatformFixture();
 	var oauthFixture = new OauthFixture(platformFixture);
@@ -26,6 +29,9 @@ describe('my suite - users', function() {
 	var basicUserFixture = new BasicUserFixture(roleFixture);
 	var invitationBasicUserFixture = new InvitationBasicUserFixture(basicUserFixture);
 	var invitationBasicUserCompleteFixture = new InvitationBasicUserCompleteFixture(invitationBasicUserFixture);
+	var adminSpaceUserFixture = new AdminSpaceUserFixture(roleFixture);
+	var invitationAdminSpaceUserFixture = new InvitationAdminSpaceUserFixture(adminSpaceUserFixture);
+	var invitationAdminSpaceUserCompleteFixture = new InvitationAdminSpaceUserCompleteFixture(invitationAdminSpaceUserFixture);
 	var userSerializer = new UserSerializer();
 
 	before(function(done) {
@@ -35,7 +41,13 @@ describe('my suite - users', function() {
 					basicUserFixture.load().then(() => {
 						invitationBasicUserFixture.load().then(() => {
 							invitationBasicUserCompleteFixture.load().then(() => {
-							done();		
+								adminSpaceUserFixture.load().then(() => {
+									invitationAdminSpaceUserFixture.load().then(() => {
+										invitationAdminSpaceUserCompleteFixture.load().then(() => {
+										done();	
+										})
+									})
+								})
 							})
 						})
 					})
@@ -44,7 +56,6 @@ describe('my suite - users', function() {
 		})
 	});
 
-	// ESTE TESTS NECESITA AUTENTICACION
 	it('should list a existing basic user on /users/<id> GET', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/users/' + basicUserFixture.references.basicUserA.id)
@@ -52,7 +63,7 @@ describe('my suite - users', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
-			console.log(res.body);
+			//console.log(res.body);
 			res.should.have.status(200);
 			//res.body[0].should.have.property('name');
 			//res.body.should.have.property('name');
@@ -70,5 +81,32 @@ describe('my suite - users', function() {
    			console.error(e);
  
 		})*/
+	});
+
+	it('should list a existing adminSpaceUser user on /users/<id> GET', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/users/' + adminSpaceUserFixture.references.adminSpaceUserA.id)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			//console.log(res.body);
+			res.should.have.status(200);
+			//res.body[0].should.have.property('name');
+			//res.body.should.have.property('name');
+			//res.should.be.json;
+		done();
+		});
+		/*.then(function(res) {
+			console.log(res.body);
+			res.should.have.status(200);
+			//res.body[0].should.have.property('name');
+			//res.body.should.have.property('name');
+			//res.should.be.json;
+		})
+		.catch(function (e){
+   			console.error(e);
+ 
+		});*/
 	});
 });

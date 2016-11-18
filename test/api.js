@@ -53,9 +53,9 @@ let user2 = new User({
 
 let data = [user1, user2];
 
-console.log(JSON.stringify(userSerializer.serialize(data), null, 2));
+//console.log(JSON.stringify(userSerializer.serialize(data), null, 2));
 
-describe('test deserializer ', function() {
+describe('SUITE - DESEREALIZE ', function() {
 
     it('tests example', function(done) {
         var jsonapi = {
@@ -92,7 +92,7 @@ describe('test deserializer ', function() {
         };
 
         userSerializer.deserialize(jsonapi).then( (users) => {
-            console.log(JSON.stringify(users));
+            //console.log(JSON.stringify(users));
         });
 
         done();

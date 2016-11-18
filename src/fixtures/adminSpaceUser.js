@@ -12,30 +12,30 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-class BasicUserFixture {
+class AdminSpaceUserFixture {
 
 	constructor (roleFixture) {
 		this.roleFixture = roleFixture;
 		this.oauthFixture = roleFixture.oauthFixture;
-		this.references = {'basicUserA': {}};
+		this.references = {'adminSpaceUserA': {}};
 	}
 
 	load() {
 
 		var oauthFixture = this.oauthFixture;
 		var roleFixture = this.roleFixture;
-		var userBasic = this;
+		var adminSpaceUser = this;
 		var userSerializer = new UserSerializer();
 
 		var random = new Random();
 		var user = new User({
-		    'name': 'UsuarioRolBasico',
-		    'last-name': 'UsuarioRolBasico',
-		    'email' : "basico"+random.integer(1, 10000)+"@gointegro.com",
+		    'name': 'UsuarioRolAdminSpace',
+		    'last-name': 'UsuarioRolAdminSpace',
+		    'email' : "spaceAdmin"+random.integer(1, 10000)+"@gointegro.com",
 		    'status' : 'active',
 		    'login-enabled' : true,
 		    role: new Role({
-		      id: roleFixture.references.rolesA.basic.id,
+		      id: roleFixture.references.rolesA.spaceAdmin.id,
 		    })
 		});
 
@@ -50,7 +50,7 @@ class BasicUserFixture {
 			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 			.send(postBody)
 			.then(function(res) {
-				userBasic.references['basicUserA'] = {
+				adminSpaceUser.references['adminSpaceUserA'] = {
 					'id': res.body.data.id,
 					'email': res.body.data.attributes.email
 			};
@@ -58,4 +58,4 @@ class BasicUserFixture {
 	}
 };
 
-export default BasicUserFixture;
+export default AdminSpaceUserFixture;
