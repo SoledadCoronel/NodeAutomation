@@ -7,16 +7,16 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-class PublicSpaceFixture {
+class PrivateSpaceFixture {
 
 	constructor (oauthFixture) {
 		this.oauthFixture = oauthFixture;
-		this.references = {'publicSpace': {}}
+		this.references = {'privateSpace': {}}
 	}
 
 	load() {
 
-		var publicSpace = this;
+		var privateSpace = this;
 		var oauthFixture = this.oauthFixture;
 
 		return chai.request('http://api.cd.gointegro.net')
@@ -28,22 +28,22 @@ class PublicSpaceFixture {
 			{"data": {
     			"type": "spaces",
     			"attributes": {
-      			"name": "ESPACIO PUBLICO",
-      			"description": "ESPACIO PUBLICO",
+      			"name": "ESPACIO PRIVADO",
+      			"description": "ESPACIO PRIVADO",
       			"icon": "QA",
       			"active": true,
       			"social-enabled": true,
       			"position": 0,
-      			"visibility": "public"
+      			"visibility": "private"
     			}
   			}
 		})
 		.then(function(res) {
-			publicSpace.references['publicSpace'] = {
+			privateSpace.references['privateSpace'] = {
 				'id': res.body.data.id
 			};
 		});
 	}
 };
 
-export default PublicSpaceFixture;
+export default PrivateSpaceFixture;

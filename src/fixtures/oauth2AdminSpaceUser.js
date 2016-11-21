@@ -7,10 +7,11 @@ var should = chai.should();
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-class OauthFixtureBasic {
+class OauthFixtureAdminSpace {
 
-	constructor (platformFixture) {
+	constructor (platformFixture, adminSpaceUserFixture) {
 		this.platformFixture = platformFixture;
+		this.adminSpaceUserFixture = adminSpaceUserFixture;
 		this.references = {};
 	}
 
@@ -21,7 +22,7 @@ class OauthFixtureBasic {
       	return chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')
 		.set('content-type', 'application/x-www-form-urlencoded')
-		.send({ username: user.references.adminSpaceUserA.email,
+		.send({ username: adminSpaceUserFixture.references.adminSpaceUserA.email,
 				password: 'coquito25',
 				subdomain: adminSpaceOauth.platformFixture.references.platformA.subdomain,
 				client_id: 'xquxqcct2m80ocswgksskgcs04gokg4ccg8wosk4o8skc0gsw',
@@ -38,4 +39,6 @@ class OauthFixtureBasic {
 			return adminSpaceOauth;
 		}); 
 	}
-}
+};
+
+export default OauthFixtureAdminSpace;

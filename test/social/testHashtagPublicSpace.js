@@ -35,7 +35,7 @@ chai.use(chaiColors);
 
 
 // comienzo de la suite
-describe('SUITE - SOCIAL', function() {
+describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 
 	// carga de fixtures
 	var platformFixture = new PlatformFixture();

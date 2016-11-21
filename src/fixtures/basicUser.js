@@ -54,6 +54,7 @@ class BasicUserFixture {
 					'id': res.body.data.id,
 					'email': res.body.data.attributes.email
 			};
+			return userBasic;
 		});
 	}
 };
