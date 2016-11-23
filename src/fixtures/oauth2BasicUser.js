@@ -27,7 +27,6 @@ class OauthFixtureBasic {
 			client_secret: 'xlqzn4qpq2o44g4kks8o40w0gkw004sck440osc0cso8g8844',
 			grant_type: 'password' 
 		}
-		console.log(loginData);
       	return chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')
 		.set('content-type', 'application/x-www-form-urlencoded')
