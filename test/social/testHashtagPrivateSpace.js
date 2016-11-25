@@ -23,6 +23,7 @@ var assert = chai.assert;
 
 var currentPostId = null;
 var currentPostId2 = null;
+var currentPostId3 = null;
 
 chai.use(chaiHttp);
 chai.use(chaiColors);
@@ -142,8 +143,45 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PRIVADO', function() {
 		});
 	});
 
-	// caso 5: Obtiene posts filtrando por un hashtag 
-	it('Caso 3: Usuario basico obtiene posts filtrando por hashtag', function(done) {
+	// caso 3: usuario creador del espacio postea un hashtag
+	it('Caso 3: Usuario creador del espacio - postea hashtag', function(done) {
+
+		var postData3 = this;
+		this.references = {};
+
+		var hashtagPost3 = {
+			"data": {
+				"type": "posts",
+				"attributes": {
+					"content": "contenido de post con hashtag #tésting"
+				},
+				"relationships": {
+					"target": {
+						"data": {
+							"type": "spaces",
+							"id": privateSpaceFixture.references.privateSpace.id
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/posts')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(hashtagPost3)
+		.then(function(res) {
+			postData3.references['singlePost'] = {
+				'id': res.body.data.id
+			};
+			currentPostId3 = res.body.data.id;
+		done();
+		});
+	});
+
+	// caso 4: Obtiene posts filtrando por un hashtag 
+	it('Caso 4: Usuario basico obtiene posts filtrando por hashtag', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + privateSpaceFixture.references.privateSpace.id + '&' + 'filter[hashtag]=testing')
 		.set('content-type', 'application/vnd.api+json')
@@ -155,8 +193,8 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PRIVADO', function() {
 		});
 	});
 
-	// caso 3: Usuario admin joinea a usuario básico a espacio
-	/*it('Caso 3: Usuario Admin une a usuario básico - espacio privado', function(done) {
+	// caso 5: Usuario admin joinea a usuario básico a espacio
+	it('Caso 5: Usuario Admin une a usuario básico - espacio privado', function(done) {
 
 		var userData = {
 			"data": [
@@ -177,10 +215,10 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PRIVADO', function() {
 			expect(res).to.have.status(204);
 		done();
 		});
-	});*/
+	});
 
-	// caso 4: Usuario joineado intenta postear en espacio privado
-	/*it('Caso 4: Usuario joineado - intenta postear un hashtag', function(done) {
+	// caso 6: Usuario joineado intenta postear en espacio privado
+	it('Caso 6: Usuario joineado - intenta postear un hashtag', function(done) {
 
 		var postData = this;
 		this.references = {};
@@ -211,12 +249,36 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PRIVADO', function() {
 			expect(res).to.have.status(201);
 		done();
 		});
-	});*/
-
-	// caso 5: Obtiene posts filtrando por un hashtag 
-	it('Caso 4: Usuario no joineado filtra hashtag por plataforma', function(done) {
+	});
+	
+	// caso 7: Obtiene posts filtrando por un hashtag 
+	it('Caso 7: Usuario admin filtra por hashtag por espacio privado', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[hashtag]=testing')
+		.get('/feed-items?filter[space]=' + privateSpaceFixture.references.privateSpace.id + '&' + 'filter[hashtag]=testing')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			expect(res).to.have.status(200);
+			res.body.should.have.property('data');
+			res.body.should.have.property('meta');
+			res.body.should.have.property('links');
+			res.body.meta.should.have.property('pagination');
+			res.body.links.should.have.property('first');
+			res.body.links.should.have.property('last');
+			res.body.links.should.have.property('prev');
+			res.body.links.should.have.property('next');
+			res.body.data.should.be.a('array');
+			res.body.data.length.should.be.eql(2);
+		done();
+		});
+	});
+
+	// caso 8: Obtiene posts filtrando por un hashtag 
+	it('Caso 8: Usuario basico filtra por hashtag por espacio privado', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/feed-items?filter[space]=' + privateSpaceFixture.references.privateSpace.id + '&' + 'filter[hashtag]=testing')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
@@ -227,62 +289,12 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PRIVADO', function() {
 			res.body.should.have.property('meta');
 			res.body.should.have.property('links');
 			res.body.meta.should.have.property('pagination');
-			//res.body.meta.should.have.property('additional_data');
 			res.body.links.should.have.property('first');
 			res.body.links.should.have.property('last');
 			res.body.links.should.have.property('prev');
 			res.body.links.should.have.property('next');
 			res.body.data.should.be.a('array');
-		console.log(res.body);
-		done();
-		});
-	});
-
-		// caso 5: Obtiene posts filtrando por un hashtag 
-	it('Caso 5: Usuario admin filtra por hashtag por espacio privado', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + privateSpaceFixture.references.privateSpace.id + '&' + 'filter[hashtag]=testing')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		console.log(res.body);
-		done();
-		});
-	});
-
-			// caso 5: Obtiene posts filtrando por un hashtag 
-	it('Caso 5: Usuario admin filtra por hashtag por plataforma', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + privateSpaceFixture.references.privateSpace.id + '&' + 'filter[hashtag]=testing')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-		console.log(res.body);
+			res.body.data.length.should.be.eql(2);
 		done();
 		});
 	});
