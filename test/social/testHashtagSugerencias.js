@@ -259,8 +259,82 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 6: usuario creador del espacio postea un hashtag
-	it('Caso 6: Crea post con hashtag - espacio company', function(done) {
+	// caso 6: se crea un post con hashtag en un espacio publico
+	it('Caso 6: Crea post con hashtag-espacioBlanco - espacio publico', function(done) {
+
+		var postData = this;
+		this.references = {};
+
+		var hashtagPost = {
+			"data": {
+				"type": "posts",
+				"attributes": {
+					"content": "contenido de post con hashtag #hash tag"
+				},
+				"relationships": {
+					"target": {
+						"data": {
+							"type": "spaces",
+							"id": publicSpaceFixture.references.publicSpace.id
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/posts')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(hashtagPost)
+		.then(function(res) {
+			postData.references['postHashtag'] = {
+				'id': res.body.data.id
+			
+			};
+		done();
+		});
+	});
+
+	// caso 7: se crea un post con hashtag en un espacio publico
+	it('Caso 7: Crea post con hashtag-guión - espacio publico', function(done) {
+
+		var postData = this;
+		this.references = {};
+
+		var hashtagPost = {
+			"data": {
+				"type": "posts",
+				"attributes": {
+					"content": "contenido de post con hashtag #hash-tag"
+				},
+				"relationships": {
+					"target": {
+						"data": {
+							"type": "spaces",
+							"id": publicSpaceFixture.references.publicSpace.id
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/posts')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(hashtagPost)
+		.then(function(res) {
+			postData.references['postHashtag'] = {
+				'id': res.body.data.id
+			
+			};
+		done();
+		});
+	});
+
+	// caso 8: usuario creador del espacio postea un hashtag
+	it('Caso 8: Crea post con hashtag - espacio company', function(done) {
 
 		var postData = this;
 		this.references = {};
@@ -295,8 +369,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 7: usuario creador del espacio postea un hashtag
-	it('Caso 7: Crea post con hashtag - espacio privado', function(done) {
+	// caso 9: usuario creador del espacio postea un hashtag
+	it('Caso 9: Crea post con hashtag - espacio privado', function(done) {
 
 		var postData = this;
 		this.references = {};
@@ -331,8 +405,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 8: usuario creador del espacio postea un hashtag
-	it('Caso 8: Crea post con hashtag - espacio privado', function(done) {
+	// caso 10: usuario creador del espacio postea un hashtag
+	it('Caso 10: Crea post con hashtag - espacio privado', function(done) {
 
 		var postData = this;
 		this.references = {};
@@ -367,8 +441,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 9: Obtiene sugerencias
-	it('Caso 9: Usuario basico filtra sugerencias de manera publica', function(done) {
+	// caso 11: Obtiene sugerencias
+	it('Caso 11: Usuario basico filtra sugerencias de manera publica', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/hashtags?filter[q]=te')
 		.set('content-type', 'application/vnd.api+json')
@@ -391,8 +465,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 10: Obtiene sugerencias
-	it('Caso 10: Usuario basico filtra sugerencias por espacio publico', function(done) {
+	// caso 12: Obtiene sugerencias
+	it('Caso 12: Usuario basico filtra sugerencias por espacio publico', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/hashtags?filter[q]=te&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
 		.set('content-type', 'application/vnd.api+json')
@@ -415,8 +489,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 11: Obtiene sugerencias
-	it('Caso 11: Usuario básico filtra sugerencias por espacio company', function(done) {
+	// caso 13: Obtiene sugerencias
+	it('Caso 13: Usuario básico filtra sugerencias por espacio company', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/hashtags?filter[q]=te&filter[space]=' + companySpaceFixture.references.companySpace.id)
 		.set('content-type', 'application/vnd.api+json')
@@ -439,8 +513,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 12: Obtiene sugerencias
-	it('Caso 12: Usuario filtra sugerencias por espacio privado', function(done) {
+	// caso 14: Obtiene sugerencias
+	it('Caso 14: Usuario filtra sugerencias por espacio privado', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/hashtags?filter[q]=te&filter[space]=' + privateSpaceFixture.references.privateSpace.id))
 		.set('content-type', 'application/vnd.api+json')
@@ -462,8 +536,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 13: Obtiene sugerencias
-	it('Caso 13: Usuario basico filtra sugerencias por espacio privado', function(done) {
+	// caso 15: Obtiene sugerencias
+	it('Caso 15: Usuario basico filtra sugerencias por espacio privado', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/hashtags?filter[q]=té&filter[space]=' + privateSpaceFixture.references.privateSpace.id))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -485,8 +559,8 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		});
 	});
 
-	// caso 14: Obtiene sugerencias
-	it('Caso 14: Usuario basico filtra sugerencias sin espacio privado', function(done) {
+	// caso 16: Obtiene sugerencias
+	it('Caso 16: Usuario basico filtra sugerencias sin espacio privado', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/hashtags?filter[q]=té'))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -504,6 +578,54 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 			res.body.links.should.have.property('next');
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(3);
+		done();
+		});
+	});
+
+	// caso 17: Obtiene sugerencias
+	it('Caso 17: Usuario basico filtra sugerencias-espacioBlanco por espacio publico', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/hashtags?filter[q]=has&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			expect(res).to.have.status(200);
+			res.body.should.have.property('data');
+			res.body.should.have.property('meta');
+			res.body.should.have.property('links');
+			res.body.meta.should.have.property('pagination');
+			res.body.links.should.have.property('first');
+			res.body.links.should.have.property('last');
+			res.body.links.should.have.property('prev');
+			res.body.links.should.have.property('next');
+			res.body.data.should.be.a('array');
+			res.body.data.length.should.be.eql(1);
+		done();
+		});
+	});
+
+	// caso 18: Obtiene sugerencias
+	it('Caso 18: Usuario basico filtra sugerencias-guión por espacio publico', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/hashtags?filter[q]=has&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			expect(res).to.have.status(200);
+			res.body.should.have.property('data');
+			res.body.should.have.property('meta');
+			res.body.should.have.property('links');
+			res.body.meta.should.have.property('pagination');
+			res.body.links.should.have.property('first');
+			res.body.links.should.have.property('last');
+			res.body.links.should.have.property('prev');
+			res.body.links.should.have.property('next');
+			res.body.data.should.be.a('array');
+			res.body.data.length.should.be.eql(1);
 		done();
 		});
 	});
