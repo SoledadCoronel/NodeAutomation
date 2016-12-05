@@ -218,7 +218,7 @@ describe('SUITE - GALLERIES', function() {
 		});
 		var req2 = new Promise(function(resolve, reject) {
 
-			var galleryItemPost = {
+			var galleryItemPost2 = {
 				"data": {
 					"type": "gallery-items",
 					"attributes":
@@ -245,7 +245,7 @@ describe('SUITE - GALLERIES', function() {
 			.set('content-type', 'application/vnd.api+json')
 			.set('Accept', 'application/vnd.api+json')
 			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-			.send(galleryItemPost)
+			.send(galleryItemPost2)
 			/*.then(function(res) {
 				galleryItemData.references['galleryItem'] = {
 					'id': res.body.data.id
