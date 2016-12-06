@@ -301,7 +301,7 @@ describe('SUITE - GALLERIES', function() {
 			galleryItemData.references['galleryItem'] = {
 				'id': res.body.data.id
 			};
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			currentGalleryItem = res.body.data.id;
 			done();
 		});
@@ -349,20 +349,22 @@ describe('SUITE - GALLERIES', function() {
 			galleryItemData.references['galleryItem'] = {
 				'id': res.body.data.id
 			};
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			currentGalleryItem = res.body.data.id;
 			done();
 		});
 		//}
 	});
 
-	// se crean galleryItems
-	it('Caso 2: se modifica position de itemGallery', function(done) {
+	// se modifica una galleryItem
+	it('Caso 4: se modifica position de itemGallery', function(done) {
 
 		var galleryItemData = this;
 		this.references = {};
 
 		var galleryItemPost = {
+			"type": "gallerie-items",
+			"id": currentGalleryItem,
 			"data": {
 				"type": "gallery-items",
 				"attributes":
@@ -375,18 +377,14 @@ describe('SUITE - GALLERIES', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
-			expect(err).to.be.null;
 			res.should.have.status(200);
-			res.body.data.should.have.property('relationships');
-			//res.body.data.should.have.property('preview-items');
-			//res.body.data.preview + '-' +items.length.should.be.eql(8);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
 
 	// Se obtiene galeria de imágenes
-	it('Caso 3: se obtienen items de una galeria', function(done) {
+	it('Caso 5: se obtienen items de una galeria', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/galleries/' + currentGallery + '?include=preview-items')
 		.set('content-type', 'application/vnd.api+json')
@@ -398,7 +396,7 @@ describe('SUITE - GALLERIES', function() {
 			res.body.data.should.have.property('relationships');
 			//res.body.data.should.have.property('preview-items');
 			//res.body.data.preview + '-' +items.length.should.be.eql(8);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
