@@ -32,6 +32,7 @@ var currentPostId8 = null;
 var currentPostId9 = null;
 var currentPostId10 = null;
 var currentPostId11 = null;
+var currentPostId12 = null;
 var currentCommentId = null;
 var currentCommentId2 = null;
 
@@ -486,8 +487,45 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 		});
 	});
 
+	// se crean dos hashtags en el mismo post
+	it('Caso 12: Crea post con hashtag - Caracter especial Ø y â ', function(done) {
+
+		var postData12 = this;
+		this.references = {};
+
+		var hashtagPost12 = {
+			"data": {
+				"type": "posts",
+				"attributes": {
+					"content": "contenido de post con hashtag #caracterØEspecial #carâcterEspecial"
+				},
+				"relationships": {
+					"target": {
+						"data": {
+							"type": "spaces",
+							"id": publicSpaceFixture.references.publicSpace.id
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/posts')
+		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(hashtagPost12)
+		.then(function(res) {
+			postData12.references['singlePost'] = {
+				'id': res.body.data.id
+			};
+			currentPostId12 = res.body.data.id;
+		done();
+		});
+	});
+
 	// se crea un comentario con hashtag sobre un post con hashtag
-	it('Caso 12: Crea un comentario sobre un post1', function(done) {
+	it('Caso 13: Crea un comentario sobre un post1', function(done) {
 
 		var commentData = this;
 		this.references = {};
@@ -524,7 +562,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 		// se crea un comentario con hashtag sobre un post con hashtag
-	it('Caso 13: Crea un comentario sobre un post2', function(done) {
+	it('Caso 14: Crea un comentario sobre un post2', function(done) {
 
 		var commentData = this;
 		this.references = {};
@@ -561,7 +599,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// se crea una respuesta con hashtag a un comentario con hashtag
-	it('Caso 14: Crea una respuesta con hashtag sobre un comentario1', function(done) {
+	it('Caso 15: Crea una respuesta con hashtag sobre un comentario1', function(done) {
 
 		var replyData = this;
 		this.references = {};
@@ -603,7 +641,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// se crea una respuesta con hashtag a un comentario con hashtag
-	it('Caso 15: Crea una respuesta con hashtag sobre un comentario2', function(done) {
+	it('Caso 16: Crea una respuesta con hashtag sobre un comentario2', function(done) {
 
 		var replyData = this;
 		this.references = {};
@@ -645,7 +683,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> debería traer 4 resultados (incluye comentario y respuesta)
-	it('Caso 16: Obtiene posts filtrando por hashtag - valida mayúscula/minúscula', function(done) {
+	it('Caso 17: Obtiene posts filtrando por hashtag - valida mayúscula/minúscula', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=testing')
 		.set('content-type', 'application/vnd.api+json')
@@ -670,7 +708,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> solo deberia traer 1 resultado
-	it('Caso 17: Obtiene posts filtando por hashtag - valida tilde', function(done) {
+	it('Caso 18: Obtiene posts filtando por hashtag - valida tilde', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=tésting'))
 		.set('content-type', 'application/vnd.api+json')
@@ -695,7 +733,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> solo deberia traer 1 resultado
-	it('Caso 18: Obtiene posts filtando por hashtag - valida caracteres especiales permitidos', function(done) {
+	it('Caso 19: Obtiene posts filtando por hashtag - valida caracteres especiales permitidos', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=MaríaGüillerminaGonçalvesNuñezO' + 'coñor'))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -720,7 +758,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> hasta el caracter inválido
-	it('Caso 19: Obtiene posts filtando por hashtag - valida hasta el caracter inválido', function(done) {
+	it('Caso 20: Obtiene posts filtando por hashtag - valida hasta el caracter inválido', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=estoEsVálidoHastaAcá'))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -745,7 +783,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> Dos hashtags en un mismo post
-	it('Caso 20: Obtiene posts filtando por hashtag - valida primer hashtag', function(done) {
+	it('Caso 21: Obtiene posts filtando por hashtag - valida primer hashtag', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=EstosSonDos'))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -770,7 +808,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag -> Dos hashtags en un mismo post
-	it('Caso 21: Obtiene posts filtando por hashtag - valida segundo hashtag hashtag', function(done) {
+	it('Caso 22: Obtiene posts filtando por hashtag - valida segundo hashtag hashtag', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=Hashtags'))
 		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
@@ -795,7 +833,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene todos los posts de un espacio - Omite comentario y respuesta
-	it('Caso 22: Obtiene todos los posts del espacio', function(done) {
+	it('Caso 23: Obtiene todos los posts del espacio', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id)
 		.set('content-type', 'application/vnd.api+json')
@@ -814,13 +852,13 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 			res.body.links.should.have.property('prev');
 			res.body.links.should.have.property('next');
 			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(11);
+			res.body.data.length.should.be.eql(12);
 		done();
 		});
 	});
 
 	// Obtiene los comentarios de un post
-	it('Caso 23: Obtiene los comentarios de un post', function(done) {
+	it('Caso 24: Obtiene los comentarios de un post', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/comments?filter[post]=' + currentPostId)
 		.set('content-type', 'application/vnd.api+json')
@@ -845,7 +883,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene las respuestas a un comentario
-	it('Caso 24: Obtiene las respuestas a un comentario', function(done) {
+	it('Caso 25: Obtiene las respuestas a un comentario', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/comments?filter[parent-id]=' + currentCommentId)
 		.set('content-type', 'application/vnd.api+json')
@@ -870,7 +908,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag 
-	it('Caso 25: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 2', function(done) {
+	it('Caso 26: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 2', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
 			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPostId4 +
@@ -888,7 +926,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag 
-	it('Caso 26: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 3', function(done) {
+	it('Caso 27: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 3', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
 			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPostId4 +
@@ -906,7 +944,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 	});
 
 	// Obtiene posts filtrando por un hashtag 
-	it('Caso 26: Obtiene posts filtrando por hashtag - olderThan', function(done) {
+	it('Caso 28: Obtiene posts filtrando por hashtag - olderThan', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
 			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[older-than]=' + currentPostId4)
