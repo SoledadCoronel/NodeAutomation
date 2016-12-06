@@ -175,7 +175,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// se crean galleryItems
-	it('Caso 2: Creando galleryItems con promise.all', function(done) {
+	/*it('Caso 2: Creando galleryItems con promise.all', function(done) {
 
 		var galleryItemData = this;
 		this.references = {};
@@ -204,17 +204,17 @@ describe('SUITE - GALLERIES', function() {
 					}
 				}
 			}
-			return chai.request('http://api.cd.gointegro.net')
+			chai.request('http://api.cd.gointegro.net')
 			.post('/gallery-items')
 			.set('content-type', 'application/vnd.api+json')
 			.set('Accept', 'application/vnd.api+json')
 			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 			.send(galleryItemPost)
-			/*.then(function(res) {
+			.then(function(res) {
 				galleryItemData.references['galleryItem'] = {
 					'id': res.body.data.id
 				};
-			});*/
+			});
 		});
 		var req2 = new Promise(function(resolve, reject) {
 
@@ -240,17 +240,17 @@ describe('SUITE - GALLERIES', function() {
 					}
 				}
 			}
-			return chai.request('http://api.cd.gointegro.net')
+			chai.request('http://api.cd.gointegro.net')
 			.post('/gallery-items')
 			.set('content-type', 'application/vnd.api+json')
 			.set('Accept', 'application/vnd.api+json')
 			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 			.send(galleryItemPost2)
-			/*.then(function(res) {
+			.then(function(res) {
 				galleryItemData.references['galleryItem'] = {
 					'id': res.body.data.id
 				};
-			});*/
+			});
 		});
 		Promise.all([req1, req2]).then(function() {
 			console.log("PASA POR ACA");
@@ -258,10 +258,10 @@ describe('SUITE - GALLERIES', function() {
 			console.log('Catch: ', err);
 		});
 		done();
-	});
+	});*/
 
 		// se crean galleryItems
-	/*it('Caso 2: se crean 2 galleryItems para una galeria', function(done) {
+	it('Caso 2: se crean 2 galleryItems para una galeria', function(done) {
 
 		//var i;
 		//for(i = 0; i < 9; i++) {
@@ -302,13 +302,14 @@ describe('SUITE - GALLERIES', function() {
 				'id': res.body.data.id
 			};
 			console.log(JSON.stringify(res.body,null,2));
+			currentGalleryItem = res.body.data.id;
 			done();
 		});
 		//}
-	});*/
+	});
 
 			// se crean galleryItems
-	/*it('Caso 2: se crean 3 galleryItems para una galeria', function(done) {
+	it('Caso 3: se crean 2 galleryItems para una galeria', function(done) {
 
 		//var i;
 		//for(i = 0; i < 9; i++) {
@@ -349,10 +350,40 @@ describe('SUITE - GALLERIES', function() {
 				'id': res.body.data.id
 			};
 			console.log(JSON.stringify(res.body,null,2));
+			currentGalleryItem = res.body.data.id;
 			done();
 		});
 		//}
-	});*/
+	});
+
+	// se crean galleryItems
+	it('Caso 2: se modifica position de itemGallery', function(done) {
+
+		var galleryItemData = this;
+		this.references = {};
+
+		var galleryItemPost = {
+			"data": {
+				"type": "gallery-items",
+				"attributes":
+				{"position": 2}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.patch('/gallery-items/' + currentGalleryItem)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			res.should.have.status(200);
+			res.body.data.should.have.property('relationships');
+			//res.body.data.should.have.property('preview-items');
+			//res.body.data.preview + '-' +items.length.should.be.eql(8);
+			console.log(JSON.stringify(res.body,null,2));
+			done();
+		});
+	});
 
 	// Se obtiene galeria de imágenes
 	it('Caso 3: se obtienen items de una galeria', function(done) {

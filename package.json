@@ -4,7 +4,7 @@
   "description": "Package json for appium test ",
   "main": "login.js",
   "scripts": {
-    "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --timeout 40000",
+    "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 40000",
     "singletest": "clear && mocha \"test/social/testHashtagPublicSpace*@(.js)\" --compilers js:babel-register --timeout 40000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha test/api.js --compilers js:babel-register"
@@ -22,6 +22,7 @@
     "chai-http": "^3.0.0",
     "jsonapi-serializer": "^3.4.1",
     "mocha": "^3.0.2",
+    "mocha-junit-reporter": "^1.12.1",
     "random-js": "^1.0.8"
   },
   "devDependencies": {
