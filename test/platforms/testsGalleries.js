@@ -357,7 +357,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// se modifica una galleryItem
-	it('Caso 4: se modifica position de itemGallery', function(done) {
+	/*it('Caso 4: se modifica position de itemGallery', function(done) {
 
 		var galleryItemData = this;
 		this.references = {};
@@ -381,7 +381,7 @@ describe('SUITE - GALLERIES', function() {
 			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
-	});
+	});*/
 
 	// Se obtiene galeria de imágenes
 	it('Caso 5: se obtienen items de una galeria', function(done) {
