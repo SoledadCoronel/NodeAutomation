@@ -27,6 +27,7 @@ var currentVideoFile2 = null;
 var currentGalleryItem = null;
 var currentGalleryItem2 = null;
 var currentGalleryItem3 = null; 
+var currentGalleryItem4 = null; 
 
 chai.use(chaiHttp);
 chai.use(chaiColors);
@@ -552,7 +553,7 @@ describe('SUITE - GALLERIES', function() {
 			expect(err).to.be.null;
 			res.should.have.status(200);
 			//res.body.data.should.be.a('array');
-			//res.body.data.length.should.be.eql(2);
+			//res.body.data.length.should.be.eql(4);
 			done();
 		});
 	});
