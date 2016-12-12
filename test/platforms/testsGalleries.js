@@ -22,7 +22,8 @@ var assert = chai.assert;
 var currentTopic = null;
 var currentGallery = null;
 var currentImageFile = null; 
-var currentVideoFile = null; 
+var currentVideoFile = null;
+var currentVideoFile2 = null; 
 var currentGalleryItem = null;
 var currentGalleryItem2 = null;
 var currentGalleryItem3 = null; 
@@ -137,7 +138,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// usuario admin sube un file
-	it('Precondición: se sube un video - file', function(done) {
+	it('Precondición: se sube un video .mp4 - file', function(done) {
 
 		var fileData = this;
 		this.references = {};
@@ -162,6 +163,36 @@ describe('SUITE - GALLERIES', function() {
 				'id': res.body.data.id
 			};
 			currentVideoFile = res.body.data.id;
+			done();
+		});
+	});
+
+		// usuario admin sube un file
+	it('Precondición: se sube un video .mov - file', function(done) {
+
+		var fileData = this;
+		this.references = {};
+
+		var filePost = {
+			"data": {
+				"attributes": {
+					"prefix": "gallery",
+					"file": "video/mov;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAhtZGF0AAABBm1vb3YAAABsbXZoZAAAAAAAAAAAAAAAAAAAA+gAAAAAAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAACSdWR0YQAAAIptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAAF1pbHN0AAAAMKlkYXkAAAAoZGF0YQAAAAEAAAAAMjAxNC0wOS0yNVQxNjo0MDoxMy0wMzAwAAAAJal0b28AAAAdZGF0YQAAAAEAAAAATGF2ZjU3LjI1LjEwMA=="
+				},
+				"type": "files"
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/files')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(filePost)
+		.then(function(res) {
+			fileData.references['file'] = {
+				'id': res.body.data.id
+			};
+			currentVideoFile2 = res.body.data.id;
 			done();
 		});
 	});
@@ -339,7 +370,7 @@ describe('SUITE - GALLERIES', function() {
 		});
 		//}
 	});
-
+	
 	// se crean galleryItems
 	it('Caso 3: se crean galleryItem2 para una galeria', function(done) {
 
@@ -365,7 +396,7 @@ describe('SUITE - GALLERIES', function() {
 					"file": {
 						"data": {
 							"type": "files",
-							"id": currentImageFile
+							"id": currentVideoFile2
 						}
 					}
 				}
@@ -388,7 +419,7 @@ describe('SUITE - GALLERIES', function() {
 		//}
 	});
 
-				// se crean galleryItems
+	// se crean galleryItems
 	it('Caso 4: se crean galleryItem3 para una galeria', function(done) {
 
 		//var i;
@@ -436,8 +467,56 @@ describe('SUITE - GALLERIES', function() {
 		//}
 	});
 
+				// se crean galleryItems
+	it('Caso 5: se crean galleryItem4 para una galeria', function(done) {
+
+		//var i;
+		//for(i = 0; i < 9; i++) {
+		//setTimeout(function(){ alert(i); }, 3000);
+		var galleryItemData4 = this;
+		this.references = {};
+
+		var galleryItemPost4 = {
+			"data": {
+				"type": "gallery-items",
+				"attributes":
+				{},
+				"relationships": {
+					"gallery": {
+						"data": {
+							"id": currentGallery,
+							"type": "galleries"
+						}
+
+					},
+					"file": {
+						"data": {
+							"type": "files",
+							"id": currentImageFile
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/gallery-items')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(galleryItemPost4)
+		.then(function(res) {
+			galleryItemData4.references['galleryItem'] = {
+				'id': res.body.data.id
+			};
+			//console.log(JSON.stringify(res.body,null,2));
+			currentGalleryItem4 = res.body.data.id;
+			done();
+		});
+		//}
+	});
+
 	// se modifica una galleryItem
-	it('Caso 5: se modifica position de itemGallery', function(done) {
+	it('Caso 6: se modifica position de itemGallery', function(done) {
 
 		var galleryItemData = this;
 		this.references = {};
@@ -463,7 +542,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene galeria de imágenes
-	it('Caso 6: se obtienen items de una galeria', function(done) {
+	it('Caso 7: se obtienen items de una galeria', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/galleries/' + currentGallery + '?include=preview-items')
 		.set('content-type', 'application/vnd.api+json')
@@ -479,7 +558,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene un galleryItem
-	it('Caso 7: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 8: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items/' + currentGalleryItem + 'include=file,gallery,prevSiblings,prevSiblings.file,nextSiblings,nextSiblings.file')
 		.set('content-type', 'application/vnd.api+json')
@@ -493,7 +572,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se borra un galleryItem
-	it('Caso 8: se elimina un galleryItem un galleryItem', function(done) {
+	it('Caso 9: se elimina un galleryItem un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.delete('/gallery-items/' + currentGalleryItem)
 		.set('content-type', 'application/vnd.api+json')
@@ -507,7 +586,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene un galleryItem
-	it('Caso 9: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 10: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items/' + currentGalleryItem)
 		.set('content-type', 'application/vnd.api+json')
@@ -520,7 +599,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se elimina una galeria con items
-	it('Caso 10: se elimina una galeria con items', function(done) {
+	it('Caso 11: se elimina una galeria con items', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.delete('/galleries/' + currentGallery)
 		.set('content-type', 'application/vnd.api+json')
@@ -534,7 +613,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene datos de una galeria
-	it('Caso 11: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 12: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/galleries/' + currentGallery)
 		.set('content-type', 'application/vnd.api+json')
