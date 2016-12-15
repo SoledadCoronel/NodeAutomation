@@ -15,15 +15,18 @@ import UserSerializer from './../../src/serializers/userSerializer';
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
+
 var should = chai.should();
 var expect = chai.expect;
 var assert = chai.assert;
 
+
 var currentTopic = null;
 var currentGallery = null;
-var currentImageFile = null; 
-var currentVideoFile = null;
-var currentVideoFile2 = null; 
+var currentImageFile = null;
+var currentArticle = null;  
+//var currentVideoFile = null;
+//var currentVideoFile2 = null; 
 var currentGalleryItem = null;
 var currentGalleryItem2 = null;
 var currentGalleryItem3 = null; 
@@ -139,12 +142,51 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// usuario admin sube un file
-	it('Precondición: se sube un video .mp4 - file', function(done) {
+	it('Precondición: se crea un articulo', function(done) {
 
-		var fileData = this;
+		var articleData = this;
 		this.references = {};
 
-		var filePost = {
+		var articlePost = {
+			"data": {
+				"type": "articles",
+				"attributes": {
+					"title": "Articulo 01",
+					"content": "Descripción artículo 01",
+					"active": true
+				},
+				"relationships": {
+					"topic": {
+						"data": {
+							"id": currentTopic,
+							"type": "topics"
+						}
+					}
+				}
+			}
+		}
+		chai.request('http://api.cd.gointegro.net')
+		.post('/articles')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.send(articlePost)
+		.then(function(res) {
+			articleData.references['article'] = {
+				'id': res.body.data.id
+			};
+			currentArticle = res.body.data.id;
+			done();
+		});
+	});
+
+	// usuario admin sube un file
+	/*it('Precondición: se sube un video .mp4 - file', function(done) {
+
+		var fileData2 = this;
+		this.references = {};
+
+		var filePost2 = {
 			"data": {
 				"attributes": {
 					"prefix": "gallery",
@@ -158,23 +200,23 @@ describe('SUITE - GALLERIES', function() {
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(filePost)
+		.send(filePost2)
 		.then(function(res) {
-			fileData.references['file'] = {
+			fileData2.references['file'] = {
 				'id': res.body.data.id
 			};
 			currentVideoFile = res.body.data.id;
 			done();
 		});
-	});
+	});*/
 
 		// usuario admin sube un file
-	it('Precondición: se sube un video .mov - file', function(done) {
+	/*it('Precondición: se sube un video .mov - file', function(done) {
 
-		var fileData = this;
+		var fileData3 = this;
 		this.references = {};
 
-		var filePost = {
+		var filePost3 = {
 			"data": {
 				"attributes": {
 					"prefix": "gallery",
@@ -188,15 +230,15 @@ describe('SUITE - GALLERIES', function() {
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(filePost)
+		.send(filePost3)
 		.then(function(res) {
-			fileData.references['file'] = {
+			fileData3.references['file'] = {
 				'id': res.body.data.id
 			};
 			currentVideoFile2 = res.body.data.id;
-			done();
+			done();s
 		});
-	});
+	});*/
 
 	// se crea una galeria de imagenes
 	it('Caso 1: se crea una galeria - espacio publico', function(done) {
@@ -349,7 +391,7 @@ describe('SUITE - GALLERIES', function() {
 					"file": {
 						"data": {
 							"type": "files",
-							"id": currentVideoFile
+							"id": currentImageFile
 						}
 					}
 				}
@@ -397,7 +439,7 @@ describe('SUITE - GALLERIES', function() {
 					"file": {
 						"data": {
 							"type": "files",
-							"id": currentVideoFile2
+							"id": currentImageFile
 						}
 					}
 				}
@@ -545,21 +587,42 @@ describe('SUITE - GALLERIES', function() {
 	// Se obtiene galeria de imágenes
 	it('Caso 7: se obtienen items de una galeria', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/galleries/' + currentGallery + '?include=preview-items')
+		.get('/galleries/' + currentGallery + '?include=preview-items,preview-items.file')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			res.should.have.status(200);
+			//res.body.should.have.property('meta')
+			//res.body.data.meta.pagination.'total-items'.eql(4);
 			//res.body.data.should.be.a('array');
 			//res.body.data.length.should.be.eql(4);
+			console.log(JSON.stringify(res.body,null,2));
+			done();
+		});
+	});
+
+	// Se obtiene galeria de imágenes
+	it('Caso 8: se obtienen items de una galeria', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/gallery-items?filter[gallery]=' + currentGallery + '&include=file&page[size]=2&page[number]=1')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			res.should.have.status(200);
+			res.body.data.should
+			//res.body.data.should.be.a('array');
+			//res.body.data.length.should.be.eql(4);
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
 
 	// Se obtiene un galleryItem
-	it('Caso 8: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 9: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items/' + currentGalleryItem + 'include=file,gallery,prevSiblings,prevSiblings.file,nextSiblings,nextSiblings.file')
 		.set('content-type', 'application/vnd.api+json')
@@ -568,12 +631,67 @@ describe('SUITE - GALLERIES', function() {
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			res.should.have.status(200);
+			//console.log(JSON.stringify(res.body,null,2));
+			done();
+		});
+	});
+
+		// Se obtiene un galleryItem
+	it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
+			+ currentTopic + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			//expect(err).to.be.null;
+			res.should.have.status(200);
+			console.log(JSON.stringify(res.body,null,2));
+			done();
+		});
+	});
+
+			// Se obtiene un galleryItem
+	it('Caso 11: se obtienen content-items filtrando por articulo', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
+			+ currentTopic + '&filter[type]=article&include=item,item.preview-items,item.preview-items.file')
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			//expect(err).to.be.null;
+			res.should.have.status(200);
+			console.log(JSON.stringify(res.body,null,2));
+			done();
+		});
+	});
+
+				// Se obtiene un galleryItem
+	it('Caso 12: se obtienen content-items sin filtros para contenido', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
+			+ currentTopic)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.end(function(err, res) {
+			//expect(err).to.be.null;
+			res.should.have.status(200);
+			res.body.data.should.be.a('array');
+			//res.body.data.length.should.be.eql(2);
+			res.body.should.have.property('data').with.length(2);
+			//expect(res).to.contain(currentGallery);
+			//res.body.data.should.have.property("id").eql(currentGallery);
+			//res.body.data.should.have.property("id").eql(currentArticle);
+			console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
 
 	// Se borra un galleryItem
-	it('Caso 9: se elimina un galleryItem un galleryItem', function(done) {
+	it('Caso 13: se elimina un galleryItem un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.delete('/gallery-items/' + currentGalleryItem)
 		.set('content-type', 'application/vnd.api+json')
@@ -587,7 +705,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene un galleryItem
-	it('Caso 10: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 14: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items/' + currentGalleryItem)
 		.set('content-type', 'application/vnd.api+json')
@@ -600,7 +718,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se elimina una galeria con items
-	it('Caso 11: se elimina una galeria con items', function(done) {
+	it('Caso 15: se elimina una galeria con items', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.delete('/galleries/' + currentGallery)
 		.set('content-type', 'application/vnd.api+json')
@@ -614,7 +732,7 @@ describe('SUITE - GALLERIES', function() {
 	});
 
 	// Se obtiene datos de una galeria
-	it('Caso 12: se obtienen datos para un galleryItem', function(done) {
+	it('Caso 16: se obtienen datos para un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/galleries/' + currentGallery)
 		.set('content-type', 'application/vnd.api+json')
