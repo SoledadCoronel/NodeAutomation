@@ -598,7 +598,7 @@ describe('SUITE - GALLERIES', function() {
 			//res.body.data.meta.pagination.'total-items'.eql(4);
 			//res.body.data.should.be.a('array');
 			//res.body.data.length.should.be.eql(4);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
@@ -647,7 +647,7 @@ describe('SUITE - GALLERIES', function() {
 		.end(function(err, res) {
 			//expect(err).to.be.null;
 			res.should.have.status(200);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
@@ -663,7 +663,7 @@ describe('SUITE - GALLERIES', function() {
 		.end(function(err, res) {
 			//expect(err).to.be.null;
 			res.should.have.status(200);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
@@ -685,7 +685,7 @@ describe('SUITE - GALLERIES', function() {
 			//expect(res).to.contain(currentGallery);
 			//res.body.data.should.have.property("id").eql(currentGallery);
 			//res.body.data.should.have.property("id").eql(currentArticle);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
