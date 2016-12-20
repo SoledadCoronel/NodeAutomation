@@ -4,6 +4,33 @@ import GroupItem from './../src/models/groupItem';
 import Role from './../src/models/role';
 import UserSerializer from './../src/serializers/userSerializer';
 
+describe('TEST', function() {
+  it('TEST', function(done) {
+
+    var token = 'xcG3rTlDgdUUWuRDs2d4PFEqlnq3mb2YMOOa7wvK';
+
+    let role = new Role({
+      name: 'Test role 30',
+      status: 'active'
+    });
+
+    role.create(token)
+    .then((req, res) => {
+
+      console.log('API THEN');
+      console.log(req);
+      console.log(res);
+      done();
+    })
+    .catch(() => {
+      console.log('API CATCH');
+      done();
+    });
+  });
+});
+
+
+/*
 let userSerializer = new UserSerializer();
 
 let defaultGroupItem = new GroupItem({
@@ -99,3 +126,4 @@ describe('SUITE - DESEREALIZE ', function() {
 
     });
 });
+*/

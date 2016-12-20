@@ -493,21 +493,17 @@ describe('SUITE - GALLERIES', function() {
 				}
 			}
 		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/gallery-items')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(galleryItemPost3)
-		.then(function(res) {
+
+		Request.post('/gallery-items', galleryItemPost3, oauthFixture.references.tokenA.access_token, function(res) {
 			galleryItemData3.references['galleryItem'] = {
 				'id': res.body.data.id
 			};
 			//console.log(JSON.stringify(res.body,null,2));
 			currentGalleryItem3 = res.body.data.id;
+			
 			done();
-		});
-		//}
+		})
+		
 	});
 
 				// se crean galleryItems
@@ -598,7 +594,7 @@ describe('SUITE - GALLERIES', function() {
 			//res.body.data.meta.pagination.'total-items'.eql(4);
 			//res.body.data.should.be.a('array');
 			//res.body.data.length.should.be.eql(4);
-			//console.log(JSON.stringify(res.body,null,2));
+			console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
@@ -645,7 +641,6 @@ describe('SUITE - GALLERIES', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
-			//expect(err).to.be.null;
 			res.should.have.status(200);
 			//console.log(JSON.stringify(res.body,null,2));
 			done();
@@ -661,7 +656,6 @@ describe('SUITE - GALLERIES', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
-			//expect(err).to.be.null;
 			res.should.have.status(200);
 			//console.log(JSON.stringify(res.body,null,2));
 			done();
@@ -677,15 +671,9 @@ describe('SUITE - GALLERIES', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
-			//expect(err).to.be.null;
 			res.should.have.status(200);
 			res.body.data.should.be.a('array');
-			//res.body.data.length.should.be.eql(2);
 			res.body.should.have.property('data').with.length(2);
-			//expect(res).to.contain(currentGallery);
-			//res.body.data.should.have.property("id").eql(currentGallery);
-			//res.body.data.should.have.property("id").eql(currentArticle);
-			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
