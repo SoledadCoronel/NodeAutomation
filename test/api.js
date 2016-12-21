@@ -1,32 +1,63 @@
 //import User from './../src/models/user';
 //import Profile from './../src/models/profile';
 //import GroupItem from './../src/models/groupItem';
+var Random = require("random-js");
 import Role from './../src/models/role';
 import UserSerializer from './../src/serializers/userSerializer';
 
-describe('TEST', function() {
-  it('TEST', function(done) {
+var chai = require('chai');
+var chaiColors = require('chai-colors');
+var chaiHttp = require('chai-http');
+var should = chai.should();
+var expect = chai.expect;
+var assert = chai.assert;
+chai.use(chaiHttp);
+chai.use(chaiColors);
 
-    var token = 'vMCYjroiOWE7uoazoEGnacoQCM4MEXaziYMOgZEx';
+describe('Roles suite', function() {
+
+  it('creates a disabled role', function(done) {
+    var token = 'UEKBmztBC0gMbi1AOGpSzA20Mu5yGBCOKQpjR4zB';
+    var random = new Random();
 
     let role = new Role({
-      name: 'Test role 30',
-      status: 'active'
+      name: 'Test role ' + random.integer(1, 10000),
+      status: 'disabled'
     });
 
     role.create(token)
-    .then((req, res) => {
-
-      console.log('API THEN');
-      console.log(req);
-      console.log(res);
-      done();
-    })
-    .catch(() => {
-      console.log('API CATCH');
-      done();
-    });
+      .then((role) => {
+        role.should.have.status('disabled');
+        done();
+      })
+      .catch((role) => { done(); });
   });
+
+  it('validates status is in [active, disabled]', function(done) {
+    var token = 'UEKBmztBC0gMbi1AOGpSzA20Mu5yGBCOKQpjR4zB';
+    var random = new Random();
+
+    let role = new Role({
+      name: 'Test role ' + random.integer(1, 10000),
+      status: 'invalid-status'
+    });
+
+    role.create(token)
+      .then((role) => {
+        let errors = role.errors.filter((error) => {
+          return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
+        });
+
+        assert.lengthOf(errors, 25, 'Sarangalanga');
+        done();
+      })
+      .catch((error) => {
+        console.log(typeof error);
+        done();
+      });
+  });
+
+
 });
 
 

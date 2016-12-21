@@ -24,11 +24,12 @@ class Request {
 			.set('Authorization', 'Bearer ' + token)
 			.send(body)
 			.then((request, response) => {
-				console.log(request.body);
 				return request.body;
 			})
 			.catch((error) => {
-				console.log(error);
+				return {
+					errors: error.response.body.errors
+				}
 			});
 	}
 }
