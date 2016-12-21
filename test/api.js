@@ -14,12 +14,14 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
+var token = '1qvC5twipQQCJx9mu2mk5golKb6QTjChl7PnHz2x';
+var random = new Random();
+
+var disabledRole = null;
+
 describe('Roles suite', function() {
 
   it('creates a disabled role', function(done) {
-    var token = 'UEKBmztBC0gMbi1AOGpSzA20Mu5yGBCOKQpjR4zB';
-    var random = new Random();
-
     let role = new Role({
       name: 'Test role ' + random.integer(1, 10000),
       status: 'disabled'
@@ -28,15 +30,12 @@ describe('Roles suite', function() {
     role.create(token)
       .then((role) => {
         role.should.have.status('disabled');
+        disabledRole = role;
         done();
-      })
-      .catch((role) => { done(); });
+      });
   });
 
   it('validates status is in [active, disabled]', function(done) {
-    var token = 'UEKBmztBC0gMbi1AOGpSzA20Mu5yGBCOKQpjR4zB';
-    var random = new Random();
-
     let role = new Role({
       name: 'Test role ' + random.integer(1, 10000),
       status: 'invalid-status'
@@ -48,15 +47,20 @@ describe('Roles suite', function() {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
         });
 
-        assert.lengthOf(errors, 25, 'Sarangalanga');
-        done();
-      })
-      .catch((error) => {
-        console.log(typeof error);
+        assert.lengthOf(errors, 1);
         done();
       });
   });
 
+  it('activates a disabled role', function(done) {
+    disabledRole
+      .activate()
+      .update(token)
+      .then((role) => {
+        role.should.have.status('active');
+        done();
+      });
+  });
 
 });
 
