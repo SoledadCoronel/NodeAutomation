@@ -1,13 +1,13 @@
-import User from './../src/models/user';
-import Profile from './../src/models/profile';
-import GroupItem from './../src/models/groupItem';
+//import User from './../src/models/user';
+//import Profile from './../src/models/profile';
+//import GroupItem from './../src/models/groupItem';
 import Role from './../src/models/role';
 import UserSerializer from './../src/serializers/userSerializer';
 
 describe('TEST', function() {
   it('TEST', function(done) {
 
-    var token = 'xcG3rTlDgdUUWuRDs2d4PFEqlnq3mb2YMOOa7wvK';
+    var token = 'vMCYjroiOWE7uoazoEGnacoQCM4MEXaziYMOgZEx';
 
     let role = new Role({
       name: 'Test role 30',
