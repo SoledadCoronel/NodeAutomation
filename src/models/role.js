@@ -20,21 +20,19 @@ class Role extends AbstractModel {
 		return '/roles';
 	}
 
-	build() {
-		return (role) => {
-			// FIXME
-			return new Role(role);
+	deconstruct(role) {
+		// FIXME
+		return new Role(role);
 
-			return new Role({
-				id: role.id,
-				name: role.name,
-				status: role.status,
-				'is-admin': role['is-admin'],
-    			'is-default': role['is-default'],
-    			'created-at': role['created-at'],
-    			'updated-at': role['updated-at'],
-			});
-    	}
+		return new Role({
+			id: role.id,
+			name: role.name,
+			status: role.status,
+			'is-admin': role['is-admin'],
+			'is-default': role['is-default'],
+			'created-at': role['created-at'],
+			'updated-at': role['updated-at'],
+		});
 	}
 
 	activate() {
