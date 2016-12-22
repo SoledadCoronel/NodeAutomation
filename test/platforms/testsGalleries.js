@@ -594,7 +594,7 @@ describe('SUITE - GALLERIES', function() {
 			//res.body.data.meta.pagination.'total-items'.eql(4);
 			//res.body.data.should.be.a('array');
 			//res.body.data.length.should.be.eql(4);
-			console.log(JSON.stringify(res.body,null,2));
+			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
