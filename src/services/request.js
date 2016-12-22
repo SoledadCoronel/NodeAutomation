@@ -1,5 +1,6 @@
 import Chai from 'chai';
 import Random from 'random-js';
+import { session } from './session';
 
 class Request {
 
@@ -7,20 +8,20 @@ class Request {
 		this.chai = Chai;
     }
 
-    get(url, token) {
-    	return this.request(url, 'get', {}, token);
+    get(url) {
+    	return this.request(url, 'get');
 	}
 
-    post(url, body, token) {
-    	return this.request(url, 'post', body, token);
+    post(url, body) {
+    	return this.request(url, 'post', body);
 	}
 
-	patch(url, body, token) {
-    	return this.request(url, 'patch', body, token);
+	patch(url, body) {
+    	return this.request(url, 'patch', body);
 	}
 
-	delete(url, body = null, token) {
-		return this.request(url, 'delete', body, token);
+	delete(url, body = null) {
+		return this.request(url, 'delete', body);
 	}
 
 	request(url, method = 'get', body = {}, token) {
@@ -28,7 +29,7 @@ class Request {
 			[method](url)
 			.set('content-type', 'application/vnd.api+json')
 			.set('Accept', 'application/vnd.api+json')
-			.set('Authorization', 'Bearer ' + token)
+			.set('Authorization', 'Bearer ' + session.token())
 			.send(body)
 			.then((response) => response.body)
 			.catch((error) => {

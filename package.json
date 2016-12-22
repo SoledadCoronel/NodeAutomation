@@ -9,7 +9,7 @@
     "test1": "clear && mocha \"test/**/*@(.js)\" --timeout 40000 --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml",
     "singletest1": "clear && mocha \"test/social/testHashtagPublicSpace*@(.js)\" --compilers js:babel-register --timeout 40000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
-    "api": "clear && mocha \"test/users/api*@(.js)\" --compilers js:babel-register"
+    "api": "clear && mocha \"test/api*@(.js)\" --compilers js:babel-register"
   },
   "keywords": [
     "node.js",

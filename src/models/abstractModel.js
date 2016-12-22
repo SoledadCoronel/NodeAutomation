@@ -7,35 +7,31 @@ class AbstractModel {
 		this.request = new Request;
 	}
 
-	create(token) {
+	create() {
 		return this.request.post(
 			this.endpoint(),
-			this.getSerializer().serialize(this),
-			token
+			this.getSerializer().serialize(this)
 		).then(this.process());
 	}
 
-	update(token) {
+	update() {
 		return this.request.patch(
 			this.endpoint() + '/' + this.id,
-			this.getSerializer().serialize(this),
-			token
+			this.getSerializer().serialize(this)
 		).then(this.process());
 	}
 
-	fetch(id, token) {
+	fetch(id) {
 		return this.request.get(
-			this.endpoint() + '/' + id,
-			token
+			this.endpoint() + '/' + id
 		)
 		.then(this.process());
 	}
 
-	list(params={}, token) {
+	list(params={}) {
 		return this.request.get(
 			// FIXME exceeds max time
-			this.endpoint() + '?page[size]=5',
-			token
+			this.endpoint() + '?page[size]=5'
 		).then(this.process());
 	}
 

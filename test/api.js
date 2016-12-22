@@ -1,5 +1,6 @@
 import Random from 'random-js';
 import Role from './../src/models/role';
+import { session } from './../src/services/session';
 
 var chai = require('chai');
 var chaiColors = require('chai-colors');
@@ -10,8 +11,10 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'z2wKDh0iw2thXPa9F4nl7NISmjGQpImjCGXc5STC';
+var token = 'itTuiS0yBZjQrlQ9V41WdaKcpWbV4nBKThy652SR';
 var random = new Random();
+
+session.addToken(1, token);
 
 var disabledRole = null;
 
@@ -23,7 +26,7 @@ describe('Roles suite', function() {
       status: 'disabled'
     });
 
-    role.create(token)
+    role.create()
       .then((role) => {
         role.should.have.status('disabled');
         disabledRole = role;
@@ -37,7 +40,7 @@ describe('Roles suite', function() {
       status: 'invalid-status'
     });
 
-    role.create(token)
+    role.create()
       .then((role) => {
         let errors = role.errors.filter((error) => {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
@@ -51,7 +54,7 @@ describe('Roles suite', function() {
   it('activates a disabled role', function(done) {
     disabledRole
       .activate()
-      .update(token)
+      .update()
       .then((role) => {
         role.should.have.status('active');
         done();
@@ -60,7 +63,7 @@ describe('Roles suite', function() {
 
   it('fetches a role', function(done) {
     new Role()
-      .fetch(disabledRole.id, token)
+      .fetch(disabledRole.id)
       .then((role) => {
         assert(role.id == disabledRole.id);
         assert(role.name == disabledRole.name);
@@ -70,7 +73,7 @@ describe('Roles suite', function() {
 
   it('lists all roles', function(done) {
     new Role()
-      .list({}, token)
+      .list()
       .then((collection) => {
         collection.elements.forEach(function(role) {
           //console.log(role.id);
