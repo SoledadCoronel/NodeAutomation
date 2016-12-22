@@ -1,4 +1,4 @@
-import PlatformFixture from './../../src/fixtures/platform';
+/*import PlatformFixture from './../../src/fixtures/platform';
 import OauthFixture from './../../src/fixtures/oauth2AdminUser';
 import RoleFixture from './../../src/fixtures/roles';
 import BasicUserFixture from './../../src/fixtures/basicUser';
@@ -95,7 +95,7 @@ describe('SUITE - PLATFORM', function() {
 		.catch(function (e){
    			console.error(e);
  
-		})*/
+		})
 	});
 
 	it('it should GET all the platforms', function(done) {
@@ -147,3 +147,4 @@ describe('SUITE - PLATFORM', function() {
 	});
 
 });
+*/
