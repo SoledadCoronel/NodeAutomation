@@ -1,7 +1,7 @@
 //import User from './../src/models/user';
 //import Profile from './../src/models/profile';
 //import GroupItem from './../src/models/groupItem';
-var Random = require("random-js");
+/*var Random = require("random-js");
 import Role from './../src/models/role';
 import UserSerializer from './../src/serializers/userSerializer';
 
