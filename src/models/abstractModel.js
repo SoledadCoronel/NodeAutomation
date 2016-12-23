@@ -21,18 +21,43 @@ class AbstractModel {
 		).then(this.process());
 	}
 
-	fetch(id) {
+	fetch(id, params = {}) {
 		return this.request.get(
-			this.endpoint() + '/' + id
-		)
+			this.prepareUrl(this.endpoint() + '/' + id, params))
 		.then(this.process());
 	}
 
-	list(params={}) {
+	list(params = {}) {
 		return this.request.get(
-			// FIXME exceeds max time
-			this.endpoint() + '?page[size]=5'
+			this.prepareCollectionUrl(this.endpoint(), params)
 		).then(this.process());
+	}
+
+	prepareUrl(url, params = {}) {
+		if (Array.isArray(params.include)) {
+			url += '&include=' + params.include.join(',');
+		}
+
+		return url;
+	}
+
+	prepareCollectionUrl(url, params = {}) {
+		let pageNumber = params.page && params.page.number ? params.page.number : 1;
+		let pageSize = params.page && params.page.size ? params.page.size : 50;
+
+		url += '?page[number]=' + pageNumber + '&page[size]=' + pageSize;
+
+		if (params.filter) {
+			Object.keys(params.filter).forEach(function (key) {
+				url += '&filter[' + key + ']=' + params.filter[key]
+			});
+		}
+
+		if (typeof params.query == 'string') {
+			url += '&' + params.query;
+		}
+
+		return this.prepareUrl(url);
 	}
 
 	process() {
