@@ -8,5 +8,6 @@ class Platform {
 		this.status = data.status;
 		this.['users-range'] = data.['users-range'];
 		this.language = data.language; 
+		this.user = data.user; // VER CON FRAN NO SE ENVIA COMO RELATIONSHIP
 	}
 }
