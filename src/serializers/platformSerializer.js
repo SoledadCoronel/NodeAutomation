@@ -30,7 +30,7 @@ class PlatformSerializer {
                     return new User({
                         id: relationship.id,
                         name: relationship.name,
-                        'last-name': relationship.'last-name',
+                        'last-name': relationship.['last-name'],
                         email: relationship.email,
                         password: relationship.password,
                     });
