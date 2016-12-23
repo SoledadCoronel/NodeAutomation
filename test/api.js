@@ -63,7 +63,9 @@ describe('Roles suite', function() {
 
   it('fetches a role', function(done) {
     new Role()
-      .fetch(disabledRole.id)
+      .fetch(disabledRole.id, {
+        include: ['x', 'y']
+      })
       .then((role) => {
         assert(role.id == disabledRole.id);
         assert(role.name == disabledRole.name);
