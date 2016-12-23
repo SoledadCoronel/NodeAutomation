@@ -30,9 +30,31 @@ class AbstractModel {
 
 	list(params={}) {
 		return this.request.get(
-			// FIXME exceeds max time
-			this.endpoint() + '?page[size]=5'
+			this.prepareUrl(this.endpoint(), params)
 		).then(this.process());
+	}
+
+	prepareUrl(url, params={}) {
+		let pageNumber = params.page && params.page.number ? params.page.number : 1;
+		let pageSize = params.page && params.page.size ? params.page.size : 50;
+
+		url += '?page[number]=' + pageNumber + '&page[size]=' + pageSize;
+
+		if (params.filter) {
+			Object.keys(params.filter).forEach(function (key) {
+				url += '&filter[' + key + ']=' + params.filter[key]
+			});
+		}
+
+		if (Array.isArray(params.include)) {
+			url += '&include=' + params.include.join(',');
+		}
+
+		if (typeof params.query == 'string') {
+			url += '&' + params.query;
+		}
+
+		return url;
 	}
 
 	process() {

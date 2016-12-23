@@ -11,7 +11,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'itTuiS0yBZjQrlQ9V41WdaKcpWbV4nBKThy652SR';
+var token = 'k2GJZvFIRoaWjmn6uSq7g0vM50C3bI2RqkcFey9q';
 var random = new Random();
 
 session.addToken(1, token);
@@ -73,7 +73,17 @@ describe('Roles suite', function() {
 
   it('lists all roles', function(done) {
     new Role()
-      .list()
+      .list({
+        page: {
+          number: 1,
+          size: 5
+        },
+        filter: {
+          name : 'Test'
+        },
+        query: 'administrative=1',
+        include: ['x', 'y']
+      })
       .then((collection) => {
         collection.elements.forEach(function(role) {
           //console.log(role.id);
