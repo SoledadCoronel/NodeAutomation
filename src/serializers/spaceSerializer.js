@@ -1,6 +1,5 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 
-
 class SpaceSerializer {
 
 	constructor (config = {}) {
@@ -36,4 +35,4 @@ class SpaceSerializer {
 	}
 };
 
-return default SpaceSerializer;
+export default SpaceSerializer;

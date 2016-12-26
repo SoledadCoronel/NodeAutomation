@@ -1,4 +1,4 @@
-/*import Random from 'random-js';
+import Random from 'random-js';
 import Role from './../src/models/role';
 import { session } from './../src/services/session';
 
@@ -98,4 +98,4 @@ describe('Roles suite', function() {
       });
   });
 
-});*/
+});
