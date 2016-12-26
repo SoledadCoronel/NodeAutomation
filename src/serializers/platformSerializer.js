@@ -1,4 +1,4 @@
-import {Serializer, Deserializer} from 'jsonapi-serializer';
+/*import {Serializer, Deserializer} from 'jsonapi-serializer';
 import User from './../models/users';
 
 class PlatformSerializer {
@@ -30,7 +30,7 @@ class PlatformSerializer {
                     return new User({
                         id: relationship.id,
                         name: relationship.name,
-                        'last-name': relationship.['last-name'],
+                        'last-name': relationship.'last-name',
                         email: relationship.email,
                         password: relationship.password,
                     });
@@ -55,4 +55,4 @@ class PlatformSerializer {
     }
 }; 
 
-export default PlatformSerializer;
+export default PlatformSerializer;*/

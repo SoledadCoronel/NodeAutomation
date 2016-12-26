@@ -27,7 +27,6 @@ class RoleSerializer {
             //
         });
 	}
-
 };
 
 export default RoleSerializer;
