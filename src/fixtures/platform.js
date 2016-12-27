@@ -26,8 +26,8 @@ class PlatformFixture {
 					"type": "platforms",
 					"attributes": 
 					{
-					"name": "miPrimerTest"+random.integer(1, 10000),
-					"subdomain": "miPrimerTest"+random.integer(1, 10000),
+					"name": "miPrimerTest"+random.integer(1, 10000000),
+					"subdomain": "miPrimerTest"+random.integer(1, 10000000),
 					"timezone": "America/Argentina/Buenos_Aires",
 					"status": "active",
 					"users-range": "0-50",
