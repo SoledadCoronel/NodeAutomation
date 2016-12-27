@@ -77,12 +77,14 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		})
 	});
 
+	console.log("PASA POR ACA");
+	
 	// caso 1: se obtiene el perfil de un usuario 
 	it('Precondición: se obtiene el profile de un usuario', function(done) {
 
 		var profileData = this;
 		this.references = {};
-
+		console.log(oauthFixture.references.tokenA.access_token);
 		chai.request('http://api.cd.gointegro.net')
 		.get('/users/' + basicUserFixture.references.basicUserA.id + '/profile')
 		.set('content-type', 'application/vnd.api+json')
