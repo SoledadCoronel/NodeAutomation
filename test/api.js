@@ -11,7 +11,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'k2GJZvFIRoaWjmn6uSq7g0vM50C3bI2RqkcFey9q';
+var token = 'bLNrBgeuwpEutehWdNnQlttpexJxEKBZCtfMps4v';
 var random = new Random();
 
 session.addToken(1, token);
@@ -30,6 +30,7 @@ describe('Roles suite', function() {
       .then((role) => {
         role.should.have.status('disabled');
         disabledRole = role;
+        console.log(JSON.stringify(disabledRole,null,2));
         done();
       });
   });
@@ -45,7 +46,6 @@ describe('Roles suite', function() {
         let errors = role.errors.filter((error) => {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
         });
-
         assert.lengthOf(errors, 1);
         done();
       });

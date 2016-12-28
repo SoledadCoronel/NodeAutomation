@@ -1,4 +1,4 @@
-import {Serializer, Deserializer} from 'jsonapi-serializer';
+import Serializer from './../serializers/spaceSerializer';
 import AbstractModel from './abstractModel';
 
 class Space extends AbstractModel {

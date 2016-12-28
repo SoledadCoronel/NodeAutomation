@@ -18,20 +18,19 @@ class SpaceSerializer {
 		this.deserializer = new Deserializer({});
 	}
 
-	serializer(config = {}) {
+    serialize (data = {}) {
+        
+        let serialized = this.serializer.serialize(data);
+        if (!data.id) {
+            delete serialized.data.id;
+        }
+        return serialized;
+    }
 
-		let serialized = this.serialized.serialize(data);
-		if(!data.id) {
-			delete serialized.data.id; 
-		}
-		return serialized;
-	}
-
-	deserializer(config = {}) {
-
-		return this.deserializer.deserialize(data, function(error, data) {
-			//
-		});
+    deserialize (data = {}) {
+        return this.deserializer.deserialize(data, function (error, data) {
+            //
+        });
 	}
 };
 
