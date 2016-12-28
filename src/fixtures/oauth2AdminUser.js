@@ -34,6 +34,7 @@ class OauthFixture {
 				'user_id': res.body.user_id
 				
 			};
+			//console.log(JSON.stringify(res.body,null,2));
 			return adminOauth;
 		}); 
 	}

@@ -27,6 +27,7 @@ class OauthFixtureBasic {
 			client_secret: 'xlqzn4qpq2o44g4kks8o40w0gkw004sck440osc0cso8g8844',
 			grant_type: 'password' 
 		}
+
       	return chai.request('http://api.cd.gointegro.net')
 		.post('/oauth/token')
 		.set('content-type', 'application/x-www-form-urlencoded')
@@ -36,6 +37,7 @@ class OauthFixtureBasic {
 				'access_token': res.body.access_token, 
 				'user_id': res.body.user_id
 			};
+		return basicOauth;
 		}); 
 	}
 };

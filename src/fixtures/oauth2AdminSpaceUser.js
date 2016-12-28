@@ -35,7 +35,6 @@ class OauthFixtureAdminSpace {
 				'platform_id' : res.body.platform_id,
 				'user_id': res.body.user_id
 			};
-
 			return adminSpaceOauth;
 		}); 
 	}

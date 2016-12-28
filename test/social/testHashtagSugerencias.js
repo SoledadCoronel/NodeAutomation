@@ -57,10 +57,10 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 								adminSpaceUserFixture.load().then(() => {
 									invitationAdminSpaceUserFixture.load().then(() => {
 										invitationAdminSpaceUserCompleteFixture.load().then(() => {
-												oauthFixtureBasic.load().then(() => {
-													publicSpaceFixture.load().then(() => {
-														companySpaceFixture.load().then(() => {
-															privateSpaceFixture.load().then(() => {
+											oauthFixtureBasic.load().then(() => {
+												publicSpaceFixture.load().then(() => {
+													companySpaceFixture.load().then(() => {
+														privateSpaceFixture.load().then(() => {
 															done();		
 														})
 													})
