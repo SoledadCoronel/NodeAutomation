@@ -11,14 +11,14 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'bLNrBgeuwpEutehWdNnQlttpexJxEKBZCtfMps4v';
+var token = 'kg84dQyQViPdeg36fChieBgpcZI82KmjciC1JsvH';
 
 session.addToken(1, token);
 var inactiveSpace = null;
 
 describe('SUITE Platform', function() {
 
-	it('Create a new inactive space', function(done) {
+	it('Creates a new inactive space', function(done) {
 
 		let space = new Space({
 			name: 'space1',
@@ -32,14 +32,36 @@ describe('SUITE Platform', function() {
 
 		space.create()
 		.then((space) => {
-			//expect(space).to.have.status(200);
-			//space.should.have.active(false);
-			//space.should.have.visibility('public');
-			space.should.have.visibility('public');
+			//expect(res).to.have.status(201); // VER
+			assert.property(space, 'active');
+			expect(space.active).to.equal(false);
 			inactiveSpace = space;
-			console.log(JSON.stringify(space,null,2));
-			//console.log(inactiveSpace);
+			console.log(JSON.stringify(inactiveSpace,null,2));
 			done();
 		});
 	});
+
+	it('Activates a inactive space', function(done) {
+		inactiveSpace
+		.activate()
+		.update()
+		.then((space) => {
+			assert.property(space, 'active');
+			expect(space.active).to.equal(true);
+			console.log(JSON.stringify(inactiveSpace,null,2));
+			done();
+		});
+	});
+
+	it('fetches a space', function(done) {
+    new Space()
+      .fetch(inactiveSpace.id, {
+        include: ['x', 'y']
+      })
+      .then((space) => {
+        assert(space.id == inactiveSpace.id);
+        assert(space.name == inactiveSpace.name);
+        done();
+      });
+  });
 });

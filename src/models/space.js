@@ -27,8 +27,9 @@ class Space extends AbstractModel {
 		return new Space(space);
 	}
 
-	inactivate() {
-		return this.active = false;
+	activate() {
+		this.active = true;
+		return this;
 	}
 };
 
