@@ -1,11 +1,15 @@
-class User {
+import Serializer from './../serializers/userSerializer';
+import AbstractModel from './abstractModel';
+
+class User extends AbstractModel {
 
 	constructor (data = {}) {
+		super();
 		if (data.id) {
 			this.id = data.id;
 		}
 		
-    	this['name'] = data['name'];
+    	this.name = data.name;
 	    this['last-name'] = data['last-name'];
 	    this.email = data.email;
 	    this.status = data.status;
@@ -17,6 +21,10 @@ class User {
 	    }
     	
     	this['group-items'] = data['group-items'] || [];
+    }
+
+    endpoint() {
+    	return '/users';
     }
 
 };

@@ -11,12 +11,13 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'bLNrBgeuwpEutehWdNnQlttpexJxEKBZCtfMps4v';
+var token = 'dcqTJB3XbH4lcTwVEwx7UILNkBDrVANmqeGxPsOc';
 var random = new Random();
 
 session.addToken(1, token);
 
 var disabledRole = null;
+var AdminRole = null;
 
 describe('Roles suite', function() {
 
@@ -30,7 +31,7 @@ describe('Roles suite', function() {
       .then((role) => {
         role.should.have.status('disabled');
         disabledRole = role;
-        console.log(JSON.stringify(disabledRole,null,2));
+        //console.log(JSON.stringify(disabledRole,null,2));
         done();
       });
   });
@@ -74,28 +75,29 @@ describe('Roles suite', function() {
   });
 
   it('lists all roles', function(done) {
+
     new Role()
       .list({
         page: {
           number: 1,
-          size: 5
+          size: 3
         },
-        filter: {
+        /*filter: {
           name : 'Test'
         },
         query: 'administrative=1',
-        include: ['x', 'y']
+        include: ['x', 'y']*/
       })
       .then((collection) => {
         collection.elements.forEach(function(role) {
-          //console.log(role.id);
+          //console.log(role.id)
         });
-
+        AdminRole = collection.elements[0].id;
+        console.log(AdminRole);
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
 
         done();
       });
   });
-
 });

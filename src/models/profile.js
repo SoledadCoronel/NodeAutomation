@@ -37,7 +37,7 @@ class Profile extends AbstractModel {
 
 	deconstruct(profile) {
 		return new Profile({
-			'employee-id': profile[employee-id],
+			'employee-id': profile['employee-id'],
 			'personal-phone': profile['personal-phone'],
 			'personal-cellphone': profile['personal-cellphone'],
 			'job-phone': profile['job-phone'],
@@ -48,7 +48,7 @@ class Profile extends AbstractModel {
 			'admission-date': profile['admission-date'],
 			'job-address': profile['job-address'],
 			'personal-address': profile['personal-address'],
-			'document-type': profile['document-type'];
+			'document-type': profile['document-type'],
 			document:  profile.document,
 			gender:  profile.gender,
 			'birth-date':  profile['birth-date'],

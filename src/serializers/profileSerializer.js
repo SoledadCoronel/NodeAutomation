@@ -25,7 +25,10 @@ class ProfileSerializer {
               'birth-date',
               'personal-email',
               'marital-status',
-              'job-type'
+              'job-type',
+              'user',
+              'supervisor',
+              'image',
             ],
            /* supervisor: {
                 ref: (user, profile) => profile.id,
@@ -86,4 +89,4 @@ class ProfileSerializer {
 
 };
 
-export default UserSerializer;
+export default ProfileSerializer;
