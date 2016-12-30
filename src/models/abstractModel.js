@@ -61,23 +61,24 @@ class AbstractModel {
 	}
 
 	process() {
-		return (body) => {
-			if (body.errors) {
-				this.errors = body.errors;
-				return this;
+		return (response) => {
+			if (response.hasErrors()) {
+				return response;
 			}
 
 			return this.getSerializer()
-				.deserialize(body)
-				.then(this.build(body.meta));
+				.deserialize(response.getContent())
+				.then(this.build(response));
         }
 	}
 
-	build(meta = {}) {
+	build(response) {
 		return (object) => {
-			return Array.isArray(object)
-				? new Collection(object.map(this.deconstruct), meta)
-				: this.deconstruct(object);
+			return response.withContent(
+				Array.isArray(object)
+					? new Collection(object.map(this.deconstruct), response.getMeta())
+					: this.deconstruct(object)
+			);
     	}
 	}
 

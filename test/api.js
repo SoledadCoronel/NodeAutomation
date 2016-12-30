@@ -11,7 +11,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'bLNrBgeuwpEutehWdNnQlttpexJxEKBZCtfMps4v';
+var token = '72M5ykMVVBAQjZhDJM18xacvcJnrNuoi4ude6350';
 var random = new Random();
 
 session.addToken(1, token);
@@ -27,10 +27,11 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('201');
+        let role = response.content;
         role.should.have.status('disabled');
         disabledRole = role;
-        console.log(JSON.stringify(disabledRole,null,2));
         done();
       });
   });
@@ -42,10 +43,12 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
-        let errors = role.errors.filter((error) => {
+      .then((response) => {
+        response.should.have.status('400');
+        let errors = response.errors.filter((error) => {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
         });
+
         assert.lengthOf(errors, 1);
         done();
       });
@@ -55,7 +58,9 @@ describe('Roles suite', function() {
     disabledRole
       .activate()
       .update()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         role.should.have.status('active');
         done();
       });
@@ -66,7 +71,9 @@ describe('Roles suite', function() {
       .fetch(disabledRole.id, {
         include: ['x', 'y']
       })
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         assert(role.id == disabledRole.id);
         assert(role.name == disabledRole.name);
         done();
@@ -80,13 +87,15 @@ describe('Roles suite', function() {
           number: 1,
           size: 5
         },
-        filter: {
-          name : 'Test'
-        },
-        query: 'administrative=1',
+        //filter: {
+        //  name : 'Test'
+        //},
+        //query: 'administrative=1',
         include: ['x', 'y']
       })
-      .then((collection) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let collection = response.content;
         collection.elements.forEach(function(role) {
           //console.log(role.id);
         });
