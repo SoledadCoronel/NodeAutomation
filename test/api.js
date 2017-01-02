@@ -11,7 +11,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'dcqTJB3XbH4lcTwVEwx7UILNkBDrVANmqeGxPsOc';
+var token = 'xYIm4SJiKcuTptWUtG5NbzKhmvE1jFGyr5wm8A4g';
 var random = new Random();
 
 session.addToken(1, token);
@@ -21,7 +21,7 @@ var AdminRole = null;
 
 describe('Roles suite', function() {
 
-  it('creates a disabled role', function(done) {
+  /*it('creates a disabled role', function(done) {
     let role = new Role({
       name: 'Test role ' + random.integer(1, 10000),
       status: 'disabled'
@@ -80,7 +80,7 @@ describe('Roles suite', function() {
         assert(role.name == disabledRole.name);
         done();
       });
-  });
+  });*/
 
   it('lists all roles', function(done) {
 
@@ -105,10 +105,10 @@ describe('Roles suite', function() {
         response.should.have.status('200');
         let collection = response.content;
         collection.elements.forEach(function(role) {
-          //console.log(role.id)
+        //console.log(role.id)
         });
-        AdminRole = collection.elements[0].id;
-        console.log(AdminRole);
+        //AdminRole = collection.elements[0].id;
+        //console.log(AdminRole);
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
         done();

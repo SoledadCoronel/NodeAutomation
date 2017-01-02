@@ -5,6 +5,8 @@ class User extends AbstractModel {
 
 	constructor (data = {}) {
 		super();
+		this.serializer = new Serializer;
+
 		if (data.id) {
 			this.id = data.id;
 		}
@@ -27,6 +29,10 @@ class User extends AbstractModel {
     	return '/users';
     }
 
+    deconstruct(user) {
+		// FIXME
+		return new User(user);
+	}
 };
 
 export default User;
