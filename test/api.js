@@ -28,7 +28,9 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('201');
+        let role = response.content;
         role.should.have.status('disabled');
         disabledRole = role;
         //console.log(JSON.stringify(disabledRole,null,2));
@@ -43,10 +45,12 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
-        let errors = role.errors.filter((error) => {
+      .then((response) => {
+        response.should.have.status('400');
+        let errors = response.errors.filter((error) => {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
         });
+
         assert.lengthOf(errors, 1);
         done();
       });
@@ -56,7 +60,9 @@ describe('Roles suite', function() {
     disabledRole
       .activate()
       .update()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         role.should.have.status('active');
         done();
       });
@@ -67,7 +73,9 @@ describe('Roles suite', function() {
       .fetch(disabledRole.id, {
         include: ['x', 'y']
       })
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         assert(role.id == disabledRole.id);
         assert(role.name == disabledRole.name);
         done();
@@ -87,8 +95,15 @@ describe('Roles suite', function() {
         },
         query: 'administrative=1',
         include: ['x', 'y']*/
+        //filter: {
+        //  name : 'Test'
+        //},
+        //query: 'administrative=1',
+        include: ['x', 'y']
       })
-      .then((collection) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let collection = response.content;
         collection.elements.forEach(function(role) {
           //console.log(role.id)
         });
@@ -96,7 +111,6 @@ describe('Roles suite', function() {
         console.log(AdminRole);
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
-
         done();
       });
   });
