@@ -21,7 +21,7 @@ var AdminRole = null;
 
 describe('Roles suite', function() {
 
-  /*it('creates a disabled role', function(done) {
+  it('creates a disabled role', function(done) {
     let role = new Role({
       name: 'Test role ' + random.integer(1, 10000),
       status: 'disabled'
@@ -80,7 +80,7 @@ describe('Roles suite', function() {
         assert(role.name == disabledRole.name);
         done();
       });
-  });*/
+  });
 
   it('lists all roles', function(done) {
 
@@ -107,8 +107,6 @@ describe('Roles suite', function() {
         collection.elements.forEach(function(role) {
         //console.log(role.id)
         });
-        //AdminRole = collection.elements[0].id;
-        //console.log(AdminRole);
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
         done();

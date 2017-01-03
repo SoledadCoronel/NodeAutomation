@@ -1,112 +1,98 @@
-
-import PlatformFixture from './../../src/fixtures/platform';
-import OauthFixture from './../../src/fixtures/oauth2AdminUser';
-import RoleFixture from './../../src/fixtures/roles';
-import BasicUserFixture from './../../src/fixtures/basicUser';
-import InvitationBasicUserFixture from './../../src/fixtures/invitationBasicUser';
-import InvitationBasicUserCompleteFixture from './../../src/fixtures/invitationBasicUserComplete';
-import AdminSpaceUserFixture from './../../src/fixtures/adminSpaceUser';
-import InvitationAdminSpaceUserFixture from './../../src/fixtures/invitationAdminSpaceUser';
-import InvitationAdminSpaceUserCompleteFixture from './../../src/fixtures/invitationAdminSpaceUserComplete';
 import User from './../../src/models/user';
 import Role from './../../src/models/role';
+import Invitation from './../../src/models/invitation';
 import UserSerializer from './../../src/serializers/userSerializer';
+import RoleSerializer from './../../src/serializers/roleSerializer';
+import InvitationSerializer from './../../src/serializers/invitationSerializer';
+import { session } from './../../src/services/session';
+import Random from 'random-js';
 
-var chai = require('chai'), chaiColors = require('chai-colors');
+var chai = require('chai');
+var chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
-var Random = require("random-js");
-
 var should = chai.should();
-
+var expect = chai.expect;
+var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-describe('SUITE - USERS', function() {
+var token = '28R4XXX7NTLNJAmxe3vVW9rqBovNX1nKAKD67wVO';
+var random = new Random();
 
-	var platformFixture = new PlatformFixture();
-	var oauthFixture = new OauthFixture(platformFixture);
-	var roleFixture = new RoleFixture(oauthFixture);
-	var basicUserFixture = new BasicUserFixture(roleFixture);
-	var invitationBasicUserFixture = new InvitationBasicUserFixture(basicUserFixture);
-	var invitationBasicUserCompleteFixture = new InvitationBasicUserCompleteFixture(invitationBasicUserFixture);
-	var adminSpaceUserFixture = new AdminSpaceUserFixture(roleFixture);
-	var invitationAdminSpaceUserFixture = new InvitationAdminSpaceUserFixture(adminSpaceUserFixture);
-	var invitationAdminSpaceUserCompleteFixture = new InvitationAdminSpaceUserCompleteFixture(invitationAdminSpaceUserFixture);
-	var userSerializer = new UserSerializer();
+session.addToken(1, token);
 
-	before(function(done) {
-		platformFixture.load().then(() => {
-			oauthFixture.load().then(() => {
-				roleFixture.load().then(() => {
-					basicUserFixture.load().then(() => {
-						invitationBasicUserFixture.load().then(() => {
-							invitationBasicUserCompleteFixture.load().then(() => {
-								adminSpaceUserFixture.load().then(() => {
-									invitationAdminSpaceUserFixture.load().then(() => {
-										invitationAdminSpaceUserCompleteFixture.load().then(() => {
-										done();	
-										})
-									})
-								})
-							})
-						})
-					})
-				})
-			})
-		})
-	});
+var BasicRole = null;
+var BasicUser = null;
 
-	it('should list a existing basic user on /users/<id> GET', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/users/' + basicUserFixture.references.basicUserA.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			//console.log(res.body);
-			res.should.have.status(200);
-			//res.body[0].should.have.property('name');
-			//res.body.should.have.property('name');
-			//res.should.be.json;
+describe('SUITE Users', function() {
+
+  it('lists all roles', function(done) {
+
+    new Role()
+      .list({
+        page: {
+          number: 1,
+          size: 3
+        },
+        /*filter: {
+          name : 'Test'
+        },
+        query: 'administrative=1',
+        include: ['x', 'y']*/
+        //filter: {
+        //  name : 'Test'
+        //},
+        //query: 'administrative=1',
+        include: ['x', 'y']
+      })
+      .then((response) => {
+        response.should.have.status('200');
+        let collection = response.content;
+        collection.elements.forEach(function(role) {
+        });
+        BasicRole = collection.elements[2];
+        //console.log(collection.totalPages());
+        //console.log(collection.totalItems());
+        done();
+      });
+  });
+
+  it('creates a basic user', function(done) {
+
+  	let user = new User({
+  		'name': 'UsuarioRolBasico',
+  		'last-name': 'UsuarioRolBasico',
+  		'email' : "basico"+random.integer(1, 10000)+"@gointegro.com",
+  		'status' : 'active',
+  		'login-enabled' : true,
+  		role: BasicRole,
+  	});
+
+  	user.create()
+  	.then((response) => {
+		response.should.have.status('201');
+		let user = response.content;
+		console.log(user);
+		BasicUser = user;
 		done();
-		});
-		/*.then(function(res) {
-			console.log(res.body);
-			res.should.have.status(200);
-			//res.body[0].should.have.property('name');
-			//res.body.should.have.property('name');
-			//res.should.be.json;
-		})
-		.catch(function (e){
-   			console.error(e);
- 
-		})*/
 	});
+  });
 
-	it('should list a existing adminSpaceUser user on /users/<id> GET', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/users/' + adminSpaceUserFixture.references.adminSpaceUserA.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			//console.log(res.body);
-			res.should.have.status(200);
-			//res.body[0].should.have.property('name');
-			//res.body.should.have.property('name');
-			//res.should.be.json;
+    it('creates an invitation user', function(done) {
+
+  	let invitation = new Invitation({
+  		user: BasicUser,
+  	});
+
+  	invitation.create()
+  	.then((response) => {
+		response.should.have.status('201');
+		let invitation = response.content;
+		console.log(invitation);
+		//console.log(JSON.stringify(jsonSerialized,null,2));
 		done();
-		});
-		/*.then(function(res) {
-			console.log(res.body);
-			res.should.have.status(200);
-			//res.body[0].should.have.property('name');
-			//res.body.should.have.property('name');
-			//res.should.be.json;
-		})
-		.catch(function (e){
-   			console.error(e);
- 
-		});*/
 	});
+  });
+
 });
+

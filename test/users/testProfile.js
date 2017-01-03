@@ -1,4 +1,4 @@
-import Profile from './../../src/models/profile';
+/*import Profile from './../../src/models/profile';
 import User from './../../src/models/user';
 import Role from './../../src/models/role';
 import UserSerializer from './../../src/serializers/userSerializer';
@@ -71,11 +71,11 @@ describe('SUITE Profile', function() {
 		response.should.have.status('201');
 		let user = response.content;
 		console.log(user);
-		//onsole.log(JSON.stringify(jsonSerialized,null,2));
+		//console.log(JSON.stringify(jsonSerialized,null,2));
 		done();
 	});
   });
-});
+});/*
 
 
 	/*it('creates a disabled role', function(done) {
