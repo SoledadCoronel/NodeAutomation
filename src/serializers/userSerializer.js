@@ -14,8 +14,8 @@ class UserSerializer {
                 'status',
                 'login-enabled',
                 'role',
-                'profile',
-                'group-items',
+                //'profile',
+                //'group-items',
             ],
            /* profile: {
                 ref: (user, profile) => profile.id,

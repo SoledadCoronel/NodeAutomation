@@ -7,10 +7,10 @@ class User extends AbstractModel {
 		super();
 		this.serializer = new Serializer;
 
-		if (data.id) {
+		/*if (data.id) {
 			this.id = data.id;
-		}
-		
+		}*/
+		this.id = data.id;
     	this.name = data.name;
 	    this['last-name'] = data['last-name'];
 	    this.email = data.email;

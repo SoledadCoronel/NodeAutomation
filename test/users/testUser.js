@@ -16,13 +16,13 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = '28R4XXX7NTLNJAmxe3vVW9rqBovNX1nKAKD67wVO';
+var token = 'Q7q2EfvnoevAheZUFGFKCjRVyBbzZeezQEbfeHOQ';
 var random = new Random();
 
 session.addToken(1, token);
 
 var BasicRole = null;
-var BasicUser = null;
+var basicUser = null;
 
 describe('SUITE Users', function() {
 
@@ -49,8 +49,10 @@ describe('SUITE Users', function() {
         response.should.have.status('200');
         let collection = response.content;
         collection.elements.forEach(function(role) {
+  		//
         });
-        BasicRole = collection.elements[2];
+        BasicRole = collection.elements[1];
+        //console.log(BasicRole);
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
         done();
@@ -60,38 +62,42 @@ describe('SUITE Users', function() {
   it('creates a basic user', function(done) {
 
   	let user = new User({
-  		'name': 'UsuarioRolBasico',
+  		name: 'UsuarioRolBasico',
   		'last-name': 'UsuarioRolBasico',
-  		'email' : "basico"+random.integer(1, 10000)+"@gointegro.com",
-  		'status' : 'active',
+  		email : 'basico' + random.integer(1, 10000) + '@gointegro.com',
+  		status : 'active',
   		'login-enabled' : true,
   		role: BasicRole,
   	});
 
   	user.create()
   	.then((response) => {
-		response.should.have.status('201');
-		let user = response.content;
-		console.log(user);
-		BasicUser = user;
-		done();
-	});
+  		response.should.have.status('201');
+  		user = response.content;
+  		basicUser = user;
+  		done();
+  	});
   });
 
-    it('creates an invitation user', function(done) {
+  it('creates an invitation user', function(done) {
 
   	let invitation = new Invitation({
-  		user: BasicUser,
+  		user: basicUser
   	});
-
+  	//console.log("SE INVITA AL USUARIO", basicUser);
+  	//console.log(invitation);
   	invitation.create()
   	.then((response) => {
-		response.should.have.status('201');
-		let invitation = response.content;
-		console.log(invitation);
+  		//response.should.have.status('201');
+  		let invitation = response.content;
+		console.log("HOLA", invitation);
 		//console.log(JSON.stringify(jsonSerialized,null,2));
 		done();
 	});
+  	/*.catch(function (e){
+  		console.error(e);
+
+  	})*/
   });
 
 });

@@ -11,7 +11,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'xYIm4SJiKcuTptWUtG5NbzKhmvE1jFGyr5wm8A4g';
+var token = 'Ygx1jcdvselNPp0dtFFnnIfDiVgwV9QS9O0SDiTz';
 var random = new Random();
 
 session.addToken(1, token);
@@ -33,6 +33,7 @@ describe('Roles suite', function() {
         let role = response.content;
         role.should.have.status('disabled');
         disabledRole = role;
+        console.log(disabledRole);
         //console.log(JSON.stringify(disabledRole,null,2));
         done();
       });

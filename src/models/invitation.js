@@ -8,14 +8,10 @@ class Invitation extends AbstractModel {
 		this.serializer = new Serializer;
 
 		this.id = data.id;
-		this.status = data.status || 'pendin';
-		this.password = data.password || [];
+		this.status = data.status;
+		this.password = data.password;
 		this['created-at'] = data['created-at'];
 		this['updated-at'] = data['updated-at'];
-
-		if (data.id) {
-			this.id = data.id;
-		}
 
 	    this.user = data.user;
     }

@@ -5,7 +5,7 @@ class InvitationSerializer {
 	constructor (config = {}) {
 		this.serializer = new Serializer('invitation', {
 			attributes: [],
-      role: {
+      user: {
         ref: (user, invitation) => invitation.id,
         attributes: [],
         included: true
