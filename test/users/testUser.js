@@ -452,9 +452,9 @@ describe('SUITE - USERS', function() {
 			res.should.have.status(200);
 			done();
 		});
-	});
+	});*/
 
-	// con la propiedad profiles-locked en true usuario basico modifica su imagen de perfil
+	 
 	it('Basic user changes his profile picture', function(done) {
 
 		chai.request('http://api.cd.gointegro.net')
@@ -482,12 +482,12 @@ describe('SUITE - USERS', function() {
 		})
 		.end(function(err, res) {
 			//expect(err).to.be.null;
-			res.should.have.status(200);
+			res.should.have.status(400);
 			done();
 		});
 	});
 
-	// con la propiedad profiles-locked en true usuario basico modifica su imagen de perfil
+	// 
 	it('Basic user changes his document-type', function(done) {
 
 		chai.request('http://api.cd.gointegro.net')
@@ -506,10 +506,8 @@ describe('SUITE - USERS', function() {
 			}
 		})
 		.end(function(err, res) {
-			//expect(err).to.be.null;
-			res.should.have.status(200);
-			console.log(res.body);
+			res.should.have.status(400);
 			done();
 		});
-	});*/
+	});
 });
