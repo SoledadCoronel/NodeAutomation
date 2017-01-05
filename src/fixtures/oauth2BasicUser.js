@@ -37,6 +37,7 @@ class OauthFixtureBasic {
 				'access_token': res.body.access_token, 
 				'user_id': res.body.user_id
 			};
+		//console.log(JSON.stringify(res.body,null,2));
 		return basicOauth;
 		}); 
 	}
