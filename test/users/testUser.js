@@ -16,7 +16,7 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'Q7q2EfvnoevAheZUFGFKCjRVyBbzZeezQEbfeHOQ';
+var token = 'i5movHfU60cVxXGrjQqErvnzcoKSEsk5uQR2c7Ha';
 var random = new Random();
 
 session.addToken(1, token);
@@ -75,6 +75,7 @@ describe('SUITE Users', function() {
   		response.should.have.status('201');
   		user = response.content;
   		basicUser = user;
+      console.log(basicUser);
   		done();
   	});
   });
@@ -84,13 +85,14 @@ describe('SUITE Users', function() {
   	let invitation = new Invitation({
   		user: basicUser
   	});
-  	//console.log("SE INVITA AL USUARIO", basicUser);
-  	//console.log(invitation);
+
+    console.log(invitation);
   	invitation.create()
   	.then((response) => {
-  		//response.should.have.status('201');
-  		let invitation = response.content;
-		console.log("HOLA", invitation);
+  	 //response.should.have.status('201');
+     console.log(response);
+  		//let invitation = response.content;
+		//console.log("HOLA", invitation);
 		//console.log(JSON.stringify(jsonSerialized,null,2));
 		done();
 	});
@@ -99,6 +101,5 @@ describe('SUITE Users', function() {
 
   	})*/
   });
-
 });
 

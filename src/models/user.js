@@ -18,9 +18,10 @@ class User extends AbstractModel {
 	    this['login-enabled'] = data['login-enabled'];
 	    this.role = data.role;
 
-	    if (data.profile) {
+	    /*if (data.profile) {
 	    	this.profile = data.profile;
-	    }
+	    }*/
+	    this.profile = data.profile || [];
     	
     	this['group-items'] = data['group-items'] || [];
     }

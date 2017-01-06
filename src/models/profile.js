@@ -26,7 +26,7 @@ class Profile extends AbstractModel {
 		this['marital-status'] = data['marital-status'];
 		this['job-type'] = data['job-type'];
 		//relationships
-		this.user = data.user;
+		//this.user = data.user;
 		//this.supervisor = data.user || [];
 		//this.image = data.image || [];
 	}
@@ -60,10 +60,10 @@ class Profile extends AbstractModel {
 		});
 	}
 
-	/*activate() {
+	activate() {
 		this.active = true;
 		return this;
-	}*/
+	}
 };
 
 export default Profile;

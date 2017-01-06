@@ -6,8 +6,8 @@ class InvitationSerializer {
 		this.serializer = new Serializer('invitation', {
 			attributes: [],
       user: {
-        ref: (user, invitation) => invitation.id,
-        attributes: [],
+        ref: (invitation, user) => user.id,
+        attributes: ['name'],
         included: true
       }
     });
