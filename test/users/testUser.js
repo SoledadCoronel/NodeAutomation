@@ -449,10 +449,9 @@ describe('SUITE - USERS', function() {
 			console.log(res.body);
 			res.should.have.status(400);
 			res.errors.should.have.property('title');
-			//expect('res').to.match(/^locked/);
-			//expect(res).to.have.property('errors');
 
-			expect(obj).to.have.property('foo');
+			//assert.property(space, 'active');
+			//expect(errors.title).to.equal('name field is locked');
 
 			done();
 		});
