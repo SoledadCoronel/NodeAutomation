@@ -1,4 +1,4 @@
-import {Serializer, Deserializer} from 'jsonapi-serializer';
+/*import {Serializer, Deserializer} from 'jsonapi-serializer';
 
 
 class SpaceSerializer {
@@ -36,4 +36,4 @@ class SpaceSerializer {
 	}
 };
 
-return default SpaceSerializer;
+return default SpaceSerializer;*/
