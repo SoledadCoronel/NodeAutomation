@@ -446,16 +446,14 @@ describe('SUITE - USERS', function() {
    			}
    		})
 		.end(function(err, res) {
+			console.log(res.body);
 			res.should.have.status(400);
+			res.errors.should.have.property('title');
 			//expect('res').to.match(/^locked/);
+			//expect(res).to.have.property('errors');
 
-			expect(err).to.contain('title');
-			//expect({ foo: 'bar', hello: 'universe' }).to.include.keys('foo');
+			expect(obj).to.have.property('foo');
 
-
-			//expect('res').to.have.string('name field is locked');
-			//expect(res).to.have.deep.property('errors.title', 'name field is locked');
-			//expect(err).to.have.property('title', 'name field is locked');
 			done();
 		});
 	});
