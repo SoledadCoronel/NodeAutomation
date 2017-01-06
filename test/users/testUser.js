@@ -334,7 +334,7 @@ describe('SUITE - USERS', function() {
 
 	//VER CON FRAN
    	// con la propiedad profiles-locked en true usuario admin modifica el nombre de otro usuario
-   	/*it('Admin user modifies another users name', function(done) {
+   	it('Admin user modifies another users name', function(done) {
 
    		chai.request('http://api.cd.gointegro.net')
    		.patch('/users/' + basicUserFixture.references.basicUserA.id)
@@ -360,10 +360,9 @@ describe('SUITE - USERS', function() {
    		})
 		.end(function(err, res) {
 			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
-	});*/
+	});
 
 	// con la propiedad profiles-locked en true usuario admin modifica imagen de perfil de otro usuario
 	it('Admin user modifies another users profile picture', function(done) {
@@ -421,9 +420,8 @@ describe('SUITE - USERS', function() {
 		});
 	});
 
-	// VER CON FRAN
    	// con la propiedad profiles-locked en true usuario basico se modifica el nombre
-   	/*it('Basic user modifies the name', function(done) {
+   	it('Basic user modifies the name - VER', function(done) {
 
    		chai.request('http://api.cd.gointegro.net')
    		.patch('/users/' + basicUserFixture.references.basicUserA.id)
@@ -448,11 +446,19 @@ describe('SUITE - USERS', function() {
    			}
    		})
 		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(200);
+			res.should.have.status(400);
+			//expect('res').to.match(/^locked/);
+
+			expect(err).to.contain('title');
+			//expect({ foo: 'bar', hello: 'universe' }).to.include.keys('foo');
+
+
+			//expect('res').to.have.string('name field is locked');
+			//expect(res).to.have.deep.property('errors.title', 'name field is locked');
+			//expect(err).to.have.property('title', 'name field is locked');
 			done();
 		});
-	});*/
+	});
 
 	 
 	it('Basic user changes his profile picture', function(done) {
@@ -481,7 +487,6 @@ describe('SUITE - USERS', function() {
 			}
 		})
 		.end(function(err, res) {
-			//expect(err).to.be.null;
 			res.should.have.status(400);
 			done();
 		});
