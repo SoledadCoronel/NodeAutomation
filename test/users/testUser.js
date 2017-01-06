@@ -208,7 +208,7 @@ describe('SUITE - USERS', function() {
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
+			expect(res.body.data.attributes.name).to.equal('solecita');
 			done();
 		});
 	});
@@ -273,7 +273,7 @@ describe('SUITE - USERS', function() {
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
+			expect(res.body.data.attributes.name).to.equal('solecitaa');
 			done();
 		});
 	});
@@ -307,7 +307,6 @@ describe('SUITE - USERS', function() {
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
 			done();
 		});
 	});
@@ -360,6 +359,7 @@ describe('SUITE - USERS', function() {
    		})
 		.end(function(err, res) {
 			res.should.have.status(200);
+			expect(res.body.data.attributes.name).to.equal('Automation');
 			done();
 		});
 	});
@@ -415,13 +415,13 @@ describe('SUITE - USERS', function() {
 		})
 		.end(function(err, res) {
 			res.should.have.status(200);
-			//console.log(res.body);
+			expect(res.body.data.attributes['document-type']).to.equal('CI');
 			done();
 		});
 	});
 
    	// con la propiedad profiles-locked en true usuario basico se modifica el nombre
-   	it('Basic user modifies the name - VER', function(done) {
+   	it('Basic user modifies the name', function(done) {
 
    		chai.request('http://api.cd.gointegro.net')
    		.patch('/users/' + basicUserFixture.references.basicUserA.id)
@@ -446,14 +446,10 @@ describe('SUITE - USERS', function() {
    			}
    		})
 		.end(function(err, res) {
-			console.log(res.body);
 			res.should.have.status(400);
-			res.body.should.have.property('errors');
-			res.body.errors.should.have.property('title');
-
-			//assert.property(space, 'active');
-			//expect(errors.title).to.equal('name field is locked');
-
+			res.body.errors.should.be.a('array');
+			res.body.errors.length.should.be.eql(1);
+			expect(res.body.errors[0].title).to.equal('name field is locked');
 			done();
 		});
 	});
@@ -471,8 +467,7 @@ describe('SUITE - USERS', function() {
 				"type": "profiles",
 				"id": currentBasicProfile,
 				"attributes": {
-					"document-type": "DNI",
-					"gender": "male"
+
 				},
 				"relationships": {
 					"image": {
@@ -485,7 +480,8 @@ describe('SUITE - USERS', function() {
 			}
 		})
 		.end(function(err, res) {
-			res.should.have.status(400);
+			res.should.have.status(200);
+			expect(res.body.data.relationships.image.data.id).to.equal(currentImageFile);
 			done();
 		});
 	});
@@ -510,6 +506,9 @@ describe('SUITE - USERS', function() {
 		})
 		.end(function(err, res) {
 			res.should.have.status(400);
+			res.body.errors.should.be.a('array');
+			res.body.errors.length.should.be.eql(1);
+			expect(res.body.errors[0].title).to.equal('documentType field is locked');
 			done();
 		});
 	});
