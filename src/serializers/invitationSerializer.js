@@ -1,10 +1,16 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
+import User from './../models/user';
+
 
 class InvitationSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('invitation', {
-			attributes: [],
+    this.serializer = new Serializer('invitation', {
+      attributes: [
+      'status',
+      'password',
+      'user'
+      ],
       user: {
         ref: (invitation, user) => user.id,
         attributes: ['name'],
