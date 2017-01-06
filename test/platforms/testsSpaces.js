@@ -1,4 +1,4 @@
-import Space from './../../src/models/space';
+/*import Space from './../../src/models/space';
 import { session } from './../../src/services/session';
 import SpaceSerializer from './../../src/serializers/spaceSerializer';
 
@@ -64,4 +64,4 @@ describe('SUITE Platform', function() {
         done();
       });
   });
-});
+});*/
