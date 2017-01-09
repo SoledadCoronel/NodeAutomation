@@ -39,7 +39,6 @@ class Request {
 				return new Response(error.response.statusCode, null, error.response.body.errors);
 			});
 	}
-
 }
 
 export default Request;

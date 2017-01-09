@@ -1,5 +1,6 @@
 import Serializer from './../serializers/invitationSerializer';
 import AbstractModel from './abstractModel';
+import User from './user';
 
 class Invitation extends AbstractModel {
 
@@ -9,7 +10,7 @@ class Invitation extends AbstractModel {
 
 		this.id = data.id;
 		this.status = data.status;
-		this.password = data.password || null;
+		this.password = data.password;
 		this['created-at'] = data['created-at'];
 		this['updated-at'] = data['updated-at'];
 
@@ -22,13 +23,24 @@ class Invitation extends AbstractModel {
 
     deconstruct(invitation) {
 		// FIXME
-		return new Invitation(invitation);
+		//return new Invitation(invitation);
+
+		return new Invitation({
+			id: invitation.id,
+			status: invitation.status,
+			password: invitation.password,
+			'created-at': invitation['created-at'],
+			'updated-at': invitation['updated-at'],
+			//relationships
+			user: invitation.user,
+		});
 	}
 
-	/*complete(invitation) {
+	complete() {
 		this.status = 'complete';
+		this.password = 'mypassword';
 		return this;
-	}*/
+	}
 };
 
 export default Invitation;

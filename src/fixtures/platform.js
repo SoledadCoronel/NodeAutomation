@@ -54,9 +54,6 @@ class PlatformFixture {
 				'subdomain': res.body.data.attributes.subdomain, 
 				'id': res.body.data.id
 			};
-			//console.log(res.body);
-			//console.log(fixture.references['platformA']);
-
 		});    	
     }
 

@@ -16,13 +16,17 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'oYVDQ21yk1JdCr9AA8ImR9NVFAWX4h4ggqAfV0s1';
+var token = 'W568vq1jEgmuouK7mZdZsRC5lIZ49sQmblRmo2eK';
 var random = new Random();
 
 session.addToken(1, token);
 
 var BasicRole = null;
+var AdminSpaceRole = null;
 var basicUser = null;
+var adminSpaceUser = null;
+var invitationBasicUser = null;
+var invitationAdminSpaceUser = null; 
 
 describe('SUITE Users', function() {
 
@@ -34,15 +38,6 @@ describe('SUITE Users', function() {
           number: 1,
           size: 3
         },
-        /*filter: {
-          name : 'Test'
-        },
-        query: 'administrative=1',
-        include: ['x', 'y']*/
-        //filter: {
-        //  name : 'Test'
-        //},
-        //query: 'administrative=1',
         include: ['x', 'y']
       })
       .then((response) => {
@@ -52,9 +47,7 @@ describe('SUITE Users', function() {
   		//
         });
         BasicRole = collection.elements[1];
-        //console.log(BasicRole);
-        //console.log(collection.totalPages());
-        //console.log(collection.totalItems());
+        AdminSpaceRole = collection.elements[2];
         done();
       });
   });
@@ -64,7 +57,7 @@ describe('SUITE Users', function() {
   	let user = new User({
   		name: 'UsuarioRolBasico',
   		'last-name': 'UsuarioRolBasico',
-  		email : 'basico' + random.integer(1, 10000) + '@gointegro.com',
+  		email : 'basic' + random.integer(1, 10000) + '@gointegro.com',
   		status : 'active',
   		'login-enabled' : true,
   		role: BasicRole,
@@ -79,25 +72,78 @@ describe('SUITE Users', function() {
   	});
   });
 
-  it('creates an invitation user', function(done) {
+  it('creates a adminSpace user', function(done) {
+
+    let user = new User({
+      name: 'UsuarioRolAdminDeEspacio',
+      'last-name': 'UsuarioRolAdminDeEspacio',
+      email : 'adminSpace' + random.integer(1, 10000) + '@gointegro.com',
+      status : 'active',
+      'login-enabled' : true,
+      role: AdminSpaceRole,
+    });
+
+    user.create()
+    .then((response) => {
+      response.should.have.status('201');
+      user = response.content;
+      adminSpaceUser = user;
+      done();
+    });
+  });
+
+  it('Create an invitation to a basic user', function(done) {
 
   	let invitation = new Invitation({
   		user: basicUser
   	});
 
-    //console.log(invitation);
   	invitation.create()
   	.then((response) => {
-  	 response.should.have.status('201');
-  	let invitation = response.content;
-    console.log(invitation);
-    console.log(response);
-		done();
-	});
-  	/*.catch(function (e){
-  		console.error(e);
+      response.should.have.status('201');
+      invitation = response.content;
+      invitationBasicUser = invitation;
+      done();
+    });
+  });
 
-  	})*/
+  it('Create an invitation to a adminSpace user', function(done) {
+
+    let invitation = new Invitation({
+      user: adminSpaceUser
+    });
+
+    invitation.create()
+    .then((response) => {
+      response.should.have.status('201');
+      invitation = response.content;
+      invitationAdminSpaceUser = invitation;
+      done();
+    });
+  });
+
+  it('Complete basic user invitation', function(done) {
+
+    invitationBasicUser
+    .complete()
+    .update()
+    .then((response) => {
+      response.should.have.status('200');
+      invitationBasicUser.should.have.status('complete');
+      done();
+    });
+  });
+
+  it('Complete adminSpace user invitation', function(done) {
+
+    invitationAdminSpaceUser
+    .complete()
+    .update()
+    .then((response) => {
+      response.should.have.status('200');
+      invitationAdminSpaceUser.should.have.status('complete');
+      done();
+    });
   });
 });
 

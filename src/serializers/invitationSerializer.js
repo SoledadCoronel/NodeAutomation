@@ -14,11 +14,19 @@ class InvitationSerializer {
       user: {
         ref: (invitation, user) => user.id,
         attributes: ['name'],
-        included: true
+        included: false
       }
     });
 
-		this.deserializer = new Deserializer({});
+		this.deserializer = new Deserializer({
+      users: {
+        valueForRelationship: function (relationship) {
+          return new User({
+            id: relationship.id,
+          });
+        }
+      }
+    });
 	}
 
     serialize (data = {}) {

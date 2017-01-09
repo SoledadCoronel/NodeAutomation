@@ -8,7 +8,7 @@ class Role extends AbstractModel {
 		this.serializer = new Serializer;
 
 		this.id = data.id;
-		this.name = data.name || 'BasicRole'
+		this.name = data.name;
 		this.status = data.status || 'active';
 		this['is-admin'] = data['is-admin'] || false;
 		this['is-default'] = data['is-default'];
@@ -37,7 +37,6 @@ class Role extends AbstractModel {
 
 	activate() {
 		this.status = 'active';
-
 		return this;
 	}
 	
