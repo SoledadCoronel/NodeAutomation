@@ -1,25 +1,21 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 
-class PlatformSerializer {
+class FileSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('platform', {
+		this.serializer = new Serializer('file', {
 			attributes: [
-				'name',
-				'subdomain',
-				'timezone',
-				'status',
-				'users-range',
-				'language',
-			],
-        });
+      			'prefix',
+      			'file'
+			]
+		});
 
-        this.deserializer = new Deserializer({});
+		this.deserializer = new Deserializer({});
 	}
 
-	serialize (data = {}) {
+    serialize (data = {}) {
         
-    	let serialized = this.serializer.serialize(data);
+        let serialized = this.serializer.serialize(data);
         if (!data.id) {
             delete serialized.data.id;
         }
@@ -30,7 +26,7 @@ class PlatformSerializer {
         return this.deserializer.deserialize(data, function (error, data) {
             //
         });
-    }
-}; 
+	}
+};
 
-export default PlatformSerializer;
+export default FileSerializer;

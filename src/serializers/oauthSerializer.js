@@ -1,16 +1,14 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 
-class PlatformSerializer {
+class OauthSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('platform', {
+		this.serializer = new Serializer('oauth', {
 			attributes: [
-				'name',
-				'subdomain',
-				'timezone',
-				'status',
-				'users-range',
-				'language',
+				'client_id',
+				'client_secret',
+				'grant_type',
+				'refresh_token',
 			],
         });
 
@@ -33,4 +31,4 @@ class PlatformSerializer {
     }
 }; 
 
-export default PlatformSerializer;
+export default OauthSerializer;

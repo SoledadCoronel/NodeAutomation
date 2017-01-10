@@ -6,10 +6,6 @@ class User extends AbstractModel {
 	constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
-
-		/*if (data.id) {
-			this.id = data.id;
-		}*/
 		this.id = data.id;
     	this.name = data.name;
 	    this['last-name'] = data['last-name'];
@@ -17,12 +13,7 @@ class User extends AbstractModel {
 	    this.status = data.status;
 	    this['login-enabled'] = data['login-enabled'];
 	    this.role = data.role;
-
-	    /*if (data.profile) {
-	    	this.profile = data.profile;
-	    }*/
 	    this.profile = data.profile || [];
-    	
     	this['group-items'] = data['group-items'] || [];
     }
 
@@ -31,7 +22,6 @@ class User extends AbstractModel {
     }
 
     deconstruct(user) {
-		// FIXME
 		return new User(user);
 	}
 };

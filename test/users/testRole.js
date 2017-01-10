@@ -12,10 +12,9 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var token = 'Ygx1jcdvselNPp0dtFFnnIfDiVgwV9QS9O0SDiTz';
-var random = new Random();
-
 session.addToken(1, token);
 
+var random = new Random();
 var disabledRole = null;
 var AdminRole = null;
 

@@ -17,9 +17,9 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var token = 'W568vq1jEgmuouK7mZdZsRC5lIZ49sQmblRmo2eK';
-var random = new Random();
-
 session.addToken(1, token);
+
+var random = new Random();
 
 var BasicRole = null;
 var AdminSpaceRole = null;

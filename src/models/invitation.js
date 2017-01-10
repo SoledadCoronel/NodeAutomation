@@ -22,9 +22,6 @@ class Invitation extends AbstractModel {
     }
 
     deconstruct(invitation) {
-		// FIXME
-		//return new Invitation(invitation);
-
 		return new Invitation({
 			id: invitation.id,
 			status: invitation.status,
