@@ -7,6 +7,7 @@ class File extends AbstractModel {
 		super();
 		this.serializer = new Serializer;
 
+		this.id = data.id;
 		this.prefix = data.prefix;
 		this.file = data.file;
 	}
