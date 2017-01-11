@@ -1,4 +1,4 @@
-import Serializer from './../serializers/spaceSerializer';
+import Serializer from './../serializers/fileSerializer';
 import AbstractModel from './abstractModel';
 
 class File extends AbstractModel {
