@@ -21,6 +21,7 @@ chai.use(chaiColors);
 
 var currentPlatform = null;
 var adminToken = null;
+var basicToken = null;
 var BasicRole = null;
 var AdminSpaceRole = null;
 var basicUser = null;
@@ -178,6 +179,20 @@ describe('SUITE - PLATFORM', function() {
       invitationAdminSpaceUser.should.have.status('complete');
       done();
     });
+  });
+
+  it('Login for a basic user', function(done) {
+  	let basicLogin = new Oauth().login({
+  		username: basicUser.email,
+  		password: 'myPassword',
+  		subdomain: currentPlatform.subdomain
+  	})
+  	.then((response) => {
+  		response.should.have.status('200');
+  		let tokenInfo = response.content;
+  		basicToken = tokenInfo.access_token;
+  		done();
+  	});
   });
 
   it('Creates a new public space', function(done) {

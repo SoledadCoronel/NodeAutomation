@@ -35,7 +35,7 @@ class Invitation extends AbstractModel {
 
 	complete() {
 		this.status = 'complete';
-		this.password = 'mypassword';
+		this.password = 'myPassword';
 		return this;
 	}
 };
