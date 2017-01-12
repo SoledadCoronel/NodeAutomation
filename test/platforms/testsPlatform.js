@@ -30,6 +30,7 @@ var invitationAdminSpaceUser = null;
 var publicSpace = null;
 var privateSpace = null; 
 var companySpace = null;
+var currentTopic = null;
 
 describe('SUITE - PLATFORM', function() {
 
@@ -182,8 +183,8 @@ describe('SUITE - PLATFORM', function() {
   it('Creates a new public space', function(done) {
 
   	let space = new Space({
-  		name: 'space1',
-  		description: 'space1 description',
+  		name: 'espacio publico',
+  		description: 'espacio publico',
   		icon: 'QA',
   		active: true,
   		'social-enabled': true,
@@ -195,8 +196,8 @@ describe('SUITE - PLATFORM', function() {
   	.then((response) => {
   			response.should.have.status('201');
 			expect(space.active).to.equal(true);
+			space = response.content;
 			publicSpace = space;
-			console.log(publicSpace);
 			done();
 		});
   });
@@ -204,12 +205,12 @@ describe('SUITE - PLATFORM', function() {
   it('Creates a new private space', function(done) {
 
   	let space = new Space({
-  		name: 'space1',
-  		description: 'space1 description',
+  		name: 'espacio privado',
+  		description: 'espacio privado',
   		icon: 'QA',
   		active: true,
   		'social-enabled': true,
-  		position: 0,
+  		position: 1,
   		visibility: 'private'
   	});
 
@@ -217,6 +218,7 @@ describe('SUITE - PLATFORM', function() {
   	.then((response) => {
   			response.should.have.status('201');
 			expect(space.active).to.equal(true);
+			space = response.content;
 			privateSpace = space;
 			done();
 		});
@@ -225,12 +227,12 @@ describe('SUITE - PLATFORM', function() {
   it('Creates a new company space', function(done) {
 
   	let space = new Space({
-  		name: 'space1',
-  		description: 'space1 description',
+  		name: 'espacio company',
+  		description: 'espacio company',
   		icon: 'QA',
   		active: true,
   		'social-enabled': true,
-  		position: 0,
+  		position: 2,
   		visibility: 'company'
   	});
 
@@ -238,6 +240,7 @@ describe('SUITE - PLATFORM', function() {
   	.then((response) => {
   		  	response.should.have.status('201');
 			expect(space.active).to.equal(true);
+			space = response.content;
 			companySpace = space;
 			done();
 		});
@@ -260,14 +263,14 @@ describe('SUITE - PLATFORM', function() {
 
   	let topic = new Topic({
   		name: 'topic01',
-  		position: 1,
-  		space: publicSpace
+  		position: 0,
+  		space: publicSpace,
   	});
-  	console.log(topic);
 	topic.create()
 	.then((response) => {
 		response.should.have.status('201');
-		//console.log(response);
+		topic = response.content;
+		currentTopic = topic;
 		done();
 		});
 	});

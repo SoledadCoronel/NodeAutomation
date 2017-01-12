@@ -15,6 +15,7 @@ class User extends AbstractModel {
 	    this.role = data.role;
 	    this.profile = data.profile || [];
     	this['group-items'] = data['group-items'] || [];
+    	this.role = data.role;
     }
 
     endpoint() {
@@ -22,7 +23,16 @@ class User extends AbstractModel {
     }
 
     deconstruct(user) {
-		return new User(user);
+		return new User({
+			id: user.id,
+			name: user.name,
+			'last-name': user['last-name'],
+			email: user.email,
+			status: user.status,
+			'login-enabled': user['login-enabled'],
+			//relationships
+			role: user.role,
+		});
 	}
 };
 

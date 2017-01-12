@@ -6,14 +6,14 @@ import Role from './../models/role';
 class UserSerializer {
 
     constructor (config = {}) {
-        this.serializer = new Serializer('users', {
+        this.serializer = new Serializer('user', {
             attributes: [
                 'name',
                 'last-name',
                 'email',
                 'status',
                 'login-enabled',
-                'role',
+                'role'
                 //'profile',
                 //'group-items',
             ],

@@ -28,7 +28,7 @@ class ProfileSerializer {
               'job-type',
               'user',
               'supervisor',
-              'image',
+              'image'
             ],
            /* supervisor: {
                 ref: (user, profile) => profile.id,

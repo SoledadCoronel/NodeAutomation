@@ -10,7 +10,7 @@ class PlatformSerializer {
 				'timezone',
 				'status',
 				'users-range',
-				'language',
+				'language'
 			],
         });
 

@@ -8,7 +8,7 @@ class OauthSerializer {
 				'client_id',
 				'client_secret',
 				'grant_type',
-				'refresh_token',
+				'refresh_token'
 			],
         });
 

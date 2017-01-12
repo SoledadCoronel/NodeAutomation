@@ -6,7 +6,6 @@ class Space extends AbstractModel {
 	constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
-
 		this.id = data.id;
 		this.name = data.name;
 		this.description = data.description;
