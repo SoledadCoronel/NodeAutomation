@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "description": "Package json for appium test ",
   "main": "login.js",
+  "private": true,
   "scripts": {
-    "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
+    "datafixture": "babel-node test/datafixture.js --presets es2015",
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
     "singletest": "clear && mocha \"test/platforms/testsPlatform*@(.js)\" --compilers js:babel-register --timeout 40000",
     "singletest2": "clear && mocha \"test/users/testRole*@(.js)\" --compilers js:babel-register"
   },
