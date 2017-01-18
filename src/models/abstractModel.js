@@ -3,8 +3,12 @@ import Collection from './collection';
 
 class AbstractModel {
 
-	constructor () {
+	constructor (data = {}) {
 		this.request = new Request;
+
+		if (data.id) {
+			this.id = data.id;
+		}		
 	}
 
 	create() {

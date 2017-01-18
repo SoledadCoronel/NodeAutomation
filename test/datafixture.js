@@ -8,6 +8,8 @@ import File from '../src/models/file';
 import Topic from '../src/models/topic';
 import { session } from '../src/services/session';
 
+var jsonfile = require('jsonfile');
+
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
@@ -29,13 +31,18 @@ var basicUser = null;
 var adminSpaceUser = null;
 var invitationBasicUser = null;
 var invitationAdminSpaceUser = null;
+var completeInvitationBasic = null;
+var completeInvitationAdmin = null;
 var publicSpace = null;
 var privateSpace = null; 
 var companySpace = null;
 var currentTopic = null;
 
+var fixtureData = {};
 
 new Promise((resolve, reject) => {
+  
+
   createPlatform()
   .then((currentPlatform) => {
     loginAdminUser(currentPlatform)
@@ -52,23 +59,31 @@ new Promise((resolve, reject) => {
               inviteAdminSpaceUser(adminSpaceUser)
               .then((invitationAdminSpaceUser) => {
                 completeBasicUserInvitation(invitationBasicUser)
-                .then(())
-                loginBasicUser(currentPlatform, basicUser)
-                .then((basicToken) => {
-                  console.log(basicToken);
+                .then((completeInvitationBasic) => {
+                  completeAdminUserInvitation(invitationAdminSpaceUser)
+                  .then((completeInvitationAdmin) => {
+                    loginBasicUser(currentPlatform, basicUser)
+                    .then((basicToken) => {
+                      loginAdminSpaceUser(currentPlatform, adminSpaceUser)
+                      .then((adminSpaceToken) => {
+                        let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
+
+                        jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
+                          let jsonData = require(jsonFilePath);
+                          console.log(jsonData.basicUser);
+                          console.log(jsonData.adminUser);                          
+                        });
+                      });
+                    });
+                  });
                 });
-                //completeAdminUserInvitation(invitationAdminSpaceUser)
               });
             });
           });
         });
-        resolve();
       });
     });
   });
-  /*.then((response) => {
-    console.log('finish');
-  });*/
 })
 
 function createPlatform() {
@@ -78,7 +93,12 @@ function createPlatform() {
   });
 
   return platform.create().then((response) => {
-    return response.content;
+    let platformInfo = response.content;
+    let currentPlatform = {'subdomain': platformInfo.subdomain, 'id': platformInfo.id};
+    
+    fixtureData['currentPlatform'] = currentPlatform;
+    
+    return currentPlatform;
   });
 }
 
@@ -90,6 +110,8 @@ function loginAdminUser(currentPlatform) {
   }).then((response) => {
     let tokenInfo = response.content;
     adminToken = tokenInfo.access_token;
+
+    fixtureData['adminToken'] = adminToken;
 
     return adminToken;
   });
@@ -105,10 +127,13 @@ function getPlatformRoles() {
       include: ['x', 'y']
     })
     .then((response) => {
-      let collection = response.content;
+      let rolesInfo = response.content;
 
-      basicRole = collection.elements[1];
-      adminSpaceRole = collection.elements[2];
+      basicRole = rolesInfo.elements[1];
+      adminSpaceRole = rolesInfo.elements[2];
+
+      fixtureData['basicRole'] = basicRole.id;
+      fixtureData['adminSpaceRole'] = adminSpaceRole.id;
 
       return {basicRole, adminSpaceRole};
     }); 
@@ -126,7 +151,12 @@ function createBasicUser(basicRole) {
     });
 
     return user.create().then((response) => {
-      return response.content;
+      let basicUserInfo = response.content;
+      let basicUser = {'id': basicUserInfo.id, 'email': basicUserInfo.email};
+
+      fixtureData['basicUser'] = basicUser;
+
+    return basicUser;
     });
 }
 
@@ -142,7 +172,12 @@ function createAdminSpaceUser(adminSpaceRole) {
   });
 
   return user.create().then((response) => {
-    return response.content;
+      let adminUserInfo = response.content;
+      let adminSpaceUser = {'id': adminUserInfo.id, 'email': adminUserInfo.email};
+
+      fixtureData['adminSpaceUser'] = adminSpaceUser;
+
+    return adminSpaceUser;
   });
 }
 
@@ -153,7 +188,12 @@ function inviteBasicUser(basicUser) {
   });
 
   return invitation.create().then((response) => {
-    return response.content;
+    let invitationInfo = response.content;
+    invitationBasicUser = invitationInfo;
+
+    fixtureData['invitationBasicUser'] = invitationBasicUser;
+
+    return invitationBasicUser;
   });
 }
 
@@ -164,40 +204,54 @@ function inviteAdminSpaceUser(adminSpaceUser) {
   });
 
   return invitation.create().then((response) => {
-    return response.content;
+    let invitationInfo = response.content;
+    invitationAdminSpaceUser = invitationInfo;
+
+    fixtureData['invitationAdminSpaceUser'] = invitationAdminSpaceUser;
+
+    return invitationAdminSpaceUser;
   });
 }
 
 function completeBasicUserInvitation(invitationBasicUser) {
 
-    return invitationBasicUser
-    .complete()
-    .update()
-    .then((response) => {
-      //console.log(response.content);
+    return invitationBasicUser.complete().update().then((response) => {
+      return response.content;
     });
 }
 
 function completeAdminUserInvitation(invitationAdminSpaceUser) {
 
-    return invitationAdminSpaceUser
-    .complete()
-    .update()
-    .then((response) => {
-      //console.log(response.content);
+    return invitationAdminSpaceUser.complete().update().then((response) => {
+      return response.content;
     });
 }
 
 function loginBasicUser(currentPlatform, basicUser) {
 
-  let basicLogin = new Oauth().login({
+  return new Oauth().login({
     username: basicUser.email,
     password: 'myPassword',
     subdomain: currentPlatform.subdomain
   })
   .then((response) => {
     let tokenInfo = response.content;
-    return basicToken = tokenInfo.access_token;
+    basicToken = tokenInfo.access_token;
+    return basicToken;
+  });
+}
+
+function loginAdminSpaceUser(currentPlatform, adminSpaceUser) {
+
+  return new Oauth().login({
+    username: adminSpaceUser.email,
+    password: 'myPassword',
+    subdomain: currentPlatform.subdomain
+  })
+  .then((response) => {
+    let tokenInfo = response.content;
+    adminSpaceToken = tokenInfo.access_token;
+    return adminSpaceToken;
   });
 }
 

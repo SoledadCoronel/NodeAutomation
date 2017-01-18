@@ -1,0 +1,167 @@
+{
+  "currentPlatform": {
+    "subdomain": "subdomain7325",
+    "id": "415"
+  },
+  "adminToken": "r8gTzQ4ON3BVqTHKaAJ0jFRfo3dshNrIalNxwmln",
+  "basicRole": "1336",
+  "adminSpaceRole": "1337",
+  "basicUser": {
+    "id": "2268",
+    "email": "basic4834@gointegro.com"
+  },
+  "adminSpaceUser": {
+    "id": "2269",
+    "email": "adminSpace6408@gointegro.com"
+  },
+  "invitationBasicUser": {
+    "request": {
+      "chai": {
+        "version": "3.5.0",
+        "util": {},
+        "config": {
+          "includeStack": false,
+          "showDiff": true,
+          "truncateThreshold": 40
+        }
+      }
+    },
+    "serializer": {
+      "serializer": {
+        "collectionName": "invitation",
+        "opts": {
+          "attributes": [
+            "status",
+            "password",
+            "user"
+          ],
+          "user": {
+            "attributes": [
+              "name"
+            ],
+            "included": false
+          }
+        }
+      },
+      "deserializer": {}
+    },
+    "id": "950-2262b103739fb28b57448e290b0c4a257af9aa0f",
+    "status": "complete",
+    "password": "myPassword",
+    "created-at": "2017-01-18T19:27:15+00:00",
+    "updated-at": "2017-01-18T19:27:15+00:00",
+    "user": {
+      "request": {
+        "chai": {
+          "version": "3.5.0",
+          "util": {},
+          "config": {
+            "includeStack": false,
+            "showDiff": true,
+            "truncateThreshold": 40
+          }
+        }
+      },
+      "serializer": {
+        "serializer": {
+          "collectionName": "user",
+          "opts": {
+            "attributes": [
+              "name",
+              "last-name",
+              "email",
+              "status",
+              "login-enabled",
+              "role"
+            ],
+            "role": {
+              "attributes": [
+                "name"
+              ],
+              "included": true
+            }
+          }
+        },
+        "deserializer": {}
+      },
+      "id": "2268",
+      "profile": [],
+      "group-items": []
+    }
+  },
+  "invitationAdminSpaceUser": {
+    "request": {
+      "chai": {
+        "version": "3.5.0",
+        "util": {},
+        "config": {
+          "includeStack": false,
+          "showDiff": true,
+          "truncateThreshold": 40
+        }
+      }
+    },
+    "serializer": {
+      "serializer": {
+        "collectionName": "invitation",
+        "opts": {
+          "attributes": [
+            "status",
+            "password",
+            "user"
+          ],
+          "user": {
+            "attributes": [
+              "name"
+            ],
+            "included": false
+          }
+        }
+      },
+      "deserializer": {}
+    },
+    "id": "951-9cc9c4806f4264fc87bb89f051146c5a64f622ec",
+    "status": "complete",
+    "password": "myPassword",
+    "created-at": "2017-01-18T19:27:16+00:00",
+    "updated-at": "2017-01-18T19:27:16+00:00",
+    "user": {
+      "request": {
+        "chai": {
+          "version": "3.5.0",
+          "util": {},
+          "config": {
+            "includeStack": false,
+            "showDiff": true,
+            "truncateThreshold": 40
+          }
+        }
+      },
+      "serializer": {
+        "serializer": {
+          "collectionName": "user",
+          "opts": {
+            "attributes": [
+              "name",
+              "last-name",
+              "email",
+              "status",
+              "login-enabled",
+              "role"
+            ],
+            "role": {
+              "attributes": [
+                "name"
+              ],
+              "included": true
+            }
+          }
+        },
+        "deserializer": {}
+      },
+      "id": "2269",
+      "profile": [],
+      "group-items": []
+    }
+  }
+}

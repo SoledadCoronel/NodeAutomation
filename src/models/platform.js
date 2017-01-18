@@ -6,7 +6,7 @@ import Chai from 'chai';
 class Platform extends AbstractModel {
 
 	constructor (data = {}) {
-		super();
+		super(data);
 		this.serializer = new Serializer;
 		this.chai = Chai;
 
@@ -16,6 +16,7 @@ class Platform extends AbstractModel {
 		this.status = data.status || 'active';
 		this['users-range'] = data['users-range'] || '0-50';
 		this.language = data.language || 'es';
+
 	}
 
 	deconstruct(platform) {

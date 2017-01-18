@@ -14,19 +14,7 @@ class UserSerializer {
                 'status',
                 'login-enabled',
                 'role'
-                //'profile',
-                //'group-items',
             ],
-           /* profile: {
-                ref: (user, profile) => profile.id,
-                attributes: ['name'],
-                included: true
-            },
-            'group-items': {
-                ref: (user, groupItem) => groupItem.id,
-                attributes: ['name'],
-                included: true
-            },*/
             role: {
                 ref: (user, role) => role.id,
                 attributes: ['name'],
