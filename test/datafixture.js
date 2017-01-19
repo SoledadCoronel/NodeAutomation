@@ -3,10 +3,8 @@ import Oauth from '../src/models/oauth';
 import Role from '../src/models/role';
 import User from '../src/models/user';
 import Invitation from '../src/models/invitation';
-import Space from '../src/models/space';
-import File from '../src/models/file';
-import Topic from '../src/models/topic';
-import { session } from '../src/services/session';
+import { session } from './../src/services/session';
+
 
 var jsonfile = require('jsonfile');
 
@@ -32,11 +30,7 @@ var adminSpaceUser = null;
 var invitationBasicUser = null;
 var invitationAdminSpaceUser = null;
 var completeInvitationBasic = null;
-var completeInvitationAdmin = null;
-var publicSpace = null;
-var privateSpace = null; 
-var companySpace = null;
-var currentTopic = null;
+var completeInvitationAdminSpace = null;
 
 var fixtureData = {};
 
@@ -60,8 +54,8 @@ new Promise((resolve, reject) => {
               .then((invitationAdminSpaceUser) => {
                 completeBasicUserInvitation(invitationBasicUser)
                 .then((completeInvitationBasic) => {
-                  completeAdminUserInvitation(invitationAdminSpaceUser)
-                  .then((completeInvitationAdmin) => {
+                  completeAdminSpaceUserInvitation(invitationAdminSpaceUser)
+                  .then((completeInvitationAdminSpace) => {
                     loginBasicUser(currentPlatform, basicUser)
                     .then((basicToken) => {
                       loginAdminSpaceUser(currentPlatform, adminSpaceUser)
@@ -71,7 +65,7 @@ new Promise((resolve, reject) => {
                         jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
                           let jsonData = require(jsonFilePath);
                           console.log(jsonData.basicUser);
-                          console.log(jsonData.adminUser);                          
+                          console.log(jsonData.adminSpaceUser);                          
                         });
                       });
                     });
@@ -189,12 +183,27 @@ function inviteBasicUser(basicUser) {
 
   return invitation.create().then((response) => {
     let invitationInfo = response.content;
-    invitationBasicUser = invitationInfo;
+    let invitationBasicUser = invitationInfo;
 
-    fixtureData['invitationBasicUser'] = invitationBasicUser;
+    fixtureData['invitationBasicUser'] = invitationBasicUser.id;
 
     return invitationBasicUser;
   });
+}
+
+function completeBasicUserInvitation(invitationBasicUser) {
+
+    return invitationBasicUser
+    .complete()
+    .update()
+    .then((response) => {
+      let invitationInfo = response.content;
+      let completeInvitationBasic = invitationInfo;
+
+      fixtureData['completeInvitationBasic'] = completeInvitationBasic.id;
+
+      return completeInvitationBasic;
+    });
 }
 
 function inviteAdminSpaceUser(adminSpaceUser) {
@@ -205,25 +214,26 @@ function inviteAdminSpaceUser(adminSpaceUser) {
 
   return invitation.create().then((response) => {
     let invitationInfo = response.content;
-    invitationAdminSpaceUser = invitationInfo;
+    let invitationAdminSpaceUser = invitationInfo;
 
-    fixtureData['invitationAdminSpaceUser'] = invitationAdminSpaceUser;
+    fixtureData['invitationAdminSpaceUser'] = invitationAdminSpaceUser.id;
 
     return invitationAdminSpaceUser;
   });
 }
 
-function completeBasicUserInvitation(invitationBasicUser) {
+function completeAdminSpaceUserInvitation(invitationAdminSpaceUser) {
 
-    return invitationBasicUser.complete().update().then((response) => {
-      return response.content;
-    });
-}
+    return invitationAdminSpaceUser
+    .complete()
+    .update()
+    .then((response) => {
+      let invitationInfo = response.content;
+      let completeInvitationAdminSpace = invitationInfo;
 
-function completeAdminUserInvitation(invitationAdminSpaceUser) {
+      fixtureData['completeInvitationAdminSpace'] = completeInvitationAdminSpace.id;
 
-    return invitationAdminSpaceUser.complete().update().then((response) => {
-      return response.content;
+      return completeInvitationAdminSpace;
     });
 }
 
@@ -236,7 +246,10 @@ function loginBasicUser(currentPlatform, basicUser) {
   })
   .then((response) => {
     let tokenInfo = response.content;
-    basicToken = tokenInfo.access_token;
+    let basicToken = tokenInfo.access_token;
+
+    fixtureData['basicToken'] = basicToken;
+
     return basicToken;
   });
 }
@@ -250,7 +263,10 @@ function loginAdminSpaceUser(currentPlatform, adminSpaceUser) {
   })
   .then((response) => {
     let tokenInfo = response.content;
-    adminSpaceToken = tokenInfo.access_token;
+    let adminSpaceToken = tokenInfo.access_token;
+
+    fixtureData['adminSpaceToken'] = adminSpaceToken;
+
     return adminSpaceToken;
   });
 }
