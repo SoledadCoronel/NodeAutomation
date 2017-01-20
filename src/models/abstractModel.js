@@ -64,14 +64,6 @@ class AbstractModel {
 		return this.prepareUrl(url);
 	}
 
-	prepareUrl(url, params = {}) {
-		if (Array.isArray(params.include)) {
-			url += '&include=' + params.include.join(',');
-		}
-
-		return url;
-	}
-
 	process() {
 		return (response) => {
 			if (response.hasErrors()) {
