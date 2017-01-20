@@ -37,6 +37,8 @@ describe('SUITE - GALLERIES', function() {
 	session.addToken(1, jsonData.adminToken);
 
 // PRECONDICIONES PARA LA SUITE
+///////////////////////////////////////////////////////////////////////////////////////////
+
 console.log("PRECONCIONES");
 it('Creates a new public space', function(done) {
 
@@ -139,7 +141,7 @@ it('Creates un new article', function(done) {
 
 	let article = new Article({
 		title: 'article01',
-		content: 'content01',
+		content: 'article01',
 		active: true,
 		topic: currentTopic
 	});
@@ -152,11 +154,16 @@ it('Creates un new article', function(done) {
 		});
 	});
 
-it('Creates un new gallery', function(done) {
+////////////////////////////////////////////////////////////////////////////////////////////
+
+// TEST CASES
+console.log("TEST CASES");
+
+it('case1: Creates un new gallery', function(done) {
 
 	let gallery = new Gallery({
-		title: 'article01',
-		content: 'content01',
+		title: 'gallery01',
+		content: 'gallery01',
 		active: true,
 		published: true,
 		topic: currentTopic
@@ -170,243 +177,113 @@ it('Creates un new gallery', function(done) {
 		});
 	});
 
-/*it('Creates un new galleryItem', function(done) {
+it('case2: Creates un new galleryItem', function(done) {
 
 	let galleryItem = new GalleryItem({
-		topic: currentTopic,
+		'file-type': 'image',
+		position: 1,
+		gallery: currentGallery,
 		file: currentImageFile
 	});
 	galleryItem.create()
 	.then((response) => {
-		//response.should.have.status('201');
-		//galleryItem = response.content;
-		//currentGalleryItem = galleryItem;
-		console.log(response.content);
+		response.should.have.status('201');
+		galleryItem = response.content;
+		currentGalleryItem = galleryItem;
 		done();
 		});
 	});
+
+it('Creates un new galleryItem2', function(done) {
+
+	let galleryItem = new GalleryItem({
+		'file-type': 'image',
+		position: 1,
+		gallery: currentGallery,
+		file: currentImageFile
+	});
+	galleryItem.create()
+	.then((response) => {
+		response.should.have.status('201');
+		galleryItem = response.content;
+		currentGalleryItem2 = galleryItem;
+		done();
+		});
+	});
+
+it('Creates un new galleryItem3', function(done) {
+
+	let galleryItem = new GalleryItem({
+		'file-type': 'image',
+		position: 1,
+		gallery: currentGallery,
+		file: currentImageFile
+	});
+	galleryItem.create()
+	.then((response) => {
+		response.should.have.status('201');
+		galleryItem = response.content;
+		currentGalleryItem3 = galleryItem;
+		done();
+		});
+	});
+
+it('Creates un new galleryItem4', function(done) {
+
+	let galleryItem = new GalleryItem({
+		'file-type': 'image',
+		position: 1,
+		gallery: currentGallery,
+		file: currentImageFile
+	});
+	galleryItem.create()
+	.then((response) => {
+		response.should.have.status('201');
+		galleryItem = response.content;
+		currentGalleryItem4 = galleryItem;
+		done();
+	});
 });
-		// se crean galleryItems
-	/*it('Caso 2: se crean galleryItem1 para una galeria', function(done) {
 
-		var galleryItemData = this;
-		this.references = {};
+it('Change the position of a galleryItem', function(done) {
 
-		var galleryItemPost = {
-			"data": {
-				"type": "gallery-items",
-				"attributes":
-				{},
-				"relationships": {
-					"gallery": {
-						"data": {
-							"id": currentGallery,
-							"type": "galleries"
-						}
-
-					},
-					"file": {
-						"data": {
-							"type": "files",
-							"id": currentImageFile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/gallery-items')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(galleryItemPost)
-		.then(function(res) {
-			galleryItemData.references['galleryItem'] = {
-				'id': res.body.data.id
-			};
-			//console.log(JSON.stringify(res.body,null,2));
-			currentGalleryItem = res.body.data.id;
-			done();
-		});
-		//}
+	currentGalleryItem
+	.changePosition()
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(currentGalleryItem.position).to.equal(2);
+		assert.property(currentGalleryItem, 'position');
+		done();
 	});
-	
-	// se crean galleryItems
-	it('Caso 3: se crean galleryItem2 para una galeria', function(done) {
+});
 
-		var galleryItemData2 = this;
-		this.references = {};
+it('fetches a gallery', function(done) {
+	new Gallery()
+	.fetch(currentGallery.id, {include: ['preview-items', 'preview-items.file']})
+	.then((response) => {
+		response.should.have.status('200');
+		assert.property(currentGallery, 'title');
+		expect(currentGallery.title).to.equal('gallery01');
+        done();
+    });
+});
 
-		var galleryItemPost2 = {
-			"data": {
-				"type": "gallery-items",
-				"attributes":
-				{},
-				"relationships": {
-					"gallery": {
-						"data": {
-							"id": currentGallery,
-							"type": "galleries"
-						}
-
-					},
-					"file": {
-						"data": {
-							"type": "files",
-							"id": currentImageFile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/gallery-items')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(galleryItemPost2)
-		.then(function(res) {
-			galleryItemData2.references['galleryItem'] = {
-				'id': res.body.data.id
-			};
-			//console.log(JSON.stringify(res.body,null,2));
-			currentGalleryItem2 = res.body.data.id;
-			done();
-		});
-		//}
+/*it('lists all galleryItems', function(done) {
+	new GalleryItem()
+	.list({
+		filter: [currentGallery]
+	})
+	.then((response) => {
+		//response.should.have.status('200');
+		console.log(response);
+		done();
 	});
-
-	// se crean galleryItems
-	it('Caso 4: se crean galleryItem3 para una galeria', function(done) {
-
-		var galleryItemData3 = this;
-		this.references = {};
-
-		var galleryItemPost3 = {
-			"data": {
-				"type": "gallery-items",
-				"attributes":
-				{},
-				"relationships": {
-					"gallery": {
-						"data": {
-							"id": currentGallery,
-							"type": "galleries"
-						}
-
-					},
-					"file": {
-						"data": {
-							"type": "files",
-							"id": currentImageFile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/gallery-items')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(galleryItemPost3)
-		.then(function(res) {
-			galleryItemData3.references['galleryItem'] = {
-				'id': res.body.data.id
-			};
-			//console.log(JSON.stringify(res.body,null,2));
-			currentGalleryItem3 = res.body.data.id;
-			done();
-		});
-	});
-
-	// se crean galleryItems
-	it('Caso 5: se crean galleryItem4 para una galeria', function(done) {
-
-		var galleryItemData4 = this;
-		this.references = {};
-
-		var galleryItemPost4 = {
-			"data": {
-				"type": "gallery-items",
-				"attributes":
-				{},
-				"relationships": {
-					"gallery": {
-						"data": {
-							"id": currentGallery,
-							"type": "galleries"
-						}
-
-					},
-					"file": {
-						"data": {
-							"type": "files",
-							"id": currentImageFile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/gallery-items')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(galleryItemPost4)
-		.then(function(res) {
-			galleryItemData4.references['galleryItem'] = {
-				'id': res.body.data.id
-			};
-			//console.log(JSON.stringify(res.body,null,2));
-			currentGalleryItem4 = res.body.data.id;
-			done();
-		});
-		//}
-	});
-
-	// se modifica una galleryItem
-	it('Caso 6: se modifica position de itemGallery', function(done) {
-
-		var galleryItemData = this;
-		this.references = {};
-		chai.request('http://api.cd.gointegro.net')
-		.patch('/gallery-items/' + currentGalleryItem)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send({"data":
-		{
-			"type": "gallery-items",
-			"id": currentGalleryItem,
-			"attributes": {
-				"position": 3
-			}
-		}
-		})
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(200);
-			done();
-		});
-	});
+});
+});
 
 	// Se obtiene galeria de imágenes
-	it('Caso 7: se obtienen items de una galeria', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/galleries/' + currentGallery + '?include=preview-items,preview-items.file')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(200);
-			done();
-		});
-	});
-
-	// Se obtiene galeria de imágenes
-	it('Caso 8: se obtienen items de una galeria', function(done) {
+	/*it('Caso 8: se obtienen items de una galeria', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items?filter[gallery]=' + currentGallery + '&include=file&page[size]=2&page[number]=1')
 		.set('content-type', 'application/vnd.api+json')
@@ -433,9 +310,10 @@ it('Creates un new gallery', function(done) {
 			done();
 		});
 	});
+});
 
 		// Se obtiene un galleryItem
-	it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {
+	/*it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
 			+ currentTopic + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')

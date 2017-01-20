@@ -69,13 +69,7 @@ describe('SUITE - PLATFORM', function() {
 		session.addToken(1, adminToken);
 
 		new Role()
-		.list({
-			page: {
-				number: 1,
-				size: 3
-			},
-			include: ['x', 'y']
-		})
+		.list({page: {number: 1,size: 3},include: ['x', 'y']})
 		.then((response) => {
 			response.should.have.status('200');
 			let collection = response.content;

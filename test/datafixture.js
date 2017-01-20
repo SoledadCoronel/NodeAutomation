@@ -113,11 +113,9 @@ function loginAdminUser(currentPlatform) {
 
 function getPlatformRoles() {
     
-    return new Role().list({
-      page: {
-        number: 1,
-        size: 3
-      },
+    return new Role()
+    .list({
+      page: {number: 1,size: 3},
       include: ['x', 'y']
     })
     .then((response) => {

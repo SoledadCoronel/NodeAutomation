@@ -6,10 +6,15 @@ import File from './../models/file'
 class GalleryItemSerializer {
 
   constructor (config = {}) {
-    this.serializer = new Serializer('gallery', {
-      attributes: [],
+    this.serializer = new Serializer('gallery-items', {
+      attributes: [
+            'file-type',
+            'position',
+            'gallery',
+            'file'
+      ],
       gallery: {
-        ref: (galleryItem, gallery) => gallery.id,
+        ref: (galleryItems, gallery) => gallery.id,
         attributes: ['name'],
         included: true
       },
