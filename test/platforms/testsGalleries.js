@@ -133,8 +133,8 @@ it('Creates un new topic', function(done) {
 		topic = response.content;
 		currentTopic = topic;
 		done();
-		});
 	});
+});
 
 
 it('Creates un new article', function(done) {
@@ -194,7 +194,7 @@ it('case2: Creates un new galleryItem', function(done) {
 		});
 	});
 
-it('Creates un new galleryItem2', function(done) {
+it('case 3: Creates un new galleryItem2', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
@@ -211,7 +211,7 @@ it('Creates un new galleryItem2', function(done) {
 		});
 	});
 
-it('Creates un new galleryItem3', function(done) {
+it('case 4: Creates un new galleryItem3', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
@@ -228,7 +228,7 @@ it('Creates un new galleryItem3', function(done) {
 		});
 	});
 
-it('Creates un new galleryItem4', function(done) {
+it('case 5: Creates un new galleryItem4', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
@@ -245,7 +245,7 @@ it('Creates un new galleryItem4', function(done) {
 	});
 });
 
-it('Change the position of a galleryItem', function(done) {
+it('case 6: Change the position of a galleryItem', function(done) {
 
 	currentGalleryItem
 	.changePosition()
@@ -258,7 +258,7 @@ it('Change the position of a galleryItem', function(done) {
 	});
 });
 
-it('fetches a gallery', function(done) {
+it('case 7: fetches a gallery', function(done) {
 	new Gallery()
 	.fetch(currentGallery.id, {include: ['preview-items', 'preview-items.file']})
 	.then((response) => {
@@ -269,48 +269,62 @@ it('fetches a gallery', function(done) {
     });
 });
 
-/*it('lists all galleryItems', function(done) {
+it('case 8: fetches a galleryItem', function(done) {
 	new GalleryItem()
-	.list({
-		filter: [currentGallery]
-	})
+	.fetch(currentGalleryItem.id, 
+			{include: ['file', 'gallery', 'prevSiblings', 'prevSiblings.file', 'nextSiblings', 'nextSiblings.file']})
 	.then((response) => {
-		//response.should.have.status('200');
-		console.log(response);
-		done();
-	});
-});
+		response.should.have.status('200');
+		assert.property(currentGalleryItem, 'file-type');
+		assert.property(currentGalleryItem, 'position');
+		expect(currentGalleryItem['file-type']).to.equal('image');
+		expect(currentGalleryItem.position).to.equal(2);
+        done();
+    });
 });
 
-	// Se obtiene galeria de imágenes
-	/*it('Caso 8: se obtienen items de una galeria', function(done) {
+it('caso 9: lists all galleryItems with paginated', function(done) {
+	new GalleryItem()
+	.list({filter: {'gallery': currentGallery.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			assert.property(response.content.meta, 'pagination');
+			assert.property(response.content.meta.pagination, 'total-pages');
+			assert.property(response.content.meta.pagination, 'total-items');
+			expect(response.content.meta.pagination['total-pages']).to.equal(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(4);
+			done();
+		});
+	});
+
+it('caso 10: lists all galleryItems without paging', function(done) {		
+	new GalleryItem()
+	.list({filter: {'gallery': currentGallery.id}, include: ['file'], page: {number: 1,size: 2}})
+		.then((response) => {
+			response.should.have.status('200');
+			assert.property(response.content.meta, 'pagination');
+			assert.property(response.content.meta.pagination, 'total-pages');
+			assert.property(response.content.meta.pagination, 'total-items');
+			expect(response.content.meta.pagination['total-pages']).to.equal(2);
+			expect(response.content.meta.pagination['total-items']).to.equal(4);
+			done();
+		});
+	});
+});
+
+	// Se borra un galleryItem
+	/*it('Caso 13: se elimina un galleryItem un galleryItem', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/gallery-items?filter[gallery]=' + currentGallery + '&include=file&page[size]=2&page[number]=1')
+		.delete('/gallery-items/' + currentGalleryItem)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
 			expect(err).to.be.null;
-			res.should.have.status(200);
+			res.should.have.status(204);
 			done();
 		});
-	});
-
-	// Se obtiene un galleryItem
-	it('Caso 9: se obtienen datos para un galleryItem', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/gallery-items/' + currentGalleryItem + 'include=file,gallery,prevSiblings,prevSiblings.file,nextSiblings,nextSiblings.file')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
-			done();
-		});
-	});
-});
+	});*/
 
 		// Se obtiene un galleryItem
 	/*it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {

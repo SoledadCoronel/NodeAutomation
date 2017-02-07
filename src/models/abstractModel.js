@@ -61,6 +61,7 @@ class AbstractModel {
 			url += '&' + params.query;
 		}
 
+		//return url;
 		return this.prepareUrl(url);
 	}
 
