@@ -83,15 +83,15 @@ describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 		var profileData = this;
 		this.references = {};
 		chai.request('http://api.cd.gointegro.net')
-		.get('/users/' + basicUserFixture.references.basicUserA.id + '/profile')
+		.get('/users/' + basicUserFixture.references.basicUserA.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.then(function(res) {
 			profileData.references['profile'] = {
-				'id': res.body.data.id
+				'id': res.body.data.relationships.profile.data.id
 			};
-			currentProfile = res.body.data.id;
+			currentProfile = res.body.data.relationships.profile.data.id;
 		done();
 		});
 	});
