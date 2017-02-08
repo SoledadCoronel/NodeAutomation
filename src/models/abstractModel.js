@@ -25,6 +25,13 @@ class AbstractModel {
 		).then(this.process());
 	}
 
+	delete() {
+		return this.request.delete(
+			this.endpoint() + '/' + this.id,
+			this.getSerializer().serialize(this)
+			).then(this.process());
+	}
+	
 	fetch(id, params = {}) {
 		return this.request.get(
 			this.prepareUrl(this.endpoint() + '/' + id, params))
