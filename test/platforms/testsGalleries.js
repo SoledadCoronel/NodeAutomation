@@ -312,33 +312,47 @@ it('caso 10: lists all galleryItems without paging', function(done) {
 		});
 	});
 
-it('caso 10: lists all content-items filtering by gallery', function(done) {		
+/*it('caso 11: lists all content-items filtering by gallery', function(done) {		
 	new ContentItem()
 	.list({filter: {'space': publicSpace.id}},
 		   {filter: {'topic': currentTopic.id}}, 
 		   {filter: {'type': 'gallery'}},
 		   {include: ['item', 'item.preview-items', 'item.preview-items.file']})
 		.then((response) => {
-			console.log(response.content);
+			console.log(JSON.stringify(response.content,null,2));
+			//console.log(response.content);
 			response.should.have.status('200');
 			done();
 		});
 	});
 
-	/*it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
-			+ currentTopic + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
+it('caso 12: lists all content-items', function(done) {		
+	new ContentItem()
+	.list({filter: {'space': publicSpace.id}},
+		   {filter: {'topic': currentTopic.id}}, 
+		   {filter: {'type': 'gallery'}})
+		.then((response) => {
+			console.log(JSON.stringify(response.content,null,2));
+			//console.log(response.content);
+			response.should.have.status('200');
 			done();
 		});
-	});*/
-});
+	});
+
+/*it('caso 12: lists all content-items filtering by article', function(done) {		
+	new ContentItem()
+	.list({filter: {'space': publicSpace.id}},
+		   {filter: {'topic': currentTopic.id}}, 
+		   {filter: {'type': 'article'}},
+		   {include: ['item', 'item.preview-items', 'item.preview-items.file']})
+		.then((response) => {
+			console.log(JSON.stringify(response.content,null,2));
+			//console.log(response.content);
+			response.should.have.status('200');
+			done();
+		});
+	});
+});*/
 
 /*it('case 11: delete a galleryItem', function(done) {
 	currentGalleryItem
@@ -350,6 +364,21 @@ it('caso 10: lists all content-items filtering by gallery', function(done) {
 		done();
 	});
 });*/
+
+	it('Caso 12: se obtienen content-items sin filtros para contenido', function(done) {
+		chai.request('http://api.cd.gointegro.net')
+		.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
+			+ currentTopic)
+		.set('content-type', 'application/vnd.api+json')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
+		.end(function(err, res) {
+			console.log(JSON.stringify(res,null,2));
+			res.should.have.status(200);
+			done();
+		});
+	});
+});
 
 	// Se borra un galleryItem
 	/*it('Caso 13: se elimina un galleryItem un galleryItem', function(done) {
@@ -365,97 +394,10 @@ it('caso 10: lists all content-items filtering by gallery', function(done) {
 		});
 	});*/
 
-		// Se obtiene un galleryItem
-	/*it('Caso 10: se obtienen content-items filtrando por galeria', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
-			+ currentTopic + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
-			done();
-		});
-	});
-
-			// Se obtiene un galleryItem
-	it('Caso 11: se obtienen content-items filtrando por articulo', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
-			+ currentTopic + '&filter[type]=article&include=item,item.preview-items,item.preview-items.file')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(200);
-			//console.log(JSON.stringify(res.body,null,2));
-			done();
-		});
-	});
-
-				// Se obtiene un galleryItem
-	it('Caso 12: se obtienen content-items sin filtros para contenido', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/content-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&filter[topic]='
-			+ currentTopic)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.should.have.property('data').with.length(2);
-			done();
-		});
-	});
-
-	// Se borra un galleryItem
-	it('Caso 13: se elimina un galleryItem un galleryItem', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.delete('/gallery-items/' + currentGalleryItem)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(204);
-			done();
-		});
-	});
-
-	// Se obtiene un galleryItem
-	it('Caso 14: se obtienen datos para un galleryItem', function(done) {
+	/*// Se obtiene un galleryItem
+	it('Caso 14: se obtienen datos para un galleryItem eliminado', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/gallery-items/' + currentGalleryItem)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(404);
-			done();
-		});
-	});
-
-	// Se elimina una galeria con items
-	it('Caso 15: se elimina una galeria con items', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.delete('/galleries/' + currentGallery)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(204);
-			done();
-		});
-	});
-
-	// Se obtiene datos de una galeria
-	it('Caso 16: se obtienen datos para un galleryItem', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/galleries/' + currentGallery)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)

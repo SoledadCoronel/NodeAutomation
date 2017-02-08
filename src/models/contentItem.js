@@ -1,4 +1,4 @@
-import Serializer from './../serializers/fileSerializer';
+import Serializer from './../serializers/contentItemSerializer';
 import AbstractModel from './abstractModel';
 
 class ContentItem extends AbstractModel {
@@ -6,6 +6,9 @@ class ContentItem extends AbstractModel {
 	constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
+
+		this.id = data.id;
+	    this.gallery = data.gallery;
 	}
 
 	endpoint() {
