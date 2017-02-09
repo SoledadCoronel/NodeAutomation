@@ -368,12 +368,12 @@ it('caso 12: lists all content-items', function(done) {
 	it('Caso 12: se obtienen content-items sin filtros para contenido', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
-			+ currentTopic)
+			+ currentTopic.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + jsonData.adminToken)
 		.end(function(err, res) {
-			console.log(JSON.stringify(res,null,2));
+			//console.log(JSON.stringify(res,null,2));
 			res.should.have.status(200);
 			done();
 		});
