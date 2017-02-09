@@ -7,7 +7,6 @@ import Topic from './../../src/models/topic';
 import Article from './../../src/models/article';
 import Gallery from './../../src/models/gallery';
 import GalleryItem from './../../src/models/galleryItem';
-import ContentItem from './../../src/models/contentItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -312,103 +311,73 @@ it('caso 10: lists all galleryItems without paging', function(done) {
 		});
 	});
 
-/*it('caso 11: lists all content-items filtering by gallery', function(done) {		
-	new ContentItem()
-	.list({filter: {'space': publicSpace.id}},
-		   {filter: {'topic': currentTopic.id}}, 
-		   {filter: {'type': 'gallery'}},
-		   {include: ['item', 'item.preview-items', 'item.preview-items.file']})
-		.then((response) => {
-			console.log(JSON.stringify(response.content,null,2));
-			//console.log(response.content);
-			response.should.have.status('200');
-			done();
-		});
-	});
-
-it('caso 12: lists all content-items', function(done) {		
-	new ContentItem()
-	.list({filter: {'space': publicSpace.id}},
-		   {filter: {'topic': currentTopic.id}}, 
-		   {filter: {'type': 'gallery'}})
-		.then((response) => {
-			console.log(JSON.stringify(response.content,null,2));
-			//console.log(response.content);
-			response.should.have.status('200');
-			done();
-		});
-	});
-
-/*it('caso 12: lists all content-items filtering by article', function(done) {		
-	new ContentItem()
-	.list({filter: {'space': publicSpace.id}},
-		   {filter: {'topic': currentTopic.id}}, 
-		   {filter: {'type': 'article'}},
-		   {include: ['item', 'item.preview-items', 'item.preview-items.file']})
-		.then((response) => {
-			console.log(JSON.stringify(response.content,null,2));
-			//console.log(response.content);
-			response.should.have.status('200');
-			done();
-		});
-	});
-});*/
-
-/*it('case 11: delete a galleryItem', function(done) {
-	currentGalleryItem
-	.delete()
-	.then((response) => {
-		console.log(response);
-
-		//response.should.have.status('204');
+it('Caso 12: lists all content-items without filters', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
+		+ currentTopic.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.should.have.property('data').with.length(2);
 		done();
 	});
-});*/
-
-	it('Caso 12: se obtienen content-items sin filtros para contenido', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]=' + currentTopic.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			console.log(res);
-			//console.log(JSON.stringify(res,null,2));
-			res.should.have.status(200);
-			done();
-		});
-	});
-
-
 });
 
-	// Se borra un galleryItem
-	/*it('Caso 13: se elimina un galleryItem un galleryItem', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.delete('/gallery-items/' + currentGalleryItem)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			res.should.have.status(204);
-			done();
-		});
-	});*/
-
-	/*// Se obtiene un galleryItem
-	it('Caso 14: se obtienen datos para un galleryItem eliminado', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/gallery-items/' + currentGalleryItem)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			res.should.have.status(404);
-			done();
-		});
+it('Caso 13: lists all content-items filtering by gallery', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
+		+ currentTopic.id + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.should.have.property('data').with.length(1);
+		done();
 	});
-});*/
+});
+
+it('Caso 14: lists all content-items filtering by article', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
+		+ currentTopic.id + '&filter[type]=article&include=item,item.preview-items,item.preview-items.file')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.should.have.property('data').with.length(1);
+		done();
+	});
+});
+
+it('Caso 13: a galleryItem is removed from a gallery', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.delete('/gallery-items/' + currentGalleryItem.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(204);
+		done();
+	});
+});
+
+it('case 14: gets data for a deleted galleryItem', function(done) {
+	new GalleryItem()
+	.fetch(currentGalleryItem.id, 
+			{include: ['file', 'gallery', 'prevSiblings', 'prevSiblings.file', 'nextSiblings', 'nextSiblings.file']})
+	.then((response) => {
+		response.should.have.status('404');
+        done();
+    	});
+	});
+});
 
 
 

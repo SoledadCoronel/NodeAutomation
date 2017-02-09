@@ -25,10 +25,6 @@ class Profile extends AbstractModel {
 		this['personal-email'] = data['personal-email'];
 		this['marital-status'] = data['marital-status'];
 		this['job-type'] = data['job-type'];
-		//relationships
-		//this.user = data.user;
-		//this.supervisor = data.user || [];
-		//this.image = data.image || [];
 	}
 
 	endpoint() {

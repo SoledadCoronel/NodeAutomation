@@ -64,8 +64,8 @@ new Promise((resolve, reject) => {
 
                         jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
                           let jsonData = require(jsonFilePath);
-                          console.log(jsonData.basicUser);
-                          console.log(jsonData.adminSpaceUser);                          
+                          //console.log(jsonData.basicUser);
+                          //console.log(jsonData.adminSpaceUser);                          
                         });
                       });
                     });
