@@ -7,7 +7,7 @@
     "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 50000",
     "singletest": "clear && mocha \"test/users/testUser@(.js)\" --compilers js:babel-register --timeout 50000",
     "test1": "clear && mocha \"test/**/*@(.js)\" --timeout 40000 --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml",
-    "singletest1": "clear && mocha \"test/social/testHashtagPublicSpace*@(.js)\" --compilers js:babel-register --timeout 40000",
+    "singletest1": "clear && mocha \"test/platforms/testsGalleries*@(.js)\" --compilers js:babel-register --timeout 40000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha \"test/api*@(.js)\" --compilers js:babel-register"
   },

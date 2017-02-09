@@ -674,6 +674,7 @@ describe('SUITE - GALLERIES', function() {
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
 		.end(function(err, res) {
+			//console.log(JSON.stringify(res.body,null,2));
 			res.should.have.status(200);
 			res.body.data.should.be.a('array');
 			res.body.should.have.property('data').with.length(2);
