@@ -1,5 +1,7 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Space from './../models/space';
+import User from './../models/user';
+
 
 
 class PostSerializer {
@@ -17,6 +19,14 @@ class PostSerializer {
         typeForAttribute: function() {
           return 'spaces'
         }
+      },
+      target: {
+        ref: (post, target) => target.id,
+        attributes: [],
+        included: true,
+        typeForAttribute: function() {
+          return 'users'
+        }
       }
     });
 
@@ -24,6 +34,13 @@ class PostSerializer {
       spaces: {
         valueForRelationship: function (relationship) {
           return new Space({
+            id: relationship.id,
+          });
+        }
+      },
+     users: {
+        valueForRelationship: function (relationship) {
+          return new User({
             id: relationship.id,
           });
         }
@@ -39,6 +56,9 @@ class PostSerializer {
         }
         if (data.target instanceof Space) {
           serialized.data.relationships.target.data.type = 'spaces';
+        }
+        if (data.target instanceof User) {
+          serialized.data.relationships.target.data.type = 'users';
         }
         return serialized;
     }
