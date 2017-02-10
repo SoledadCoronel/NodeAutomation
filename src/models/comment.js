@@ -14,7 +14,10 @@ class Comment extends AbstractModel {
 		this['created-at'] = data['created-at'];
 		this['last-activity'] = data['last-activity'];
 		this.subject = data.subject;
-		this['reply-to'] = data['reply-to'];
+		if (data['reply-to']) {
+			this['reply-to'] = data['reply-to'];
+		}
+		
     }
 
     endpoint() {

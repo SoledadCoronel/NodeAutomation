@@ -11,9 +11,9 @@ class AbstractModel {
 		}		
 	}
 
-	create() {
+	create(params = {}) {
 		return this.request.post(
-			this.endpoint(),
+			this.prepareUrl(this.endpoint(), params),
 			this.getSerializer().serialize(this)
 		).then(this.process());
 	}

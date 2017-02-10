@@ -1,5 +1,6 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Post from './../models/post';
+import Comment from './../models/comment';
 
 
 class CommentSerializer {
@@ -13,19 +14,13 @@ class CommentSerializer {
       ],
       subject: {
         ref: (post, subject) => subject.id,
-        attributes: [],
-        included: true,
-        typeForAttribute: function() {
-          return 'posts'
-        }
+        //attributes: ['id', 'content', 'count-likes', 'count-comments'],
+        included: true
       },
       'reply-to': {
         ref: (comment, replyTo) => replyTo.id,
-        attributes: [],
-        included: true,
-        typeForAttribute: function() {
-          return 'comments'
-        }
+        //attributes: [],
+        included: true
       }
     });
 
@@ -56,7 +51,7 @@ class CommentSerializer {
         if (data.subject instanceof Post) {
           serialized.data.relationships.subject.data.type = 'posts';
         }
-        if (data.subject instanceof Comment) {
+        if (data['reply-to'] instanceof Comment) {
           serialized.data.relationships['reply-to'].data.type = 'comments';
         }
         return serialized;

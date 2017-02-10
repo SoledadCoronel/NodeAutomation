@@ -956,6 +956,7 @@ describe('SUITE - SOCIAL - HASHTAG - ESPACIO PUBLICO', function() {
 			expect(res).to.have.status(200);
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(3);
+			console.log(res.body);
 		done();
 		});
 	});

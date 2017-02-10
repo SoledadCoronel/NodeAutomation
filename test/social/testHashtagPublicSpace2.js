@@ -18,20 +18,20 @@ chai.use(chaiColors);
 var publicSpace = null;
 
 // variables utilizadas en los tests
-var currentPostId = null;
-var currentPostId2 = null;
-var currentPostId3 = null;
-var currentPostId4 = null;
-var currentPostId5 = null;
-var currentPostId6 = null;
-var currentPostId7 = null;
-var currentPostId8 = null;
-var currentPostId9 = null;
-var currentPostId10 = null;
-var currentPostId11 = null;
-var currentPostId12 = null;
-var currentCommentId = null;
-var currentCommentId2 = null;
+var currentPost = null;
+var currentPost2 = null;
+var currentPost3 = null;
+var currentPost4 = null;
+var currentPost5 = null;
+var currentPost6 = null;
+var currentPost7 = null;
+var currentPost8 = null;
+var currentPost9 = null;
+var currentPost10 = null;
+var currentPost11 = null;
+var currentPost12 = null;
+var currentComment = null;
+var currentComment2 = null;
 
 
 
@@ -73,7 +73,7 @@ it('creates new hashtag #testing', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId = post;
+		currentPost = post;
 		done();
 	});
 });
@@ -88,7 +88,7 @@ it('creates new hashtag #TEsting', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId2 = post;
+		currentPost2 = post;
 		done();
 	});
 });
@@ -103,7 +103,7 @@ it('creates new hashtag #tesTING', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId3 = post;
+		currentPost3 = post;
 		done();
 	});
 });
@@ -118,7 +118,7 @@ it('creates new hashtag #TESTING', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId4 = post;
+		currentPost4 = post;
 		done();
 	});
 });
@@ -133,7 +133,7 @@ it('creates new hashtag #Testing', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId5 = post;
+		currentPost5 = post;
 		done();
 	});
 });
@@ -148,7 +148,7 @@ it('creates new hashtag #tésting', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId6 = post;
+		currentPost6 = post;
 		done();
 	});
 });
@@ -163,7 +163,7 @@ it('creates new hashtag #😀%&!', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId7 = post;
+		currentPost7 = post;
 		done();
 	});
 });
@@ -178,7 +178,7 @@ it('creates new hashtag #MaríaGüillerminaGonçalvesNuñezOcoñor', function(do
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId8 = post;
+		currentPost8 = post;
 		done();
 	});
 });
@@ -193,7 +193,7 @@ it('creates new hashtag #estoEsVálidoHastaAcá😀loQueSigueNoEntra', function(
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId9 = post;
+		currentPost9 = post;
 		done();
 	});
 });
@@ -208,7 +208,7 @@ it('creates new hashtag ##testing', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId10 = post;
+		currentPost10 = post;
 		done();
 	});
 });
@@ -223,7 +223,7 @@ it('creates new hashtag #EstosSonDos#Hashtags', function(done) {
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId11 = post;
+		currentPost11 = post;
 		done();
 	});
 });
@@ -238,7 +238,7 @@ it('creates new hashtag #caracterØEspecial #carâcterEspecial', function(done) 
 	.then((response) => {
 		response.should.have.status('201');
 		post = response.content;
-		currentPostId12 = post;
+		currentPost12 = post;
 		done();
 	});
 });
@@ -247,13 +247,13 @@ it('Create comment on a post1 #testing', function(done) {
 
 	let comment = new Comment({
 		comment: 'commentario de post con hashtag #testing',
-		subject: currentPostId
+		subject: currentPost,
 	});
 	comment.create()
 	.then((response) => {
 		response.should.have.status('201');
 		comment = response.content;
-		currentCommentId = comment;
+		currentComment = comment;
 		done();
 	});
 });
@@ -262,396 +262,215 @@ it('Create comment on a post2 #testing', function(done) {
 
 	let comment = new Comment({
 		comment: 'commentario de post con hashtag #testing',
-		subject: currentPostId2
+		subject: currentPost2,
 	});
 	comment.create()
 	.then((response) => {
 		response.should.have.status('201');
 		comment = response.content;
-		currentCommentId2 = comment;
+		currentComment2 = comment;
 		done();
 	});
 });
 
 
-it('Create response with hashtag to comment with hashtag', function(done) {
+it('Create response with hashtag to comment1 with hashtag', function(done) {
 
 	let comment = new Comment({
 		comment: 'Respuesta con hashtag a un comentario #testing',
-		subject: currentPostId,
-		'reply-to': currentCommentId
+		subject: currentPost,
+		'reply-to': currentComment
 
 	});
 	comment.create()
 	.then((response) => {
 		response.should.have.status('201');
-		comment = response.content;
-		currentCommentId2 = comment;
 		done();
 	});
 });
 
+it('Create response with hashtag to comment2 with hashtag', function(done) {
+
+	let comment = new Comment({
+		comment: 'Respuesta con hashtag a un comentario #testing',
+		subject: currentPost2,
+		'reply-to': currentComment2
+
+	});
+	comment.create()
+	.then((response) => {
+		response.should.have.status('201');
+		done();
+	});
 });
 
+// TESTS CASES
+///////////////////////////////////////////////////////////////////////////////////////////
 
-	// se crea una respuesta con hashtag a un comentario con hashtag
-	/*it('Caso 15: Crea una respuesta con hashtag sobre un comentario1', function(done) {
+console.log("TESTS CASES");
 
-		var replyData = this;
-		this.references = {};
+it('Caso 1: gets posts filtering by hashtag - valid upper / lower case', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=testing')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(6);
+		expect(res.body.meta.pagination['total-items']).to.equal(6);
+		done();
+	});
+});
+		
+it('Caso 2: Get posts filtering by hashtag - valid tilde', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=tésting'))
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(1);
+		expect(res.body.meta.pagination['total-items']).to.equal(1);
+		done();
+	});
+});
 
-		var hashtagReply = {
-			"data": {
-				"type": "comments",
-				"attributes": {
-					"comment": "Respuesta con hashtag a un comentario #testing"
-				},
-				"relationships": {
-					"subject": {
-						"data": {
-							"type": "posts",
-							"id": currentPostId
-						}
-					},
-					"reply-to": {
-						"data": {
-							"type": "comments",
-							"id": currentCommentId
-						}
-					}    
-				}
-			}
-		}
+it('Caso 3: Get posts filtering by hashtag - validate special characters allowed', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=MaríaGüillerminaGonçalvesNuñezO' + 'coñor'))
+	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(1);
+		expect(res.body.meta.pagination['total-items']).to.equal(1);
+		done();
+	});
+});
+
+it('Caso 4: Get posts filtering by hashtag - validate to invalid character', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=estoEsVálidoHastaAcá'))
+	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(1);
+		expect(res.body.meta.pagination['total-items']).to.equal(1);
+		done();
+	});
+});
+
+it('Caso 5: Get posts filtering by hashtag - valid first hashtag', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-			.post('/comments')
-			.set('content-type', 'application/vnd.api+json')
-			.set('Accept', 'application/vnd.api+json')
-			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-			.send(hashtagReply)
-			.then(function(res) {
-				replyData.references['replyHashtag'] = {
-					'id': res.body.data.id
-				};
-			done();
-			})
+		.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=EstosSonDos'))
+		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			expect(res).to.have.status(200);
+			res.body.data.should.be.a('array');
+			res.body.data.length.should.be.eql(1);
+			expect(res.body.meta.pagination['total-items']).to.equal(1);
+		done();
+		});
 	});
 
-	// se crea una respuesta con hashtag a un comentario con hashtag
-	it('Caso 16: Crea una respuesta con hashtag sobre un comentario2', function(done) {
-
-		var replyData = this;
-		this.references = {};
-
-		var hashtagReply = {
-			"data": {
-				"type": "comments",
-				"attributes": {
-					"comment": "Respuesta con hashtag a un comentario #testing"
-				},
-				"relationships": {
-					"subject": {
-						"data": {
-							"type": "posts",
-							"id": currentPostId2
-						}
-					},
-					"reply-to": {
-						"data": {
-							"type": "comments",
-							"id": currentCommentId2
-						}
-					}    
-				}
-			}
-		}
+it('Caso 6: Get posts filtering by hashtag - validate hashtag second hashtag', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-			.post('/comments')
-			.set('content-type', 'application/vnd.api+json')
-			.set('Accept', 'application/vnd.api+json')
-			.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-			.send(hashtagReply)
-			.then(function(res) {
-				replyData.references['replyHashtag'] = {
-					'id': res.body.data.id
-				};
-			done();
-			})
+		.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=Hashtags'))
+		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+		.set('Accept', 'application/vnd.api+json')
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
+		.end(function(err, res) {
+			expect(err).to.be.null;
+			expect(res).to.have.status(200);
+			res.body.data.should.be.a('array');
+			res.body.data.length.should.be.eql(1);
+			expect(res.body.meta.pagination['total-items']).to.equal(1);
+		done();
+		});
 	});
 
-	// Obtiene posts filtrando por un hashtag -> debería traer 4 resultados (incluye comentario y respuesta)
-	it('Caso 17: Obtiene posts filtrando por hashtag - valida mayúscula/minúscula', function(done) {
+it('Caso 7: Get all posts in the space', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=testing')
+		.get('/feed-items?filter[space]=' + publicSpace.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(6);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> solo deberia traer 1 resultado
-	it('Caso 18: Obtiene posts filtando por hashtag - valida tilde', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=tésting'))
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> solo deberia traer 1 resultado
-	it('Caso 19: Obtiene posts filtando por hashtag - valida caracteres especiales permitidos', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=MaríaGüillerminaGonçalvesNuñezO' + 'coñor'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> hasta el caracter inválido
-	it('Caso 20: Obtiene posts filtando por hashtag - valida hasta el caracter inválido', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=estoEsVálidoHastaAcá'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> Dos hashtags en un mismo post
-	it('Caso 21: Obtiene posts filtando por hashtag - valida primer hashtag', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=EstosSonDos'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			//res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> Dos hashtags en un mismo post
-	it('Caso 22: Obtiene posts filtando por hashtag - valida segundo hashtag hashtag', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id + '&' + 'filter[hashtag]=Hashtags'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			//res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene todos los posts de un espacio - Omite comentario y respuesta
-	it('Caso 23: Obtiene todos los posts del espacio', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(12);
+			expect(res.body.meta.pagination['total-items']).to.equal(12);
 		done();
 		});
 	});
 
-	// Obtiene los comentarios de un post
-	it('Caso 24: Obtiene los comentarios de un post', function(done) {
+it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/comments?filter[post]=' + currentPostId)
+		.get('/feed-items?filter[space]=' + publicSpace.id 
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id +
+			'filter[to]=' + currentPost2 + '&' + 'page[size]=' + 2)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene las respuestas a un comentario
-	it('Caso 25: Obtiene las respuestas a un comentario', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/comments?filter[parent-id]=' + currentCommentId)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag 
-	it('Caso 26: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 2', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPostId4 +
-			'filter[to]=' + currentPostId2 + '&' + 'page[size]=' + 2)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			expect(res).to.have.status(200);
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(2);
-		done();
+			expect(res.body.meta.pagination['total-items']).to.equal(2);
+			done();
 		});
 	});
 
-	// Obtiene posts filtrando por un hashtag 
-	it('Caso 27: Obtiene posts filtrando por hashtag - valida rango y paginado tamaño 3', function(done) {
+it('Caso 9: Get posts filtering by hashtag - valid range and pagination size 3', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPostId4 +
-			'filter[to]=' + currentPostId2 + '&' + 'page[size]=' + 3)
+		.get('/feed-items?filter[space]=' + publicSpace.id 
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id +
+			'filter[to]=' + currentPost2 + '&' + 'page[size]=' + 3)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			expect(res).to.have.status(200);
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(3);
+			expect(res.body.meta.pagination['total-items']).to.equal(3);
 		done();
 		});
 	});
 
-	// Obtiene posts filtrando por un hashtag 
-	it('Caso 28: Obtiene posts filtrando por hashtag - olderThan', function(done) {
+it('Caso 10: Get posts filtering by hashtag - olderThan', function(done) {
 		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpaceFixture.references.publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[older-than]=' + currentPostId4)
+		.get('/feed-items?filter[space]=' + publicSpace.id 
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[older-than]=' + currentPost4.id)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
+		.set('Authorization', 'Bearer ' + jsonData.adminToken)
 		.end(function(err, res) {
 			expect(err).to.be.null;
 			expect(res).to.have.status(200);
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(3);
+			expect(res.body.meta.pagination['total-items']).to.equal(3);
 		done();
 		});
-	});*/
+	});
+});
