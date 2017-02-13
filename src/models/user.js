@@ -12,10 +12,12 @@ class User extends AbstractModel {
 	    this.email = data.email;
 	    this.status = data.status;
 	    this['login-enabled'] = data['login-enabled'];
+	    this['registered-date'] = data['registered-date'];
+	    this['created-at'] = data['created-at'];
+	    this['updated-at'] = data['updated-at'];
 	    this.role = data.role;
-	    this.profile = data.profile || [];
+	    this.profile = data.profile;
     	this['group-items'] = data['group-items'] || [];
-    	this.role = data.role;
     }
 
     endpoint() {
@@ -30,8 +32,13 @@ class User extends AbstractModel {
 			email: user.email,
 			status: user.status,
 			'login-enabled': user['login-enabled'],
+			'registered-date': user['registered-date'],
+			'created-at': user['created-at'],
+			'updated-at': user['updated-at'],
 			//relationships
 			role: user.role,
+			profile: user.profile,
+			'group-items': user['group-items'],
 		});
 	}
 };

@@ -15,580 +15,361 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var privateSpace = null;
 var publicSpace = null;
+var companySpace = null;
+var privateSpace = null;
 var profileUser = null;
-
+var currentProfilePost = null;
+var currentProfilePost2 = null;
+var currentPost = null;
+var currentPost2 = null;
+var currentPost3 = null;
+var currentPost4 = null;
+var currentPost5 = null;
+var currentPost6 = null;
 // comienzo de la suite
 describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
-session.addToken(1, jsonData.adminToken);
+	session.addToken(1, jsonData.adminToken);
 
 // PRECONDICIONES PARA LA SUITE
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 console.log("PRECONCIONES");
 
-it('case 7: fetches a profile user', function(done) {
+it('fetches a profile user', function(done) {
 	new User()
-	.fetch(jsonData.basicUser.id, {include: ['profile']})
+	.fetch(jsonData.basicUser.id)
 	.then((response) => {
 		response.should.have.status('200');
-		console.log(response.content.profile.id);
+		profileUser = response.content.profile;
+		done();
+	});
+});
+
+it('creates a new public space', function(done) {
+
+	let space = new Space({
+		name: 'espacio publico',
+		description: 'espacio publico',
+		icon: 'QA',
+		active: true,
+		'social-enabled': true,
+		position: 0,
+		visibility: 'public'
+	});
+	space.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(space.active).to.equal(true);
+		space = response.content;
+		publicSpace = space;
+		done();
+	});
+});
+
+it('creates a new company space', function(done) {
+
+	let space = new Space({
+		name: 'espacio company',
+		description: 'espacio company',
+		icon: 'QA',
+		active: true,
+		'social-enabled': true,
+		position: 0,
+		visibility: 'company'
+	});
+	space.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(space.active).to.equal(true);
+		space = response.content;
+		companySpace = space;
+		done();
+	});
+});
+
+it('creates a new private space', function(done) {
+
+	let space = new Space({
+		name: 'espacio privado',
+		description: 'espacio privado',
+		icon: 'QA',
+		active: true,
+		'social-enabled': true,
+		position: 0,
+		visibility: 'private'
+	});
+	space.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(space.active).to.equal(true);
+		space = response.content;
+		privateSpace = space;
+		done();
+	});
+});
+
+it('creates new hashtag #testing', function(done) {
+
+	let post = new Post({
+		content: 'Publicando #testing en perfil de usuario',
+		target: profileUser
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentProfilePost = post;
+		done();
+	});
+});
+
+it('creates new hashtag #TEsting', function(done) {
+
+	let post = new Post({
+		content: 'Publicando #TEsting en perfil de usuario',
+		target: profileUser
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentProfilePost2 = post;
+		done();
+	});
+});
+
+// Obtiene posts filtrando por un hashtag -> debería traer 2
+it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(2);
+		done();
+	});
+});
+
+// Obtiene posts filtrando por un hashtag -> debería traer 2
+it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	chai.request('http://api.cd.gointegro.net')
+	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(2);
+		done();
+	});
+});
+
+it('creates new hashtag #testing', function(done) {
+session.addToken(1, jsonData.adminToken);
+	let post = new Post({
+		content: 'contenido de post con hashtag #testeando',
+		target: publicSpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost = post;
+		done();
+	});
+});
+
+it('creates new hashtag #hash tag', function(done) {
+
+	let post = new Post({
+		content: 'contenido de post con hashtag #hash tag',
+		target: publicSpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost2 = post;
+		done();
+	});
+});
+
+it('creates new hashtag #hash-tag', function(done) {
+
+	let post = new Post({
+		content: 'contenido de post con hashtag #hash-tag',
+		target: publicSpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost3 = post;
+		done();
+	});
+});
+
+it('creates new hashtag #testDeIntegracion - company space', function(done) {
+
+	let post = new Post({
+		content: 'contenido de post con hashtag #testDeIntegracion',
+		target: companySpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost4 = post;
+		done();
+	});
+});
+
+it('creates new hashtag #testDeRegresion - private space', function(done) {
+
+	let post = new Post({
+		content: 'contenido de post con hashtag #testDeRegresion',
+		target: privateSpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost5 = post;
+		done();
+	});
+});
+
+it('creates new hashtag #testDeRegresion - private space', function(done) {
+
+	let post = new Post({
+		content: 'contenido de post con hashtag #téstDeRegresion',
+		target: privateSpace
+	});
+	post.create()
+	.then((response) => {
+		response.should.have.status('201');
+		post = response.content;
+		currentPost6 = post;
+		done();
+	});
+});
+
+it('Basic user filters suggestions publicly', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	chai.request('http://api.cd.gointegro.net')
+	.get('/hashtags?filter[q]=te')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(3);
+		expect(res.body.meta.pagination['total-items']).to.equal(3);
+		done();
+	});
+});
+
+it('Usuario basico filtra sugerencias por espacio publico', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/hashtags?filter[q]=te&filter[space]=' + publicSpace.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(3);
+		expect(res.body.meta.pagination['total-items']).to.equal(3);
+		done();
+	});
+});
+
+it('Usuario básico filtra sugerencias por espacio company', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/hashtags?filter[q]=te&filter[space]=' + companySpace.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(3);
+		expect(res.body.meta.pagination['total-items']).to.equal(3);
+		done();
+	});
+});
+
+it('Usuario filtra sugerencias por espacio privado', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	chai.request('http://api.cd.gointegro.net')
+	.get(encodeURI('/hashtags?filter[q]=té&filter[space]=' + privateSpace.id))
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(5);
+		expect(res.body.meta.pagination['total-items']).to.equal(5);
+		done();
+	});
+});
+
+
+it('Basic user filters suggestions without private space', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	chai.request('http://api.cd.gointegro.net')
+	.get(encodeURI('/hashtags?filter[q]=té'))
+	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(3);
+		done();
+	});
+});
+
+it('Caso 17: Usuario basico filtra sugerencias-espacioBlanco por espacio publico', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/hashtags?filter[q]=has&filter[space]=' + publicSpace.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(1);
+		done();
+	});
+});
+
+it('Caso 18: Usuario basico filtra sugerencias-guión por espacio publico', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/hashtags?filter[q]=has&filter[space]=' + publicSpace.id)
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.basicToken)
+	.end(function(err, res) {
+		expect(err).to.be.null;
+		expect(res).to.have.status(200);
+		res.body.data.should.be.a('array');
+		res.body.data.length.should.be.eql(1);
 		done();
 	});
 });
 });
-
-	// caso 1: se obtiene el perfil de un usuario 
-	/*it('Precondición: se obtiene el profile de un usuario', function(done) {
-
-		var profileData = this;
-		this.references = {};
-
-		chai.request('http://api.cd.gointegro.net')
-		.get('/users/' + basicUserFixture.references.basicUserA.id + '/profile')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.then(function(res) {
-			profileData.references['profile'] = {
-				'id': res.body.data.id
-			};
-			currentProfile = res.body.data.id;
-		done();
-		});
-	});
-
-	// usuario postea en perfil de usuario un hashtag
-	it('Caso 1: Crea post con hashtag - perfil de usuario', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "Publicando #testing en perfil de usuario"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "users",
-							"id": currentProfile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['singlePost'] = {
-				'id': res.body.data.id
-			};
-		done();
-		});
-	});
-
-
-	// usuario postea en su propio perfil de usuario un hashtag
-	it('Caso 2: Crea post con hashtag - su propio perfil de usuario', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "Publicando #TEsting en perfil de usuario"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "users",
-							"id": currentProfile
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['singlePost'] = {
-				'id': res.body.data.id
-			};
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag -> debería traer 2
-	it('Caso 3: Obtiene posts filtrando por hashtag - valida mayúscula/minúscula', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[user]=' + currentProfile + '&filter[hashtag]=testing')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(2);
-		done();
-		});
-	});
-
-	// Obtiene posts filtrando por un hashtag
-	it('Caso 4: Obtiene posts filtrando por hashtag - valida mayúscula/minúscula', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[user]=' + currentProfile + '&filter[hashtag]=testing')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.meta.should.have.property('additional_data');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(2);
-		done();
-		});
-	});
-
-	//////////////////////// CASOS PARA VERIFICAR SUGERENCIAS //////////////////////////////////
-
-	// caso 5: se crea un post con hashtag en un espacio publico
-	it('Caso 5: Crea post con hashtag - espacio publico', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #testeando"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": publicSpaceFixture.references.publicSpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['postHashtag'] = {
-				'id': res.body.data.id
-			
-			};
-		done();
-		});
-	});
-
-	// caso 6: se crea un post con hashtag en un espacio publico
-	it('Caso 6: Crea post con hashtag-espacioBlanco - espacio publico', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #hash tag"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": publicSpaceFixture.references.publicSpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['postHashtag'] = {
-				'id': res.body.data.id
-			
-			};
-		done();
-		});
-	});
-
-	// caso 7: se crea un post con hashtag en un espacio publico
-	it('Caso 7: Crea post con hashtag-guión - espacio publico', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #hash-tag"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": publicSpaceFixture.references.publicSpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['postHashtag'] = {
-				'id': res.body.data.id
-			
-			};
-		done();
-		});
-	});
-
-	// caso 8: usuario creador del espacio postea un hashtag
-	it('Caso 8: Crea post con hashtag - espacio company', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #testDeIntegracion"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": companySpaceFixture.references.companySpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['singlePost'] = {
-				'id': res.body.data.id
-			};
-		done();
-		});
-	});
-
-	// caso 9: usuario creador del espacio postea un hashtag
-	it('Caso 9: Crea post con hashtag - espacio privado', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #testDeRegresion"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": privateSpaceFixture.references.privateSpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['singlePost'] = {
-				'id': res.body.data.id
-			};
-		done();
-		});
-	});
-
-	// caso 10: usuario creador del espacio postea un hashtag
-	it('Caso 10: Crea post con hashtag - espacio privado', function(done) {
-
-		var postData = this;
-		this.references = {};
-
-		var hashtagPost = {
-			"data": {
-				"type": "posts",
-				"attributes": {
-					"content": "contenido de post con hashtag #téstDeRegresion"
-				},
-				"relationships": {
-					"target": {
-						"data": {
-							"type": "spaces",
-							"id": privateSpaceFixture.references.privateSpace.id
-						}
-					}
-				}
-			}
-		}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/posts')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.send(hashtagPost)
-		.then(function(res) {
-			postData.references['singlePost'] = {
-				'id': res.body.data.id
-			};
-		done();
-		});
-	});
-
-	// caso 11: Obtiene sugerencias
-	it('Caso 11: Usuario basico filtra sugerencias de manera publica', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/hashtags?filter[q]=te')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(3);
-		done();
-		});
-	});
-
-	// caso 12: Obtiene sugerencias
-	it('Caso 12: Usuario basico filtra sugerencias por espacio publico', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/hashtags?filter[q]=te&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(3);
-		done();
-		});
-	});
-
-	// caso 13: Obtiene sugerencias
-	it('Caso 13: Usuario básico filtra sugerencias por espacio company', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/hashtags?filter[q]=te&filter[space]=' + companySpaceFixture.references.companySpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(3);
-		done();
-		});
-	});
-
-	// caso 14: Obtiene sugerencias
-	it('Caso 14: Usuario filtra sugerencias por espacio privado', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/hashtags?filter[q]=te&filter[space]=' + privateSpaceFixture.references.privateSpace.id))
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(5);
-		done();
-		});
-	});
-
-	// caso 15: Obtiene sugerencias
-	it('Caso 15: Usuario basico filtra sugerencias por espacio privado', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/hashtags?filter[q]=té&filter[space]=' + privateSpaceFixture.references.privateSpace.id))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixture.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(5);
-		done();
-		});
-	});
-
-	// caso 16: Obtiene sugerencias
-	it('Caso 16: Usuario basico filtra sugerencias sin espacio privado', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/hashtags?filter[q]=té'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(3);
-		done();
-		});
-	});
-
-	// caso 17: Obtiene sugerencias
-	it('Caso 17: Usuario basico filtra sugerencias-espacioBlanco por espacio publico', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/hashtags?filter[q]=has&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-
-	// caso 18: Obtiene sugerencias
-	it('Caso 18: Usuario basico filtra sugerencias-guión por espacio publico', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/hashtags?filter[q]=has&filter[space]=' + publicSpaceFixture.references.publicSpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + oauthFixtureBasic.references.tokenA.access_token)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.should.have.property('data');
-			res.body.should.have.property('meta');
-			res.body.should.have.property('links');
-			res.body.meta.should.have.property('pagination');
-			res.body.links.should.have.property('first');
-			res.body.links.should.have.property('last');
-			res.body.links.should.have.property('prev');
-			res.body.links.should.have.property('next');
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-		done();
-		});
-	});
-});*/

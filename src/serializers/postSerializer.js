@@ -1,6 +1,7 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Space from './../models/space';
 import User from './../models/user';
+import Profile from './../models/profile';
 
 
 
@@ -57,7 +58,7 @@ class PostSerializer {
         if (data.target instanceof Space) {
           serialized.data.relationships.target.data.type = 'spaces';
         }
-        if (data.target instanceof User) {
+        if (data.target instanceof Profile) {
           serialized.data.relationships.target.data.type = 'users';
         }
         return serialized;
