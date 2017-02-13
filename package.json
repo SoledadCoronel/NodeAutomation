@@ -1,12 +1,12 @@
 {
   "name": "node_api_test",
   "version": "0.1.0",
-  "description": "Package json for appium test ",
+  "description": "Package json for api tests",
   "main": "login.js",
   "private": true,
   "scripts": {
     "datafixture": "babel-node test/datafixture.js --presets es2015",
-    "test": "babel-node test/datafixture.js --presets es2015 mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
     "singletest": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --timeout 40000",
     "singletest2": "clear && mocha \"test/users/testRole*@(.js)\" --compilers js:babel-register"
   },

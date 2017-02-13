@@ -1,6 +1,7 @@
 import Space from './../../src/models/space';
 import Post from './../../src/models/post';
 import User from './../../src/models/user';
+import FeedItem from './../../src/models/feedItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -139,8 +140,7 @@ it('creates new hashtag #TEsting', function(done) {
 	});
 });
 
-// Obtiene posts filtrando por un hashtag -> debería traer 2
-it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+/*it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
 	.set('content-type', 'application/vnd.api+json')
@@ -150,13 +150,27 @@ it('Get posts filtering by hashtag - valid uppercase and lowercase', function(do
 		expect(err).to.be.null;
 		expect(res).to.have.status(200);
 		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(2);
+		//res.body.data.length.should.be.eql(2);
+		console.log(res.body);
 		done();
+	});
+});*/
+
+it('prueba feeditem', function(done) {
+	var testing = 'testing';
+	new FeedItem()
+	.list({filter: {'user': profileUser.id}, filter: {'hashtag': testing}})
+		.then((response) => {
+			response.should.have.status('200');
+			expect(response.content.meta.pagination['total-items']).to.equal(2);
+			console.log(response.content);
+			done();
+		});
 	});
 });
 
 // Obtiene posts filtrando por un hashtag -> debería traer 2
-it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+/*it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
 	session.addToken(1, jsonData.basicToken);
 	chai.request('http://api.cd.gointegro.net')
 	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
@@ -372,4 +386,4 @@ it('Caso 18: Usuario basico filtra sugerencias-guión por espacio publico', func
 		done();
 	});
 });
-});
+});*/
