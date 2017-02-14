@@ -7,6 +7,7 @@ import Topic from './../../src/models/topic';
 import Article from './../../src/models/article';
 import Gallery from './../../src/models/gallery';
 import GalleryItem from './../../src/models/galleryItem';
+import ContentItem from './../../src/models/contentItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -159,7 +160,7 @@ it('Creates un new article', function(done) {
 // TEST CASES
 console.log("TEST CASES");
 
-it('case1: Creates un new gallery', function(done) {
+it('case 1: Creates un new gallery', function(done) {
 
 	let gallery = new Gallery({
 		title: 'gallery01',
@@ -177,7 +178,7 @@ it('case1: Creates un new gallery', function(done) {
 		});
 	});
 
-it('case2: Creates un new galleryItem', function(done) {
+it('case 2: Creates un new galleryItem', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
@@ -283,7 +284,7 @@ it('case 8: fetches a galleryItem', function(done) {
     });
 });
 
-it('caso 9: lists all galleryItems with paginated', function(done) {
+it('caso 9: lists all galleryItems without paginated', function(done) {
 	new GalleryItem()
 	.list({filter: {'gallery': currentGallery.id}})
 		.then((response) => {
@@ -297,7 +298,7 @@ it('caso 9: lists all galleryItems with paginated', function(done) {
 		});
 	});
 
-it('caso 10: lists all galleryItems without paging', function(done) {		
+it('caso 10: lists all galleryItems with paging', function(done) {		
 	new GalleryItem()
 	.list({filter: {'gallery': currentGallery.id}, include: ['file'], page: {number: 1,size: 2}})
 		.then((response) => {
@@ -311,52 +312,40 @@ it('caso 10: lists all galleryItems without paging', function(done) {
 		});
 	});
 
-it('Caso 12: lists all content-items without filters', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
-		+ currentTopic.id)
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		res.should.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.should.have.property('data').with.length(2);
-		done();
+it('Caso 11: lists all content-items without filters', function(done) {		
+	new ContentItem()
+	.list({filter: {'space': publicSpace.id, 'topic': currentTopic.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.length.should.be.eql(2);
+			expect(response.content.meta.pagination['total-items']).to.equal(2);
+			done();
+		});
 	});
-});
 
-it('Caso 13: lists all content-items filtering by gallery', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
-		+ currentTopic.id + '&filter[type]=gallery&include=item,item.preview-items,item.preview-items.file')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		res.should.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.should.have.property('data').with.length(1);
-		done();
+it('Caso 12: lists all content-items filtering by gallery', function(done) {		
+	new ContentItem()
+	.list({filter: {'space': publicSpace.id, 'topic': currentTopic.id, 'type': 'gallery'}, include: ['item', 'item.preview-items', 'item.preview-items.file']})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
-});
 
-it('Caso 14: lists all content-items filtering by article', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/content-items?filter[space]=' + publicSpace.id + '&filter[topic]='
-		+ currentTopic.id + '&filter[type]=article&include=item,item.preview-items,item.preview-items.file')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		res.should.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.should.have.property('data').with.length(1);
-		done();
+it('Caso 13: lists all content-items filtering by article', function(done) {		
+	new ContentItem()
+	.list({filter: {'space': publicSpace.id, 'topic': currentTopic.id, 'type': 'article'}, include: ['item', 'item.preview-items', 'item.preview-items.file']})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
-});
 
-it('Caso 13: a galleryItem is removed from a gallery', function(done) {
+it('Caso 14: a galleryItem is removed from a gallery', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.delete('/gallery-items/' + currentGalleryItem.id)
 	.set('content-type', 'application/vnd.api+json')
@@ -368,7 +357,7 @@ it('Caso 13: a galleryItem is removed from a gallery', function(done) {
 	});
 });
 
-it('case 14: gets data for a deleted galleryItem', function(done) {
+it('case 15: gets data for a deleted galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 
 			{include: ['file', 'gallery', 'prevSiblings', 'prevSiblings.file', 'nextSiblings', 'nextSiblings.file']})
@@ -378,7 +367,3 @@ it('case 14: gets data for a deleted galleryItem', function(done) {
     	});
 	});
 });
-
-
-
-

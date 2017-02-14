@@ -2,6 +2,7 @@ import Space from './../../src/models/space';
 import Post from './../../src/models/post';
 import User from './../../src/models/user';
 import FeedItem from './../../src/models/feedItem';
+import Hashtag from './../../src/models/hashtag';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -32,10 +33,6 @@ var currentPost6 = null;
 describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
 	session.addToken(1, jsonData.adminToken);
 
-// PRECONDICIONES PARA LA SUITE
-///////////////////////////////////////////////////////////////////////////////////////////
-
-console.log("PRECONCIONES");
 
 it('fetches a profile user', function(done) {
 	new User()
@@ -140,51 +137,32 @@ it('creates new hashtag #TEsting', function(done) {
 	});
 });
 
-/*it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		//res.body.data.length.should.be.eql(2);
-		console.log(res.body);
-		done();
-	});
-});*/
+it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
 
-it('prueba feeditem', function(done) {
-	var testing = 'testing';
 	new FeedItem()
-	.list({filter: {'user': profileUser.id}, filter: {'hashtag': testing}})
+	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
 			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(2);
 			expect(response.content.meta.pagination['total-items']).to.equal(2);
-			console.log(response.content);
 			done();
 		});
 	});
-});
 
-// Obtiene posts filtrando por un hashtag -> debería traer 2
-/*it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
+
 	session.addToken(1, jsonData.basicToken);
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[user]=' + profileUser.id + '&filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(2);
-		done();
+	new FeedItem()
+	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(2);
+			expect(response.content.meta.pagination['total-items']).to.equal(2);
+			done();
+		});
 	});
-});
 
 it('creates new hashtag #testing', function(done) {
 session.addToken(1, jsonData.adminToken);
@@ -277,113 +255,87 @@ it('creates new hashtag #testDeRegresion - private space', function(done) {
 });
 
 it('Basic user filters suggestions publicly', function(done) {
+
 	session.addToken(1, jsonData.basicToken);
-	chai.request('http://api.cd.gointegro.net')
-	.get('/hashtags?filter[q]=te')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(3);
-		expect(res.body.meta.pagination['total-items']).to.equal(3);
-		done();
+	new Hashtag()
+	.list({filter: {'q': 'te'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(3);
+			done();
+		});
 	});
-});
 
-it('Usuario basico filtra sugerencias por espacio publico', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/hashtags?filter[q]=te&filter[space]=' + publicSpace.id)
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(3);
-		expect(res.body.meta.pagination['total-items']).to.equal(3);
-		done();
+it('Basic user filters suggestions publicly', function(done) {
+
+	session.addToken(1, jsonData.basicToken);
+	new Hashtag()
+	.list({filter: {'q': 'te', 'space': publicSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(3);
+			done();
+		});
 	});
-});
 
-it('Usuario básico filtra sugerencias por espacio company', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/hashtags?filter[q]=te&filter[space]=' + companySpace.id)
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(3);
-		expect(res.body.meta.pagination['total-items']).to.equal(3);
-		done();
+it('Basic user filters suggestions by space company', function(done) {
+
+	session.addToken(1, jsonData.basicToken);
+	new Hashtag()
+	.list({filter: {'q': 'te', 'space': companySpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(3);
+			done();
+		});
 	});
-});
 
-it('Usuario filtra sugerencias por espacio privado', function(done) {
+it('User filters suggestions for private space', function(done) {
+
 	session.addToken(1, jsonData.adminToken);
-	chai.request('http://api.cd.gointegro.net')
-	.get(encodeURI('/hashtags?filter[q]=té&filter[space]=' + privateSpace.id))
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(5);
-		expect(res.body.meta.pagination['total-items']).to.equal(5);
-		done();
+	new Hashtag()
+	.list({filter: {'q': 'té', 'space': privateSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(5);
+			expect(response.content.meta.pagination['total-items']).to.equal(5);
+			done();
+		});
 	});
-});
-
 
 it('Basic user filters suggestions without private space', function(done) {
+
 	session.addToken(1, jsonData.basicToken);
-	chai.request('http://api.cd.gointegro.net')
-	.get(encodeURI('/hashtags?filter[q]=té'))
-	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(3);
-		done();
+	new Hashtag()
+	.list({filter: {'q': 'té'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(3);
+			done();
+		});
+	});
+
+it('Basic user filters suggestions-spaceBlanco by public space', function(done) {
+
+	session.addToken(1, jsonData.basicToken);
+	new Hashtag()
+	.list({filter: {'q': 'has', 'space': publicSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
 });
 
-it('Caso 17: Usuario basico filtra sugerencias-espacioBlanco por espacio publico', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/hashtags?filter[q]=has&filter[space]=' + publicSpace.id)
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(1);
-		done();
-	});
-});
-
-it('Caso 18: Usuario basico filtra sugerencias-guión por espacio publico', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/hashtags?filter[q]=has&filter[space]=' + publicSpace.id)
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(1);
-		done();
-	});
-});
-});*/

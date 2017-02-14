@@ -1,5 +1,6 @@
 import Space from './../../src/models/space';
 import Post from './../../src/models/post';
+import FeedItem from './../../src/models/feedItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -26,11 +27,6 @@ var currentPost3 = null;
 describe('SUITE - HASHTAG - PRIVATE SPACE', function() {
 
 session.addToken(1, jsonData.adminToken);
-
-// PRECONDICIONES PARA LA SUITE
-///////////////////////////////////////////////////////////////////////////////////////////
-
-console.log("PRECONCIONES");
 
 it('creates a new private space', function(done) {
 
@@ -111,16 +107,14 @@ it('creates new hashtag #tésting', function(done) {
 console.log("TESTS CASES");
 
 it('Caso 1: Basic user gets posts filtering by hashtag', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[space]=' + privateSpace.id + '&' + 'filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(res).to.have.status(403);
-		done();
+	session.addToken(1, jsonData.basicToken);
+	new FeedItem()
+	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('403');
+			done();
+		});
 	});
-});
 
 it('Caso 2: User Admin joins basic user - private space', function(done) {
 		var data = {"data": [{"type": "users","id": jsonData.basicUser.id}]}
@@ -178,50 +172,41 @@ it('Caso 5: Joined user posts a hashtag - public space', function(done) {
 });
 
 it('Caso 6: User admin filtered by hashtag for private space', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[space]=' + privateSpace.id + '&' + 'filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(2);
-		expect(res.body.meta.pagination['total-items']).to.equal(2);
-		done();
+	session.addToken(1, jsonData.adminToken);
+	new FeedItem()
+	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(2);
+			expect(response.content.meta.pagination['total-items']).to.equal(2);
+			done();
+		});
 	});
-});
 
-it('Caso 7: Usuario basico filtra por hashtag por espacio privado', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[space]=' + privateSpace.id + '&' + 'filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.basicToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(2);
-		expect(res.body.meta.pagination['total-items']).to.equal(2);
-		done();
+it('Caso 7: Basic user filters by hashtag for private space', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	new FeedItem()
+	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(2);
+			expect(response.content.meta.pagination['total-items']).to.equal(2);
+			done();
+		});
 	});
-});
 
 it('Caso 8: Basic user filters by hashtag by platform', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=testing')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.basicToken)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-			expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	session.addToken(1, jsonData.basicToken);
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
 		});
 	});
 });

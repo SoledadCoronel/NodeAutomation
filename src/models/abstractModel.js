@@ -60,7 +60,7 @@ class AbstractModel {
 
 		if (params.filter) {
 			Object.keys(params.filter).forEach(function (key) {
-				url += '&filter[' + key + ']=' + params.filter[key]
+				url += '&filter[' + key + ']=' + params.filter[key];
 			});
 		}
 
@@ -68,7 +68,6 @@ class AbstractModel {
 			url += '&' + params.query;
 		}
 
-		//return url;
 		return this.prepareUrl(url);
 	}
 

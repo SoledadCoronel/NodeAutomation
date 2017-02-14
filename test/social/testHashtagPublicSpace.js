@@ -1,6 +1,7 @@
 import Space from './../../src/models/space';
 import Post from './../../src/models/post';
 import Comment from './../../src/models/comment';
+import FeedItem from './../../src/models/feedItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -38,10 +39,6 @@ var currentComment2 = null;
 describe('SUITE - HASHTAG - PUBLIC SPACE', function() {
 	session.addToken(1, jsonData.adminToken);
 
-// PRECONDICIONES PARA LA SUITE
-///////////////////////////////////////////////////////////////////////////////////////////
-
-console.log("PRECONCIONES");
 it('creates a new public space', function(done) {
 
 	let space = new Space({
@@ -310,122 +307,94 @@ it('Create response with hashtag to comment2 with hashtag', function(done) {
 console.log("TESTS CASES");
 
 it('Caso 1: gets posts filtering by hashtag - valid upper / lower case', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=testing')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(6);
-		expect(res.body.meta.pagination['total-items']).to.equal(6);
-		done();
+	session.addToken(1, jsonData.adminToken);
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'testing'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(6);
+			expect(response.content.meta.pagination['total-items']).to.equal(6);
+			done();
+		});
 	});
-});
-		
+
 it('Caso 2: Get posts filtering by hashtag - valid tilde', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=tésting'))
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(1);
-		expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'tésting'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
-});
 
 it('Caso 3: Get posts filtering by hashtag - validate special characters allowed', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=MaríaGüillerminaGonçalvesNuñezO' + 'coñor'))
-	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(1);
-		expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'MaríaGüillerminaGonçalvesNuñezO' + 'coñor'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
-});
 
 it('Caso 4: Get posts filtering by hashtag - validate to invalid character', function(done) {
-	chai.request('http://api.cd.gointegro.net')
-	.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=estoEsVálidoHastaAcá'))
-	.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.end(function(err, res) {
-		expect(err).to.be.null;
-		expect(res).to.have.status(200);
-		res.body.data.should.be.a('array');
-		res.body.data.length.should.be.eql(1);
-		expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'estoEsVálidoHastaAcá'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
 	});
-});
 
 it('Caso 5: Get posts filtering by hashtag - valid first hashtag', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=EstosSonDos'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-			expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'EstosSonDos'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
 		});
 	});
 
 it('Caso 6: Get posts filtering by hashtag - validate hashtag second hashtag', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get(encodeURI('/feed-items?filter[space]=' + publicSpace.id + '&' + 'filter[hashtag]=Hashtags'))
-		.set('content-type', 'application/vnd.api+json; charset=UTF-8')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(1);
-			expect(res.body.meta.pagination['total-items']).to.equal(1);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'Hashtags'}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(1);
+			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
 		});
 	});
 
 it('Caso 7: Get all posts in the space', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpace.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(12);
-			expect(res.body.meta.pagination['total-items']).to.equal(12);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(12);
+			expect(response.content.meta.pagination['total-items']).to.equal(12);
+			done();
 		});
 	});
 
 it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id +
-			'filter[to]=' + currentPost2 + '&' + 'page[size]=' + 2)
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[size]=' + 2)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + jsonData.adminToken)
@@ -442,8 +411,7 @@ it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2',
 it('Caso 9: Get posts filtering by hashtag - valid range and pagination size 3', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id +
-			'filter[to]=' + currentPost2 + '&' + 'page[size]=' + 3)
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[size]=' + 3)
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + jsonData.adminToken)
@@ -453,24 +421,32 @@ it('Caso 9: Get posts filtering by hashtag - valid range and pagination size 3',
 			res.body.data.should.be.a('array');
 			res.body.data.length.should.be.eql(3);
 			expect(res.body.meta.pagination['total-items']).to.equal(3);
-		done();
+			done();
 		});
 	});
 
+/*it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2', function(done) {
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'testing', 'from': currentPost4.id, 'to': currentPost2.id}})
+		.then((response) => {
+			//response.should.have.status('200');
+			//response.content.elements.should.be.a('array');
+			//response.content.elements.length.should.be.eql(2);
+			//expect(response.content.meta.pagination['total-items']).to.equal(2);
+			console.log(response.content);
+			done();
+		});
+	});*/
+
 it('Caso 10: Get posts filtering by hashtag - olderThan', function(done) {
-		chai.request('http://api.cd.gointegro.net')
-		.get('/feed-items?filter[space]=' + publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[older-than]=' + currentPost4.id)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			expect(err).to.be.null;
-			expect(res).to.have.status(200);
-			res.body.data.should.be.a('array');
-			res.body.data.length.should.be.eql(3);
-			expect(res.body.meta.pagination['total-items']).to.equal(3);
-		done();
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id, 'hashtag': 'testing', 'older-than': currentPost4.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(3);
+			done();
 		});
 	});
 });

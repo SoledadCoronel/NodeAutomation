@@ -7,7 +7,7 @@
   "scripts": {
     "datafixture": "babel-node test/datafixture.js --presets es2015",
     "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
-    "singletest": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --timeout 40000",
+    "singletest": "clear && mocha \"test/platforms/testsGalleries@(.js)\" --compilers js:babel-register --timeout 40000",
     "singletest2": "clear && mocha \"test/users/testRole*@(.js)\" --compilers js:babel-register"
   },
   "keywords": [
