@@ -1,43 +1,33 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
-import User from './../models/user';
+import Space from './../models/space';
 
-class InvitationSerializer {
 
-	constructor (config = {}) {
-		this.serializer = new Serializer('invitation', {
-			attributes: [],
-      user: {
-        ref: (invitation, user) => user.id,
-        attributes: ['name'],
-        included: true
-      }
-    });
+class TopicSerializer {
 
-		this.deserializer = new Deserializer({});
-
-    this.serializer = new Serializer('invitation', {
+  constructor (config = {}) {
+    this.serializer = new Serializer('topic', {
       attributes: [
-      'status',
-      'password',
-      'user'
+      'name',
+      'position',
+      'space'
       ],
-      user: {
-        ref: (invitation, user) => user.id,
+      space: {
+        ref: (topic, space) => space.id,
         attributes: ['name'],
         included: false
       }
     });
 
-		this.deserializer = new Deserializer({
-      users: {
+    this.deserializer = new Deserializer({
+      spaces: {
         valueForRelationship: function (relationship) {
-          return new User({
+          return new Space({
             id: relationship.id,
           });
         }
       }
     });
-	}
+  }
 
     serialize (data = {}) {
         
@@ -52,7 +42,7 @@ class InvitationSerializer {
         return this.deserializer.deserialize(data, function (error, data) {
             //
         });
-	}
+  }
 };
 
-export default InvitationSerializer;
+export default TopicSerializer;

@@ -1,22 +1,16 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 
-class SpaceSerializer {
+class HashtagSerializer {
 
-	constructor (config = {}) {
-		this.serializer = new Serializer('space', {
-			attributes: [
-      			'name',
-      			'description',
-      			'icon',
-      			'active',
-      			'social-enabled',
-      			'position',
-      			'visibility'
-			]
-		});
+  constructor (config = {}) {
+    this.serializer = new Serializer('hashtag', {
+      attributes: [
+      'name',
+      ]
+    });
 
-		this.deserializer = new Deserializer({});
-	}
+  this.deserializer = new Deserializer({});
+  }
 
     serialize (data = {}) {
         
@@ -31,7 +25,7 @@ class SpaceSerializer {
         return this.deserializer.deserialize(data, function (error, data) {
             //
         });
-	}
+  }
 };
 
-export default SpaceSerializer;
+export default HashtagSerializer;

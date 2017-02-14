@@ -1,7 +1,6 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Profile from './../models/profile';
-//import GroupItem from './../models/groupItem';
-//import Role from './../models/role';
+import User from './../models/user';
 
 class ProfileSerializer {
 
@@ -45,6 +44,13 @@ class ProfileSerializer {
                 attributes: ['name'],
                 included: true
             }*/
+              'user'
+            ],
+            user: {
+                ref: (profile, user) => user.id,
+                attributes: ['name'],
+                included: true
+            }
         });
 
         this.deserializer = new Deserializer({

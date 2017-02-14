@@ -6,27 +6,15 @@ import Role from './../models/role';
 class UserSerializer {
 
     constructor (config = {}) {
-        this.serializer = new Serializer('users', {
+        this.serializer = new Serializer('user', {
             attributes: [
                 'name',
                 'last-name',
                 'email',
                 'status',
                 'login-enabled',
-                'role',
-                'profile',
-                'group-items',
+                'role'
             ],
-           /* profile: {
-                ref: (user, profile) => profile.id,
-                attributes: ['name'],
-                included: true
-            },
-            'group-items': {
-                ref: (user, groupItem) => groupItem.id,
-                attributes: ['name'],
-                included: true
-            },*/
             role: {
                 ref: (user, role) => role.id,
                 attributes: ['name'],

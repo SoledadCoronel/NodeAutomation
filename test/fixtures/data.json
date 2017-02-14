@@ -1,0 +1,23 @@
+{
+  "currentPlatform": {
+    "subdomain": "subdomain9938",
+    "id": "30"
+  },
+  "adminToken": "CPT7BSbfdyoTIBaYStgS586vPZWGQlLRQQf6W4uF",
+  "basicRole": "93",
+  "adminSpaceRole": "94",
+  "basicUser": {
+    "id": "168",
+    "email": "basic2158@gointegro.com"
+  },
+  "adminSpaceUser": {
+    "id": "169",
+    "email": "adminSpace978@gointegro.com"
+  },
+  "invitationBasicUser": "70-e50dac7ee256d52ba94bb5093fd9709536148d21",
+  "invitationAdminSpaceUser": "71-4382f7d315a305c74e4644e56e9c1e7cced2b9d4",
+  "completeInvitationBasic": "70-e50dac7ee256d52ba94bb5093fd9709536148d21",
+  "completeInvitationAdminSpace": "71-4382f7d315a305c74e4644e56e9c1e7cced2b9d4",
+  "basicToken": "gqQSNX1G9McNSSfeyaTonQiEjED3ioJyqdAtGXNu",
+  "adminSpaceToken": "sKaPS7xKwVxEprlGOAdAsaFdRZkrwM2Qtgqoa3Hd"
+}

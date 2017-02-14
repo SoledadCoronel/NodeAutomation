@@ -1,4 +1,4 @@
-/*import Random from 'random-js';
+import Random from 'random-js';
 import Role from './../src/models/role';
 import { session } from './../src/services/session';
 
@@ -11,12 +11,12 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
-var token = 'k2GJZvFIRoaWjmn6uSq7g0vM50C3bI2RqkcFey9q';
-var random = new Random();
-
+var token = 'Ygx1jcdvselNPp0dtFFnnIfDiVgwV9QS9O0SDiTz';
 session.addToken(1, token);
 
+var random = new Random();
 var disabledRole = null;
+var AdminRole = null;
 
 describe('Roles suite', function() {
 
@@ -27,9 +27,13 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('201');
+        let role = response.content;
         role.should.have.status('disabled');
         disabledRole = role;
+        console.log(disabledRole);
+        //console.log(JSON.stringify(disabledRole,null,2));
         done();
       });
   });
@@ -41,8 +45,9 @@ describe('Roles suite', function() {
     });
 
     role.create()
-      .then((role) => {
-        let errors = role.errors.filter((error) => {
+      .then((response) => {
+        response.should.have.status('400');
+        let errors = response.errors.filter((error) => {
           return error.title.startsWith('[attributes.status] Does not have a value in the enumeration')
         });
 
@@ -55,7 +60,9 @@ describe('Roles suite', function() {
     disabledRole
       .activate()
       .update()
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         role.should.have.status('active');
         done();
       });
@@ -66,7 +73,9 @@ describe('Roles suite', function() {
       .fetch(disabledRole.id, {
         include: ['x', 'y']
       })
-      .then((role) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let role = response.content;
         assert(role.id == disabledRole.id);
         assert(role.name == disabledRole.name);
         done();
@@ -74,28 +83,33 @@ describe('Roles suite', function() {
   });
 
   it('lists all roles', function(done) {
+
     new Role()
       .list({
         page: {
           number: 1,
-          size: 5
+          size: 3
         },
-        filter: {
+        /*filter: {
           name : 'Test'
         },
         query: 'administrative=1',
+        include: ['x', 'y']*/
+        //filter: {
+        //  name : 'Test'
+        //},
+        //query: 'administrative=1',
         include: ['x', 'y']
       })
-      .then((collection) => {
+      .then((response) => {
+        response.should.have.status('200');
+        let collection = response.content;
         collection.elements.forEach(function(role) {
-          //console.log(role.id);
+        //console.log(role.id)
         });
-
         //console.log(collection.totalPages());
         //console.log(collection.totalItems());
-
         done();
       });
   });
-
-});*/
+});

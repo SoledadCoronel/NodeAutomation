@@ -10,7 +10,7 @@ class Role extends AbstractModel {
 		this.id = data.id;
 		this.name = data.name;
 		this.status = data.status || 'active';
-		this['is-admin'] = data['is-admin'];
+		this['is-admin'] = data['is-admin'] || false;
 		this['is-default'] = data['is-default'];
 		this['created-at'] = data['created-at'];
 		this['updated-at'] = data['updated-at'];
@@ -21,23 +21,11 @@ class Role extends AbstractModel {
 	}
 
 	deconstruct(role) {
-		// FIXME
 		return new Role(role);
-
-		return new Role({
-			id: role.id,
-			name: role.name,
-			status: role.status,
-			'is-admin': role['is-admin'],
-			'is-default': role['is-default'],
-			'created-at': role['created-at'],
-			'updated-at': role['updated-at'],
-		});
 	}
 
 	activate() {
 		this.status = 'active';
-
 		return this;
 	}
 	

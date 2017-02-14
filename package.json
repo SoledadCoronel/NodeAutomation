@@ -1,15 +1,16 @@
 {
   "name": "node_api_test",
   "version": "0.1.0",
-  "description": "Package json for appium test ",
+  "description": "Package json for api tests",
   "main": "login.js",
+  "private": true,
   "scripts": {
-    "test": "clear && mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 50000",
-    "singletest": "clear && mocha \"test/users/testUser@(.js)\" --compilers js:babel-register --timeout 50000",
     "test1": "clear && mocha \"test/**/*@(.js)\" --timeout 40000 --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml",
-    "singletest1": "clear && mocha \"test/platforms/testsGalleries*@(.js)\" --compilers js:babel-register --timeout 40000",
+    "singletest": "clear && mocha \"test/platforms/testsGalleries*@(.js)\" --compilers js:babel-register --timeout 40000",
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha \"test/api*@(.js)\" --compilers js:babel-register"
+    "datafixture": "babel-node test/datafixture.js --presets es2015",
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
   },
   "keywords": [
     "node.js",
@@ -23,6 +24,7 @@
     "chai-colors": "^1.0.1",
     "chai-http": "^3.0.0",
     "jsonapi-serializer": "^3.4.1",
+    "jsonfile": "^2.4.0",
     "mocha": "^3.0.2",
     "mocha-junit-reporter": "^1.12.1",
     "random-js": "^1.0.8"

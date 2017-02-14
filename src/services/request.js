@@ -1,5 +1,6 @@
 import Chai from 'chai';
 import Random from 'random-js';
+import Response from './response';
 import { session } from './session';
 
 class Request {
@@ -31,14 +32,13 @@ class Request {
 			.set('Accept', 'application/vnd.api+json')
 			.set('Authorization', 'Bearer ' + session.token())
 			.send(body)
-			.then((response) => response.body)
+			.then((response) => {
+				return new Response(response.statusCode, response.body);
+			})
 			.catch((error) => {
-				return {
-					errors: error.response.body.errors
-				}
+				return new Response(error.response.statusCode, null, error.response.body.errors);
 			});
 	}
-
 }
 
 export default Request;

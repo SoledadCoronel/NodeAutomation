@@ -3,13 +3,17 @@ import Collection from './collection';
 
 class AbstractModel {
 
-	constructor () {
+	constructor (data = {}) {
 		this.request = new Request;
+
+		if (data.id) {
+			this.id = data.id;
+		}		
 	}
 
-	create() {
+	create(params = {}) {
 		return this.request.post(
-			this.endpoint(),
+			this.prepareUrl(this.endpoint(), params),
 			this.getSerializer().serialize(this)
 		).then(this.process());
 	}
@@ -21,6 +25,13 @@ class AbstractModel {
 		).then(this.process());
 	}
 
+	delete() {
+		return this.request.delete(
+			this.endpoint() + '/' + this.id,
+			this.getSerializer().serialize(this)
+			).then(this.process());
+	}
+	
 	fetch(id, params = {}) {
 		return this.request.get(
 			this.prepareUrl(this.endpoint() + '/' + id, params))
@@ -49,7 +60,7 @@ class AbstractModel {
 
 		if (params.filter) {
 			Object.keys(params.filter).forEach(function (key) {
-				url += '&filter[' + key + ']=' + params.filter[key]
+				url += '&filter[' + key + ']=' + params.filter[key];
 			});
 		}
 
@@ -61,23 +72,24 @@ class AbstractModel {
 	}
 
 	process() {
-		return (body) => {
-			if (body.errors) {
-				this.errors = body.errors;
-				return this;
+		return (response) => {
+			if (response.hasErrors()) {
+				return response;
 			}
 
 			return this.getSerializer()
-				.deserialize(body)
-				.then(this.build(body.meta));
+				.deserialize(response.getContent())
+				.then(this.build(response));
         }
 	}
 
-	build(meta = {}) {
+	build(response) {
 		return (object) => {
-			return Array.isArray(object)
-				? new Collection(object.map(this.deconstruct), meta)
-				: this.deconstruct(object);
+			return response.withContent(
+				Array.isArray(object)
+					? new Collection(object.map(this.deconstruct), response.getMeta())
+					: this.deconstruct(object)
+			);
     	}
 	}
 

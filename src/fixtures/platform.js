@@ -55,7 +55,6 @@ class PlatformFixture {
 				'id': res.body.data.id
 			};
 			//console.log(fixture.references['platformA']);
-
 		});    	
     }
 

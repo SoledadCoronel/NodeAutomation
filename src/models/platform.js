@@ -1,47 +1,72 @@
-/*class Platform {
+import Serializer from './../serializers/platformSerializer';
+import AbstractModel from './abstractModel';
+import Response from './../services/response';
+import Chai from 'chai';
+
+class Platform extends AbstractModel {
 
 	constructor (data = {}) {
-		this.id = data.id;
+		super(data);
+		this.serializer = new Serializer;
+		this.chai = Chai;
+
 		this.name = data.name;
 		this.subdomain = data.subdomain;
-		this.timezone = data.timezone;
-		this.status = data.status;
-		this['users-range'] = data['users-range'];
-		this.language = data.language; 
-		this.user = data.user; // VER CON FRAN NO SE ENVIA COMO RELATIONSHIP
+		this.timezone = data.timezone || 'America/Argentina/Buenos_Aires';
+		this.status = data.status || 'active';
+		this['users-range'] = data['users-range'] || '0-50';
+		this.language = data.language || 'es';
+
 	}
 
-	endopoint() {
-
-		return '/platforms';
+	deconstruct(platform) {
+		return new Platform(platform);
 	}
 
-	deconstructor(platform) {
+	create(userData = {}) {
+		var body = {
+			"data": [
+				{
+					"type": "platforms",
+					"attributes": 
+					{
+						"name": this.name,
+						"subdomain": this.subdomain,
+						"timezone": this.timezone,
+						"status": this.status,
+						"users-range": this['users-range'],
+						"language": this.language
+					}
+				},
+				{
+					"type": "users",
+					"attributes": 
+					{
+						"name": userData.name || 'Soledad',
+						"last-name": userData['last-name'] || 'Coronel',
+						"email": userData.email || 'soledad.coronel@gointegro.com',
+						"password": userData.password || 'myPassword'
+					}
+				}
+			]
+		}
 
-		return new Platform({
-			id: platform.id,
-			name: platform.name,
-			subdomain: platform.subdomain,
-			timezone: platform.timezone,
-			status: platfom.status,
-			'users-range': platform.'users-range',
-			language: platform.language,
-			// VER CON FRAN COMO VIENE EL USER
-		}); 
+		return this.chai.request('http://platform-ms.cd.gointegro.net')
+			.post('/platforms')
+			.set('content-type', 'application/vnd.api+json')
+			.set('Accept', 'application/vnd.api+json')
+			.send(body)
+			.then((response) => {
+				let r = new Response(response.statusCode, response.body);
+
+				return this.getSerializer()
+					.deserialize(r.getContent())
+					.then(this.build(r));
+			})
+			.catch((error) => {
+				return new Response(error.response.statusCode, null, error.response.body.errors);
+			});
 	}
+};
 
-	activate() {
-
-		this.status = 'active';
-	}
-
-	inactivate() {
-
-		this.status = 'disabled'
-	}
-
-	changeLanguage() {
-
-		this.language = 'en';
-	}
-}*/
+export default Platform;
