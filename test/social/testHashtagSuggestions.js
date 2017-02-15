@@ -30,7 +30,7 @@ var currentPost4 = null;
 var currentPost5 = null;
 var currentPost6 = null;
 // comienzo de la suite
-describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
+describe('SUITE - HASHTAG - SUGGESTIONS', function() {
 	session.addToken(1, jsonData.adminToken);
 
 
