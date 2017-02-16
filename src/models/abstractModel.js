@@ -25,7 +25,7 @@ class AbstractModel {
 		).then(this.process());
 	}
 
-	delete() {
+	delete(id) {
 		return this.request.delete(
 			this.endpoint() + '/' + this.id,
 			this.getSerializer().serialize(this)

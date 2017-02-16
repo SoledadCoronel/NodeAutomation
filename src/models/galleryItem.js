@@ -8,6 +8,7 @@ class GalleryItem extends AbstractModel {
 	constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
+		
 		this.id = data.id,
 		this['file-type'] = data['file-type'];
 		this.position = data.position;

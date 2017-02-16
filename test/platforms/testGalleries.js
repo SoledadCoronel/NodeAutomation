@@ -357,6 +357,16 @@ it('Caso 14: a galleryItem is removed from a gallery', function(done) {
 	});
 });
 
+/*it('case 14: gets data for a deleted galleryItem', function(done) {
+	new GalleryItem()
+	.delete(currentGalleryItem.id)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    	});
+    	done();
+	});*/
+
 it('case 15: gets data for a deleted galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 

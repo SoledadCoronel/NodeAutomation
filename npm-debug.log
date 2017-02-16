@@ -1,0 +1,51 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/soledad/.nvm/versions/node/v6.6.0/bin/node',
+1 verbose cli   '/home/soledad/.nvm/versions/node/v6.6.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'hashtagPublicSpace' ]
+2 info using npm@3.10.3
+3 info using node@v6.6.0
+4 verbose run-script [ 'prehashtagPublicSpace',
+4 verbose run-script   'hashtagPublicSpace',
+4 verbose run-script   'posthashtagPublicSpace' ]
+5 info lifecycle node_api_test@0.1.0~prehashtagPublicSpace: node_api_test@0.1.0
+6 silly lifecycle node_api_test@0.1.0~prehashtagPublicSpace: no script for prehashtagPublicSpace, continuing
+7 info lifecycle node_api_test@0.1.0~hashtagPublicSpace: node_api_test@0.1.0
+8 verbose lifecycle node_api_test@0.1.0~hashtagPublicSpace: unsafe-perm in lifecycle true
+9 verbose lifecycle node_api_test@0.1.0~hashtagPublicSpace: PATH: /home/soledad/.nvm/versions/node/v6.6.0/lib/node_modules/npm/bin/node-gyp-bin:/home/soledad/Escritorio/node_api_test/node_modules/.bin:/home/soledad/.nvm/versions/node/v6.6.0/bin:/home/soledad/.nvm/versions/node/v6.6.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+10 verbose lifecycle node_api_test@0.1.0~hashtagPublicSpace: CWD: /home/soledad/Escritorio/node_api_test
+11 silly lifecycle node_api_test@0.1.0~hashtagPublicSpace: Args: [ '-c',
+11 silly lifecycle   'clear && mocha "test/social/testHashtagPublicSpace@(.js)" --compilers js:babel-register --timeout 40000' ]
+12 silly lifecycle node_api_test@0.1.0~hashtagPublicSpace: Returned: code: 2  signal: null
+13 info lifecycle node_api_test@0.1.0~hashtagPublicSpace: Failed to exec hashtagPublicSpace script
+14 verbose stack Error: node_api_test@0.1.0 hashtagPublicSpace: `clear && mocha "test/social/testHashtagPublicSpace@(.js)" --compilers js:babel-register --timeout 40000`
+14 verbose stack Exit status 2
+14 verbose stack     at EventEmitter.<anonymous> (/home/soledad/.nvm/versions/node/v6.6.0/lib/node_modules/npm/lib/utils/lifecycle.js:242:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/home/soledad/.nvm/versions/node/v6.6.0/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid node_api_test@0.1.0
+16 verbose cwd /home/soledad/Escritorio/node_api_test
+17 error Linux 3.19.0-78-generic
+18 error argv "/home/soledad/.nvm/versions/node/v6.6.0/bin/node" "/home/soledad/.nvm/versions/node/v6.6.0/bin/npm" "run" "hashtagPublicSpace"
+19 error node v6.6.0
+20 error npm  v3.10.3
+21 error code ELIFECYCLE
+22 error node_api_test@0.1.0 hashtagPublicSpace: `clear && mocha "test/social/testHashtagPublicSpace@(.js)" --compilers js:babel-register --timeout 40000`
+22 error Exit status 2
+23 error Failed at the node_api_test@0.1.0 hashtagPublicSpace script 'clear && mocha "test/social/testHashtagPublicSpace@(.js)" --compilers js:babel-register --timeout 40000'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the node_api_test package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     clear && mocha "test/social/testHashtagPublicSpace@(.js)" --compilers js:babel-register --timeout 40000
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs node_api_test
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls node_api_test
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]
