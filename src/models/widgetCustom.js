@@ -16,7 +16,7 @@ class WidgetCustom extends AbstractModel {
 		this.link = data.link;
 		//this['created-at'] = data['created-at'];
 		//this['updated-at'] = data['updated-at'];
-	    this.file = data.file;
+	    this.image = data.image;
     }
 
     endpoint() {
@@ -24,19 +24,24 @@ class WidgetCustom extends AbstractModel {
     }
 
     deconstruct(widgetCustom) {
-		return new WidgetCustom({
-			id: widgetCustom.id,
-			position: widgetCustom.position,
-			status: widgetCustom.status,
-			title: widgetCustom.title,
-			'show-title': widgetCustom['show-title'],
-			link: widgetCustom.link,
+    	return new WidgetCustom({
+    		id: widgetCustom.id,
+    		position: widgetCustom.position,
+    		status: widgetCustom.status,
+    		title: widgetCustom.title,
+    		'show-title': widgetCustom['show-title'],
+    		link: widgetCustom.link,
 			//'created-at': homeWidget['created-at'],
 			//'updated-at': homeWidget['updated-at'],
 			//relationships
-			file: widgetCustom.file,
+			image: widgetCustom.image,
 		});
-	}
+    }
+
+    activate() {
+    	this.status = 'enabled';
+    	return this;
+    }
 };
 
 export default WidgetCustom;

@@ -21,15 +21,15 @@ class AbstractModel {
 	update() {
 		return this.request.patch(
 			this.endpoint() + '/' + this.id,
-			this.getSerializer().serialize(this)
-		).then(this.process());
+			this.getSerializer().serialize(this))
+		.then(this.process());
 	}
 
-	delete(id) {
+	delete() {
 		return this.request.delete(
 			this.endpoint() + '/' + this.id,
-			this.getSerializer().serialize(this)
-			).then(this.process());
+			this.getSerializer().serialize(this))
+		.then(this.process());
 	}
 	
 	fetch(id, params = {}) {

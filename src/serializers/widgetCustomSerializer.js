@@ -12,23 +12,19 @@ class WidgetCustomSerializer {
             'title',
             'show-title',
             'link',
-            'file'
+            'image'
       ],
-      file: {
-        ref: (widgetCustom, file) => file.id,
-        attributes: ['name'],
-        included: true
+      image: {
+        ref: (file, image) => image.id,
+        attributes: [],
+        included: true,
+        typeForAttribute: function() {
+          return 'files'
+        }
       }
     });
 
     this.deserializer = new Deserializer({
-      galleries: {
-        valueForRelationship: function (relationship) {
-          return new Gallery({
-            id: relationship.id,
-          });
-        }
-      },
       files: {
         valueForRelationship: function (relationship) {
           return new File({
@@ -44,6 +40,9 @@ class WidgetCustomSerializer {
         let serialized = this.serializer.serialize(data);
         if (!data.id) {
             delete serialized.data.id;
+        }
+        if (data.image instanceof File) {
+          serialized.data.relationships.image.data.type = 'files';
         }
         return serialized;
     }
