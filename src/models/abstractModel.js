@@ -25,7 +25,7 @@ class AbstractModel {
 		.then(this.process());
 	}
 
-	delete() {
+	delete(id) {
 		return this.request.delete(
 			this.endpoint() + '/' + this.id,
 			this.getSerializer().serialize(this))
@@ -77,9 +77,14 @@ class AbstractModel {
 				return response;
 			}
 
-			return this.getSerializer()
-				.deserialize(response.getContent())
-				.then(this.build(response));
+			if (response.getStatus() != 204) {
+				return this.getSerializer()
+					.deserialize(response.getContent())
+					.then(this.build(response));				
+				} else {
+					return response;
+				}
+
         }
 	}
 
