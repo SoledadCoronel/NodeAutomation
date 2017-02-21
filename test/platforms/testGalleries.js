@@ -308,7 +308,6 @@ it('caso 10: lists all galleryItems with paging', function(done) {
 			assert.property(response.content.meta.pagination, 'total-items');
 			expect(response.content.meta.pagination['total-pages']).to.equal(2);
 			expect(response.content.meta.pagination['total-items']).to.equal(4);
-			console.log(response.content);
 			done();
 		});
 	});
