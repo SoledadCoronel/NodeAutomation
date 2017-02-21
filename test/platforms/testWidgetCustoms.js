@@ -20,6 +20,7 @@ chai.use(chaiColors);
 var currentImageFile = null;
 var currentWidget = null;
 var currentWidget2 = null;
+var currentWidget3 = null;
 
 
 describe('SUITE - WIDGET CUSTOMS', function() {
@@ -86,6 +87,26 @@ it('Creates a new widget custom', function(done) {
 	});
 });
 
+it('Creates a new widget custom', function(done) {
+
+	let widget = new WidgetCustom({
+		position: 1,
+		status: 'disabled',
+		title: 'widget custom automation',
+		active: true,
+		'show-title': true,
+		link: 'link',
+		image: currentImageFile,
+	});
+	widget.create()
+	.then((response) => {
+		response.should.have.status('201');
+		widget = response.content;
+		currentWidget3 = widget;
+		done();
+	});
+});
+
 it('fetches a widget custom', function(done) {
 	new WidgetCustom()
 	.fetch(currentWidget.id)
@@ -103,7 +124,7 @@ it('Change the status of a widget custom', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		expect(currentWidget.status).to.equal('enabled');
+		expect(response.content.status).to.equal('enabled');
 		assert.property(currentWidget, 'status');
 		done();
 	});
@@ -118,6 +139,7 @@ it('Change title of a widget custom', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
+		expect(response.content.title).to.equal('new title automation');
 		done();
 	});
 });
@@ -131,19 +153,7 @@ it('Change position of a widget custom', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		done();
-	});
-});
-
-it('Change status of a widget custom', function(done) {
-	new WidgetCustom({
-		id: currentWidget2.id, 
-		status: 'enabled',
-		image: currentImageFile
-	})
-	.update()
-	.then((response) => {
-		response.should.have.status('200');
+		expect(response.content.position).to.equal(2);
 		done();
 	});
 });
@@ -173,19 +183,68 @@ it('fetches a widget custom', function(done) {
     });
 });
 
-/*it('get list all widgets custom', function(done) {
+it('get list all widgets custom', function(done) {
 
 	new WidgetCustom()
 	.list({include: ['image']})
 	.then((response) => {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
-		response.content.elements.length.should.be.eql(2);
-		expect(response.content.meta.pagination['total-items']).to.equal(2);
-		console.log(JSON.stringify(response, null, 2));
+		response.content.elements.length.should.be.eql(3);
+		expect(response.content.meta.pagination['total-items']).to.equal(3);
         done();
     });
-});*/
+});
+
+it('Get all custom widget filtering paginated', function(done) {
+
+	new WidgetCustom()
+	.list({include: ['image'], page: {number: 1, size: 2}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(2);
+		expect(response.content.meta.pagination['total-items']).to.equal(3);
+        done();
+    });
+});
+
+it('Get all widgets custom by filtering by status', function(done) {
+
+	new WidgetCustom()
+	.list({filter: {'status': 'enabled'}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(1);
+		expect(response.content.meta.pagination['total-items']).to.equal(1);
+        done();
+    });
+});
+
+it('Get all custom widgets by filtering by id', function(done) {
+
+	new WidgetCustom()
+	.list({filter: {'id': currentWidget.id}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(1);
+		expect(response.content.meta.pagination['total-items']).to.equal(1);
+        done();
+    });
+});
+
+it('Get all custom widgets by filtering by invalid id', function(done) {
+
+	new WidgetCustom()
+	.list({filter: {'id': 1}})
+	.then((response) => {
+		response.content.elements.length.should.be.eql(0);
+		expect(response.content.meta.pagination['total-items']).to.equal(0);
+        done();
+    });
+});
 
 it('deletes a widget custom', function(done) {
 	new WidgetCustom({'id': currentWidget.id, 'image': currentImageFile})
@@ -196,25 +255,20 @@ it('deletes a widget custom', function(done) {
     });
 });
 
+it('deletes a invalid widget custom', function(done) {
+	new WidgetCustom({'id': 1, 'image': currentImageFile})
+	.delete(currentWidget.id)
+	.then((response) => {
+		response.should.have.status('404');
+        done();
+    });
+});
+
 it('fetches a deleted widget custom', function(done) {
 	new WidgetCustom()
 	.fetch(currentWidget.id)
 	.then((response) => {
 		response.should.have.status('404');
-		done();
-    });
-});
-
-it('Validations after updating', function(done) {
-	new WidgetCustom()
-	.fetch(currentWidget2.id)
-	.then((response) => {
-		console.log(response.content);
-		response.should.have.status('200');
-		assert.property(currentWidget2, 'status');
-		expect(currentWidget2.status).to.equal('enabled');
-		expect(currentWidget2.position).to.equal(2);
-		expect(currentWidget2.title).to.equal('new title automation');
 		done();
     });
 });
