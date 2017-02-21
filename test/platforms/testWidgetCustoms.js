@@ -7,7 +7,6 @@ var jsonData = require('./../fixtures/data.json');
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
-var stringify = require("json-stringify-pretty-compact")
 
 var random = new Random();
 var should = chai.should();
