@@ -8,14 +8,12 @@ class WidgetCustom extends AbstractModel {
 		super();
 		this.serializer = new Serializer;
 		
-		this.id = data.id,
+		this.id = data.id;
 		this.position = data.position;
 		this.status = data.status;
 		this.title = data.title;
 		this['show-title'] = data['show-title'];
 		this.link = data.link;
-		//this['created-at'] = data['created-at'];
-		//this['updated-at'] = data['updated-at'];
 	    this.image = data.image;
     }
 
@@ -31,8 +29,6 @@ class WidgetCustom extends AbstractModel {
     		title: widgetCustom.title,
     		'show-title': widgetCustom['show-title'],
     		link: widgetCustom.link,
-			//'created-at': homeWidget['created-at'],
-			//'updated-at': homeWidget['updated-at'],
 			//relationships
 			image: widgetCustom.image,
 		});
