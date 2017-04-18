@@ -7,7 +7,7 @@ import User from './../models/user';
 class ProfileSerializer {
 
     constructor (config = {}) {
-        this.serializer = new Serializer('profile', {
+        this.serializer = new Serializer('profiles', {
             attributes: [
               'employee-id',
               'personal-phone',

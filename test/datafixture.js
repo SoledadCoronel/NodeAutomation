@@ -25,6 +25,7 @@ var basicToken = null;
 var adminSpaceToken = null;
 var basicRole = null;
 var adminSpaceRole = null;
+var adminUserId = null;
 var basicUser = null;
 var adminSpaceUser = null;
 var invitationBasicUser = null;
@@ -102,8 +103,10 @@ function loginAdminUser(currentPlatform) {
   }).then((response) => {
     let tokenInfo = response.content;
     adminToken = tokenInfo.access_token;
-
+    adminUserId = tokenInfo.user_id;
+    
     fixtureData['adminToken'] = adminToken;
+    fixtureData['adminUserId'] = adminUserId;
 
     return adminToken;
   });
@@ -125,7 +128,7 @@ function getPlatformRoles() {
       fixtureData['basicRole'] = basicRole.id;
       fixtureData['adminSpaceRole'] = adminSpaceRole.id;
 
-      return {basicRole, adminSpaceRole};
+      return basicRole;
     }); 
 }
 
