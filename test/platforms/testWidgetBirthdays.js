@@ -19,8 +19,6 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var currentWidget = null;
-var currentWidget2 = null;
-var currentWidget3 = null;
 var profileBasicUser = null;
 var profileAdminSpaceUser = null;
 var profileAdminUser = null;
@@ -32,7 +30,7 @@ describe('SUITE - WIDGET BIRTHDAY', function() {
 // PRECONDICIONES PARA LA SUITE
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-it('Validates that a basic user can not create a widget - AUTOMATICO', function(done) {
+it('Validates that a basic user can not create a widget', function(done) {
 	session.addToken(1, jsonData.basicToken);
 	let widget = new WidgetBirthday({
 		position: 1,
@@ -45,7 +43,7 @@ it('Validates that a basic user can not create a widget - AUTOMATICO', function(
 	});
 });
 
-it('User admin create a widget birthday - AUTOMATICO', function(done) {
+it('User admin create a widget birthday', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	let widget = new WidgetBirthday({
 		position: 1,
@@ -60,7 +58,7 @@ it('User admin create a widget birthday - AUTOMATICO', function(done) {
 	});
 });
 
-it('Validate that only an adminUser can see an inactive widget - AUTOMATICO', function(done) {
+it('Validate that only an adminUser can see an inactive widget', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	new WidgetBirthday()
 	.fetch(currentWidget.id)
@@ -70,7 +68,7 @@ it('Validate that only an adminUser can see an inactive widget - AUTOMATICO', fu
 	});
 });
 
-it('Validate that only an basicUser can not see an inactive widget - AUTOMATICO', function(done) {
+it('Validate that only an basicUser can not see an inactive widget', function(done) {
 	session.addToken(1, jsonData.basicToken);
 	new WidgetBirthday()
 	.fetch(currentWidget.id)
@@ -202,4 +200,40 @@ it('Get birthdays that match the date', function(done) {
         done();
     });
 });
+
+it('deletes a widget custom with basic user logged in', function(done) {
+	session.addToken(1, jsonData.basicToken);
+
+	new WidgetBirthday(currentWidget.id)
+	.delete(currentWidget.id)
+	.then((response) => {
+		response.should.have.status('403');
+        done();
+    });
+});
+
+it('deletes a invalid widget custom with admin user logged in', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new WidgetBirthday(0)
+	.delete(0)
+	.then((response) => {
+		response.should.have.status('404');
+        done();
+    });
+});
+
+it('deletes a widget custom with admin user logged in', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new WidgetBirthday(currentWidget)
+	.delete(currentWidget)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    });
+});
+
+
+
 });
