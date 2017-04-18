@@ -11,6 +11,7 @@
     "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
     "hashtagPrivateSpace": "clear && mocha \"test/social/testHashtagPrivateSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
     "hashtagPublicSpace": "clear && mocha \"test/social/testHashtagPublicSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
+    "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000"
     "widgetBirthday": "clear && mocha \"test/platforms/testWidgetBirthdays@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000"
     
   },
