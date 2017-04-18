@@ -1,5 +1,6 @@
 
 import WidgetBirthday from './../../src/models/widgetBirthday';
+import Birthday from './../../src/models/birthday';
 import User from './../../src/models/user';
 import Profile from './../../src/models/profile';
 import { session } from './../../src/services/session';
@@ -22,6 +23,7 @@ var currentWidget2 = null;
 var currentWidget3 = null;
 var profileBasicUser = null;
 var profileAdminSpaceUser = null;
+var profileAdminUser = null;
 
 
 describe('SUITE - WIDGET BIRTHDAY', function() {
@@ -30,7 +32,7 @@ describe('SUITE - WIDGET BIRTHDAY', function() {
 // PRECONDICIONES PARA LA SUITE
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-/*it('Validates that a basic user can not create a widget - AUTOMATICO', function(done) {
+it('Validates that a basic user can not create a widget - AUTOMATICO', function(done) {
 	session.addToken(1, jsonData.basicToken);
 	let widget = new WidgetBirthday({
 		position: 1,
@@ -133,7 +135,6 @@ it('Change birthday to userBasic', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		console.log(response);
 		done();
 	});
 });
@@ -146,37 +147,59 @@ it('Change birthday to adminSpaceUser', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		console.log(response);
 		done();
 	});
-});*/
-
-/*it('Get birthdays that match the date', function(done) {
-
-	new WidgetBirthday()
-	.list({filter: {'from': '2017-04-10', 'to': '2017-04-12', 'greeted': 0, 'omitted': 0, 'include-logged-user': 1}})
-	.then((response) => {
-		//response.should.have.status('200');
-		//response.content.elements.should.be.a('array');
-		//response.content.elements.length.should.be.eql(1);
-		//expect(response.content.meta.pagination['total-items']).to.equal(1);
-		console.log(response.errors);
-        done();
-    });
-});*/
+});
 
 it('Get birthdays that match the date', function(done) {
+	session.addToken(1, jsonData.adminToken);
 
-		chai.request('http://api.cd.gointegro.net')
-		.get('/birthdays?filter[from]=' + '2017-04-10' + '&' + 'filter[to]=' + '2017-09-25' + '&' + 'filter[greeted]=' + 1 + '&' + 'filter[omitted]=' + 1 + '&filter[include-logged-user]=' + 1)
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.adminToken)
-		.end(function(err, res) {
-			console.log(JSON.stringify(res.body, null, 2));
-			//res.body.data.should.be.a('array');
-			//res.body.data.length.should.be.eql(2);
-			done();
-		});
+	new Birthday()
+	.list({filter: {'from': '2017-04-17', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 1}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(2);
+		expect(response.content.meta.pagination['total-items']).to.equal(2);
+		//console.log(JSON.stringify(response.content, null, 2));
+        done();
+    });
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+it('fetches a profile admin user', function(done) {
+	new User()
+	.fetch(jsonData.adminUserId)
+	.then((response) => {
+		response.should.have.status('200');
+		profileAdminUser = response.content.profile;
+		done();
 	});
+});
+
+it('Change birthday to adminUser', function(done) {
+	new Profile({
+		id: profileAdminUser.id, 
+		'birth-date': '1980-08-17'
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
+
+it('Get birthdays that match the date', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new Birthday()
+	.list({filter: {'from': '2017-04-18', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 1}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(3);
+		expect(response.content.meta.pagination['total-items']).to.equal(3);
+        done();
+    });
+});
 });
