@@ -201,7 +201,7 @@ it('Get birthdays that match the date', function(done) {
     });
 });
 
-it('deletes a widget custom with basic user logged in', function(done) {
+it('deletes a widget birthday with basic user logged in', function(done) {
 	session.addToken(1, jsonData.basicToken);
 
 	new WidgetBirthday(currentWidget.id)
@@ -212,7 +212,7 @@ it('deletes a widget custom with basic user logged in', function(done) {
     });
 });
 
-it('deletes a invalid widget custom with admin user logged in', function(done) {
+it('deletes a invalid widget birthday with admin user logged in', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new WidgetBirthday(0)
@@ -223,7 +223,7 @@ it('deletes a invalid widget custom with admin user logged in', function(done) {
     });
 });
 
-it('deletes a widget custom with admin user logged in', function(done) {
+it('deletes a widget birthday with admin user logged in', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new WidgetBirthday(currentWidget)

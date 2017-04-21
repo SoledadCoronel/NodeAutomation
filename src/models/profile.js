@@ -16,7 +16,7 @@ class Profile extends AbstractModel {
 		//this.linkedin = data.linkedin;
 		//this.facebook = data.facebook;
 		//this.twitter = data.twitter;
-		//this['admission-date'] = data['admission-date'];
+		this['admission-date'] = data['admission-date'];
 		//this['job-address'] = data['job-address'];
 		//this['personal-address'] = data['personal-address'];
 		this['document-type'] = data['document-type'];
@@ -44,7 +44,7 @@ class Profile extends AbstractModel {
 			//linkedin: profile.linkedin,
 			//facebook: profile.facebook,
 			//twitter: profile.twitter,
-			//'admission-date': profile['admission-date'],
+			'admission-date': profile['admission-date'],
 			//'job-address': profile['job-address'],
 			//'personal-address': profile['personal-address'],
 			'document-type': profile['document-type'],
