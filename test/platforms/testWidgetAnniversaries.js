@@ -1,6 +1,5 @@
-
-import WidgetBirthday from './../../src/models/widgetBirthday';
-import Birthday from './../../src/models/birthday';
+import WidgetAnniversary from './../../src/models/widgetAnniversaries';
+import Anniversary from './../../src/models/anniversary';
 import User from './../../src/models/user';
 import Profile from './../../src/models/profile';
 import { session } from './../../src/services/session';
@@ -24,7 +23,7 @@ var profileAdminSpaceUser = null;
 var profileAdminUser = null;
 
 
-describe('SUITE - WIDGET BIRTHDAY', function() {
+describe('SUITE - WIDGET ANNIVERSARY', function() {
 	
 
 // PRECONDICIONES PARA LA SUITE
@@ -32,7 +31,7 @@ describe('SUITE - WIDGET BIRTHDAY', function() {
 
 it('Validates that a basic user can not create a widget', function(done) {
 	session.addToken(1, jsonData.basicToken);
-	let widget = new WidgetBirthday({
+	let widget = new WidgetAnniversary({
 		position: 1,
 		status: 'disabled'
 		});
@@ -43,9 +42,9 @@ it('Validates that a basic user can not create a widget', function(done) {
 	});
 });
 
-it('User admin create a widget birthday', function(done) {
+it('User admin create a widget anniversary', function(done) {
 	session.addToken(1, jsonData.adminToken);
-	let widget = new WidgetBirthday({
+	let widget = new WidgetAnniversary({
 		position: 1,
 		status: 'disabled'
 		});
@@ -60,7 +59,7 @@ it('User admin create a widget birthday', function(done) {
 
 it('Validate that only an adminUser can see an inactive widget', function(done) {
 	session.addToken(1, jsonData.adminToken);
-	new WidgetBirthday()
+	new WidgetAnniversary()
 	.fetch(currentWidget.id)
 	.then((response) => {
 		response.should.have.status('200');
@@ -70,7 +69,7 @@ it('Validate that only an adminUser can see an inactive widget', function(done) 
 
 it('Validate that only an basicUser can not see an inactive widget', function(done) {
 	session.addToken(1, jsonData.basicToken);
-	new WidgetBirthday()
+	new WidgetAnniversary()
 	.fetch(currentWidget.id)
 	.then((response) => {
 		response.should.have.status('403');
@@ -78,9 +77,9 @@ it('Validate that only an basicUser can not see an inactive widget', function(do
 	});
 });
 
-it('Change status to widgetBirthday', function(done) {
+it('Change status to widget anniversary', function(done) {
 	session.addToken(1, jsonData.adminToken);
-	new WidgetBirthday({
+	new WidgetAnniversary({
 		id: currentWidget.id, 
 		status: 'enabled'
 	})
@@ -91,8 +90,8 @@ it('Change status to widgetBirthday', function(done) {
 	});
 });
 
-it('User admin create a second widget birthday', function(done) {
-	let widget = new WidgetBirthday({
+it('User admin create a second widget anniversary', function(done) {
+	let widget = new WidgetAnniversary({
 		position: 1,
 		status: 'enabled'
 		});
@@ -105,7 +104,7 @@ it('User admin create a second widget birthday', function(done) {
 
 // PRECONDICIONES
 
-it('fetches a profile user', function(done) {
+it('fetches a profile badicUser', function(done) {
 	new User()
 	.fetch(jsonData.basicUser.id)
 	.then((response) => {
@@ -115,7 +114,7 @@ it('fetches a profile user', function(done) {
 	});
 });
 
-it('fetches a profile user', function(done) {
+it('fetches a profile adminSpaceUser', function(done) {
 	new User()
 	.fetch(jsonData.adminSpaceUser.id)
 	.then((response) => {
@@ -125,10 +124,10 @@ it('fetches a profile user', function(done) {
 	});
 });
 
-it('Change birthday to userBasic', function(done) {
+it('Change admission-date to userBasic', function(done) {
 	new Profile({
 		id: profileBasicUser.id, 
-		'birth-date': '1980-09-23'
+		'admission-date': '2016-09-23'
 	})
 	.update()
 	.then((response) => {
@@ -137,10 +136,10 @@ it('Change birthday to userBasic', function(done) {
 	});
 });
 
-it('Change birthday to adminSpaceUser', function(done) {
+it('Change admission-date to adminSpaceUser', function(done) {
 	new Profile({
 		id: profileAdminSpaceUser.id, 
-		'birth-date': '1980-09-25'
+		'admission-date': '2016-09-25'
 	})
 	.update()
 	.then((response) => {
@@ -149,21 +148,21 @@ it('Change birthday to adminSpaceUser', function(done) {
 	});
 });
 
-it('Get birthdays that match the date', function(done) {
+it('Get anniversaries that match the date', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
-	new Birthday()
-	.list({filter: {'from': '2017-04-17', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 1}})
+	new Anniversary()
+	.list({filter: {'from': '2017-04-21', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 0}})
 	.then((response) => {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
 		response.content.elements.length.should.be.eql(2);
 		expect(response.content.meta.pagination['total-items']).to.equal(2);
-		//console.log(JSON.stringify(response.content, null, 2));
         done();
     });
 });
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 it('fetches a profile admin user', function(done) {
 	new User()
@@ -175,10 +174,10 @@ it('fetches a profile admin user', function(done) {
 	});
 });
 
-it('Change birthday to adminUser', function(done) {
+it('Change admission-date to adminUser', function(done) {
 	new Profile({
 		id: profileAdminUser.id, 
-		'birth-date': '1980-08-17'
+		'admission-date': '2016-08-17'
 	})
 	.update()
 	.then((response) => {
@@ -187,10 +186,10 @@ it('Change birthday to adminUser', function(done) {
 	});
 });
 
-it('Get birthdays that match the date', function(done) {
+it('Get anniversaries that match the date', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
-	new Birthday()
+	new Anniversary()
 	.list({filter: {'from': '2017-04-18', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 1}})
 	.then((response) => {
 		response.should.have.status('200');
@@ -201,10 +200,10 @@ it('Get birthdays that match the date', function(done) {
     });
 });
 
-it('deletes a widget birthday with basic user logged in', function(done) {
+it('deletes a widget anniversaries with basic user logged in', function(done) {
 	session.addToken(1, jsonData.basicToken);
 
-	new WidgetBirthday(currentWidget.id)
+	new WidgetAnniversary(currentWidget.id)
 	.delete(currentWidget.id)
 	.then((response) => {
 		response.should.have.status('403');
@@ -212,10 +211,10 @@ it('deletes a widget birthday with basic user logged in', function(done) {
     });
 });
 
-it('deletes a invalid widget birthday with admin user logged in', function(done) {
+it('deletes a invalid widget anniversaries with admin user logged in', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
-	new WidgetBirthday(0)
+	new WidgetAnniversary(0)
 	.delete(0)
 	.then((response) => {
 		response.should.have.status('404');
@@ -223,17 +222,16 @@ it('deletes a invalid widget birthday with admin user logged in', function(done)
     });
 });
 
-it('deletes a widget birthday with admin user logged in', function(done) {
+it('deletes a widget anniversary with admin user logged in', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
-	new WidgetBirthday(currentWidget)
+	new WidgetAnniversary(currentWidget)
 	.delete(currentWidget)
 	.then((response) => {
 		response.should.have.status('204');
         done();
     });
 });
-
 
 
 });
