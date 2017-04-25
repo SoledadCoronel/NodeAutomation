@@ -125,7 +125,6 @@ it('Change the status of a widget custom', function(done) {
 		response.should.have.status('200');
 		expect(response.content.status).to.equal('enabled');
 		assert.property(currentWidget, 'status');
-		console.log(response.content);
 		done();
 	});
 });
@@ -179,7 +178,6 @@ it('fetches a widget custom', function(done) {
 		response.should.have.status('200');
 		assert.property(currentWidget, 'status');
 		expect(currentWidget.status).to.equal('enabled');
-		console.log(response.content);
 		done();
     });
 });
