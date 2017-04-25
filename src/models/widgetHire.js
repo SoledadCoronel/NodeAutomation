@@ -16,13 +16,13 @@ class WidgetHire extends AbstractModel {
     	return '/widget-hires';
     }
 
-    deconstruct(widgetHires) {
-    	return new WidgetHires({
-    		id: widgetHires.id,
-    		position: widgetHires.position,
-    		status: widgetHires.status,
+    deconstruct(widgetHire) {
+    	return new WidgetHire({
+    		id: widgetHire.id,
+    		position: widgetHire.position,
+    		status: widgetHire.status,
 		});
     }
 };
 
-export default WidgetHires;
+export default WidgetHire;
