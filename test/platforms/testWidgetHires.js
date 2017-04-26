@@ -129,7 +129,7 @@ it('fetches a profile adminSpaceUser', function(done) {
 it('Change admission-date to userBasic', function(done) {
 	new Profile({
 		id: profileBasicUser.id, 
-		'admission-date': '2016-09-23'
+		'admission-date': '2017-04-01'
 	})
 	.update()
 	.then((response) => {
@@ -141,7 +141,7 @@ it('Change admission-date to userBasic', function(done) {
 it('Change admission-date to adminSpaceUser', function(done) {
 	new Profile({
 		id: profileAdminSpaceUser.id, 
-		'admission-date': '2016-09-25'
+		'admission-date': '2017-04-03'
 	})
 	.update()
 	.then((response) => {
@@ -154,12 +154,83 @@ it('Get anniversaries that match the date', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new Hire()
-	.list({filter: {'from': '2017-04-21', 'to': '2017-09-25', 'greeted': 1, 'omitted': 1, 'include-logged-user': 0}})
+	.list({filter: {'from': '2017-04-01', 'to': '2017-04-26', 'greeted': 1, 'omitted': 1, 'include-logged-user': 0}})
 	.then((response) => {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
 		response.content.elements.length.should.be.eql(2);
 		expect(response.content.meta.pagination['total-items']).to.equal(2);
+        done();
+    });
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+it('fetches a profile admin user', function(done) {
+	new User()
+	.fetch(jsonData.adminUserId)
+	.then((response) => {
+		response.should.have.status('200');
+		profileAdminUser = response.content.profile;
+		done();
+	});
+});
+
+it('Change admission-date to adminUser', function(done) {
+	new Profile({
+		id: profileAdminUser.id, 
+		'admission-date': '2017-04-15'
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
+
+it('Get anniversaries that match the date', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new Hire()
+	.list({filter: {'from': '2017-04-01', 'to': '2017-04-26', 'greeted': 1, 'omitted': 1, 'include-logged-user': 1}})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(3);
+		expect(response.content.meta.pagination['total-items']).to.equal(3);
+        done();
+    });
+});
+
+it('deletes a widget anniversaries with basic user logged in', function(done) {
+	session.addToken(1, jsonData.basicToken);
+
+	new WidgetHire(currentWidget.id)
+	.delete(currentWidget.id)
+	.then((response) => {
+		response.should.have.status('403');
+        done();
+    });
+});
+
+it('deletes a invalid widget anniversaries with admin user logged in', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new WidgetHire(0)
+	.delete(0)
+	.then((response) => {
+		response.should.have.status('404');
+        done();
+    });
+});
+
+it('deletes a widget anniversary with admin user logged in', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new WidgetHire(currentWidget)
+	.delete(currentWidget)
+	.then((response) => {
+		response.should.have.status('204');
         done();
     });
 });
