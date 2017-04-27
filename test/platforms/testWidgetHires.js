@@ -133,8 +133,7 @@ it('Change admission-date to userBasic', function(done) {
 	})
 	.update()
 	.then((response) => {
-		//response.should.have.status('200');
-		console.log(response);
+		response.should.have.status('200');
 		done();
 	});
 });
@@ -147,7 +146,6 @@ it('Change admission-date to adminSpaceUser', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		console.log(response.content);
 		done();
 	});
 });
@@ -186,7 +184,6 @@ it('Change admission-date to adminUser', function(done) {
 	.update()
 	.then((response) => {
 		response.should.have.status('200');
-		console.log(response.content);
 		done();
 	});
 });
