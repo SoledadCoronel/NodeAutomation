@@ -14,7 +14,7 @@
     "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
     "widgetBirthdays": "clear && mocha \"test/platforms/testWidgetBirthdays@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
     "widgetAnniversaries": "clear && mocha \"test/platforms/testWidgetAnniversaries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000",
-    "widgetHires": "clear && mocha \"test/platforms/testWidgetHires@(.js)\" --compilers js:babel-register"
+    "widgetHires": "clear && mocha \"test/platforms/testWidgetHires@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 40000"
     
   },
   "keywords": [
