@@ -16,6 +16,8 @@ var assert = chai.assert;
 chai.use(chaiHttp);
 chai.use(chaiColors);
 
+var defaultWidget1 = null;
+var defaultWidget2 = null;
 var currentImageFile = null;
 var currentWidget = null;
 var currentWidget2 = null;
@@ -40,6 +42,42 @@ it('User admin uploads an image', function(done) {
 		currentImageFile = file;
 		done();
 	});
+});
+
+it('get list all widgets custom', function(done) {
+
+	new WidgetCustom()
+	.list({include: ['image']})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		response.content.elements.length.should.be.eql(2);
+		expect(response.content.meta.pagination['total-items']).to.equal(2);
+		expect(response.content.elements[0].title).to.equal('Nuestra Cultura');
+		expect(response.content.elements[1].title).to.equal('¡Click y completa tu perfil!');
+		defaultWidget1 = response.content.elements[0];
+		defaultWidget2 = response.content.elements[1];
+		//console.log(JSON.stringify(response.content, null, 2));
+        done();
+    });
+});
+
+it('deletes a defaultWidget 1', function(done) {
+	new WidgetCustom({'id': defaultWidget1.id, 'image': defaultWidget1.image})
+	.delete(defaultWidget1.id)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    });
+});
+
+it('deletes a defaultWidget 2', function(done) {
+	new WidgetCustom({'id': defaultWidget2.id, 'image': defaultWidget2.image})
+	.delete(defaultWidget2.id)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    });
 });
 
 // TEST CASES
