@@ -52,7 +52,7 @@ it('Get all widgets on the platform', function(done) {
 	.then((response) => {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
-		defaultWidgetHire = response.content.elements[2];
+		defaultWidgetHire = response.content.elements[0];
         done();
     });
 });
