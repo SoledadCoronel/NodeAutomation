@@ -53,8 +53,6 @@ it('Get all widgets on the platform', function(done) {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
 		defaultWidgetBirthday = response.content.elements[0];
-		
-		defaultWidgetHire = response.content.elements[2];
         done();
     });
 });
