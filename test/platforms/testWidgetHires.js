@@ -1,5 +1,6 @@
 
 import WidgetHire from './../../src/models/widgetHire';
+import WidgetItem from './../../src/models/widgetItem';
 import Hire from './../../src/models/hire';
 import User from './../../src/models/user';
 import Profile from './../../src/models/profile';
@@ -19,6 +20,7 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var currentWidget = null;
+var defaultWidgetHire = null;
 var profileBasicUser = null;
 var profileAdminSpaceUser = null;
 var profileAdminUser = null;
@@ -41,6 +43,27 @@ it('Validates that a basic user can not create a widget', function(done) {
 		response.should.have.status('403');
 		done();
 	});
+});
+
+it('Get all widgets on the platform', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetItem()
+	.list({include: ['item']})
+	.then((response) => {
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		defaultWidgetHire = response.content.elements[2];
+        done();
+    });
+});
+
+it('deletes a defaultWidgetHire', function(done) {
+	new WidgetHire({'id': defaultWidgetHire.id})
+	.delete(defaultWidgetHire.id)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    });
 });
 
 it('User admin create a widget hires', function(done) {

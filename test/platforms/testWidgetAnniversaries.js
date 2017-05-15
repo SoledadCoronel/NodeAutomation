@@ -1,4 +1,5 @@
 import WidgetAnniversary from './../../src/models/widgetAnniversaries';
+import WidgetItem from './../../src/models/widgetItem';
 import Anniversary from './../../src/models/anniversary';
 import User from './../../src/models/user';
 import Profile from './../../src/models/profile';
@@ -18,6 +19,7 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var currentWidget = null;
+var defaultWidgetAnniversary = null;
 var profileBasicUser = null;
 var profileAdminSpaceUser = null;
 var profileAdminUser = null;
@@ -42,21 +44,30 @@ it('Validates that a basic user can not create a widget', function(done) {
 	});
 });
 
-it('get list all widgets birthdays', function(done) {
+it('Get all widgets on the platform', function(done) {
 	session.addToken(1, jsonData.adminToken);
-	new WidgetAnniversary()
-	.list({filter: {'type': 'system'}})
+	new WidgetItem()
+	.list({include: ['item']})
 	.then((response) => {
-		//response.should.have.status('200');
-		//response.content.elements.should.be.a('array');
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
 		//response.content.elements.length.should.be.eql(2);
 		//expect(response.content.meta.pagination['total-items']).to.equal(2);
-		console.log(JSON.stringify(response.errors, null, 2));
+		defaultWidgetAnniversary = response.content.elements[1];
         done();
     });
 });
 
-/*it('User admin create a widget anniversary', function(done) {
+it('deletes a defaultWidgetAnniversary', function(done) {
+	new WidgetAnniversary({'id': defaultWidgetAnniversary.id})
+	.delete(defaultWidgetAnniversary.id)
+	.then((response) => {
+		response.should.have.status('204');
+        done();
+    });
+});
+
+it('User admin create a widget anniversary', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	let widget = new WidgetAnniversary({
 		position: 1,
@@ -64,10 +75,9 @@ it('get list all widgets birthdays', function(done) {
 		});
 	widget.create()
 	.then((response) => {
-		//response.should.have.status('201');
+		response.should.have.status('201');
 		widget = response.content;
 		currentWidget = widget;
-		console.log(JSON.stringify(response.errors, null, 2));
 		done();
 	});
 });
@@ -246,7 +256,5 @@ it('deletes a widget anniversary with admin user logged in', function(done) {
 		response.should.have.status('204');
         done();
     });
-});*/
-
-
+});
 });

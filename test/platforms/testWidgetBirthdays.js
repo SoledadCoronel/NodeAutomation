@@ -1,5 +1,6 @@
 
 import WidgetBirthday from './../../src/models/widgetBirthday';
+import WidgetItem from './../../src/models/widgetItem';
 import Birthday from './../../src/models/birthday';
 import User from './../../src/models/user';
 import Profile from './../../src/models/profile';
@@ -19,6 +20,7 @@ chai.use(chaiHttp);
 chai.use(chaiColors);
 
 var currentWidget = null;
+var defaultWidgetBirthday = null;
 var profileBasicUser = null;
 var profileAdminSpaceUser = null;
 var profileAdminUser = null;
@@ -43,24 +45,23 @@ it('Validates that a basic user can not create a widget', function(done) {
 	});
 });
 
-it('get list all widgets birthdays', function(done) {
+it('Get all widgets on the platform', function(done) {
 	session.addToken(1, jsonData.adminToken);
-	new WidgetBirthday()
-	.list({filter: {'type': 'system'}})
+	new WidgetItem()
+	.list({include: ['item']})
 	.then((response) => {
-		//response.should.have.status('200');
-		//response.content.elements.should.be.a('array');
-		//response.content.elements.length.should.be.eql(2);
-		//expect(response.content.meta.pagination['total-items']).to.equal(2);
-		console.log(JSON.stringify(response.errors, null, 2));
+		response.should.have.status('200');
+		response.content.elements.should.be.a('array');
+		defaultWidgetBirthday = response.content.elements[0];
+		
+		defaultWidgetHire = response.content.elements[2];
         done();
     });
 });
 
-
-/*it('deletes a defaultWidget 1', function(done) {
-	new WidgetCustom({'id': defaultWidget1.id, 'image': defaultWidget1.image})
-	.delete(defaultWidget1.id)
+it('deletes a defaultWidgetBirthday', function(done) {
+	new WidgetBirthday({'id': defaultWidgetBirthday.id})
+	.delete(defaultWidgetBirthday.id)
 	.then((response) => {
 		response.should.have.status('204');
         done();
@@ -78,12 +79,11 @@ it('User admin create a widget birthday', function(done) {
 		//response.should.have.status('201');
 		widget = response.content;
 		currentWidget = widget
-		console.log(JSON.stringify(response.errors, null, 2));
 		done();
 	});
 });
 
-/*it('Validate that only an adminUser can see an inactive widget', function(done) {
+it('Validate that only an adminUser can see an inactive widget', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	new WidgetBirthday()
 	.fetch(currentWidget.id)
@@ -130,7 +130,7 @@ it('User admin create a second widget birthday', function(done) {
 
 // PRECONDICIONES
 
-/*it('fetches a profile user', function(done) {
+it('fetches a profile user', function(done) {
 	new User()
 	.fetch(jsonData.basicUser.id)
 	.then((response) => {
@@ -257,8 +257,5 @@ it('deletes a widget birthday with admin user logged in', function(done) {
 		response.should.have.status('204');
         done();
     });
-});*/
-
-
-
+});
 });
