@@ -51,8 +51,6 @@ it('Get all widgets on the platform', function(done) {
 	.then((response) => {
 		response.should.have.status('200');
 		response.content.elements.should.be.a('array');
-		//response.content.elements.length.should.be.eql(2);
-		//expect(response.content.meta.pagination['total-items']).to.equal(2);
 		defaultWidgetAnniversary = response.content.elements[0];
         done();
     });
