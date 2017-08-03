@@ -87,7 +87,7 @@ it('case 2: Creates un new user import - datos válidos', function(done) {
 it('case 3: Creates un new user import - usuario existente', function(done) {
 
 	var data = {
-	  "data": {
+	  "data": {s
 	    "type": "user-imports",
 	    "attributes": {
 	      "payload": JSON.stringify({
@@ -113,80 +113,5 @@ it('case 3: Creates un new user import - usuario existente', function(done) {
 		expect(res).to.have.status(200);
 	done();
 	});
-});
-
-
-/*it('Caso 4: Basic user joins himself to public space', function(done) {
-		var data = {"data": [{"type": "users","id": jsonData.basicUser.id}]}
-		chai.request('http://api.cd.gointegro.net')
-		.post('/spaces/' + publicSpace.id + '/relationships/members')
-		.set('content-type', 'application/vnd.api+json')
-		.set('Accept', 'application/vnd.api+json')
-		.set('Authorization', 'Bearer ' + jsonData.basicToken)
-		.send(data)
-		.end(function(err, res) {
-			expect(res).to.have.status(204);
-		done();
-		});
-	});*/
-
-/*it('case 1: Creates un new user import - user existente', function(done) {
-
-	let userImport1 = new UserImports({
-		first_name: 'name01',
-		last_name: 'lastName01',
-		email: 'email01@gointegro.com',
-		supervisor_email: jsonData.adminSpaceUser.email,
-		birthdate: '1990-09-25',
-		groups: ''
 	});
-	userImport1.create()
-	.then((response) => {
-		response.should.have.status('201');
-		userImport1 = response.content;
-		currentUserImport = userImport1;
-		done();
-
-	});
-});
-
-it('case 1: Creates un new user import - supervisor inválido', function(done) {
-
-	let userImport1 = new UserImports({
-		first_name: 'name01',
-		last_name: 'lastName01',
-		email: 'email01@gointegro.com',
-		supervisor_email: 'email02@gointegro.com',
-		birthdate: '1990-09-25',
-		groups: ''
-	});
-	userImport1.create()
-	.then((response) => {
-		response.should.have.status('201');
-		userImport1 = response.content;
-		currentUserImport = userImport1;
-		done();
-		});
-	});
-
-it('case 1: Creates un new user import - fecha nacimiento inválida', function(done) {
-
-	let userImport1 = new UserImports({
-		first_name: 'name01',
-		last_name: 'lastName01',
-		email: 'email01@gointegro.com',
-		supervisor_email: 'email02@gointegro.com',
-		birthdate: '2020-09-25',
-		groups: ''
-	});
-	userImport1.create()
-	.then((response) => {
-		response.should.have.status('201');
-		userImport1 = response.content;
-		currentUserImport = userImport1;
-		done();
-		});
-	});*/
-
-
 });
