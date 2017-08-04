@@ -1,11 +1,12 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 
-class UserImportSerializer {
+class GroupSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('user-imports', {
+		this.serializer = new Serializer('group', {
 			attributes: [
-      			'payload',
+      			'name',
+      			'position'
 			]
 		});
 
@@ -28,4 +29,4 @@ class UserImportSerializer {
 	}
 };
 
-export default UserImportSerializer;
+export default GroupSerializer;

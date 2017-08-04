@@ -1,18 +1,17 @@
 import Serializer from './../serializers/userImportSerializer';
 import AbstractModel from './abstractModel';
+import Request from './../services/request';
 
 class UserImports extends AbstractModel {
 
 	constructor (data = {}) {
 		super();
-		this.serializer = new Serializer;
+
 		this.id = data.id;
-		this.first_name = data.first_name;
-		this.last_name = data.last_name;
-		this.email = data.email; 
-		this.supervisor_email = data.supervisor_email; 
-		this.birthdate = data.birthdate;
-		this.groups = data.groups;
+		this.request = new Request('http://users-ms.cd.gointegro.net');
+		this.serializer = new Serializer;
+		this.payload = JSON.stringify(data.payload);
+
     }
 
     endpoint() {
@@ -22,12 +21,7 @@ class UserImports extends AbstractModel {
     deconstruct(userImports) {
 		return new UserImports({
 			id: userImports.id,
-			first_name: userImports.first_name,
-			last_name: userImports.last_name,
-			email: userImports.email,
-			supervisor_email: userImports.supervisor_email,
-			birthdate: userImports.birthdate,
-			groups: userImports.groups,
+			payload: userImports.payload
 		});
 	}
 };

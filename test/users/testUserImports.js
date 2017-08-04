@@ -1,4 +1,5 @@
 import UserImports from './../../src/models/userImports';
+import { session } from './../../src/services/session';
 
 var jsonData = require('./../fixtures/data.json');
 
@@ -22,12 +23,10 @@ describe('SUITE - HASHTAG - PRIVATE SPACE', function() {
 
 
 it('case 1: Creates un new user import - supervisor inválido', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
-	var data = JSON.stringify({
-	  "data": {
-	    "type": "user-imports",
-	    "attributes": {
-	      "payload": {
+	let attributes = {
+		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
 	    	"email":"marta.perez@gointegro.com", 
@@ -35,83 +34,129 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	    	"birthdate": "2000-11-15",
 	    	"groups":""
 	    	}
-	    }
-	  }
-	});
+	};
 
-	chai.request('http://users-ms.cd.gointegro.net')
-	.post('/user-imports')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('HTTP-X-GO5-PLATFORM-ID', jsonData.currentPlatform.id)
-	.set('HTTP-X-GO5-USER-ID', jsonData.adminUserId)
-	.send(data)
-	.end(function(err, res) {
-		expect(res).to.have.status(400);
-	done();
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("Invalid supervisor");
+		done();
 	});
 });
 
-it('case 2: Creates un new user import - datos válidos', function(done) {
+it('case 2: Creates un new user import - supervisor válido', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
-	var data = {
-	  "data": {
-	    "type": "user-imports",
-	    "attributes": {
-	      "payload": JSON.stringify({
+	let attributes = {
+		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
 	    	"email":"marta.perez@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-15",
 	    	"groups":""
-	    	})
-	    }
-	  }
+	    	}
 	};
 
-	chai.request('http://users-ms.cd.gointegro.net')
-	.post('/user-imports')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('HTTP-X-GO5-PLATFORM-ID', jsonData.currentPlatform.id)
-	.set('HTTP-X-GO5-USER-ID', jsonData.adminUserId)
-	.send(data)
-	.end(function(err, res) {
-		expect(res).to.have.status(201);
-		console.log(JSON.stringify(res, null, 2));
-	done();
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('201');
+		response.content.payload.should.be.eql("Invalid birthdate");
+		console.log(JSON.stringify(response.content, null, 2));
+		done();
 	});
 });
 
-it('case 3: Creates un new user import - usuario existente', function(done) {
+it('case 3: Creates un new user import - fecha nac válida', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
-	var data = {
-	  "data": {s
-	    "type": "user-imports",
-	    "attributes": {
-	      "payload": JSON.stringify({
+	let attributes = {
+		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
 	    	"email":"marta.perez@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
-	    	"birthdate": "2000-11-15",
+	    	"birthdate": "2000-11-16",
 	    	"groups":""
-	    	})
-	    }
-	  }
+	    	}
 	};
 
-	chai.request('http://users-ms.cd.gointegro.net')
-	.post('/user-imports')
-	.set('content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('HTTP-X-GO5-PLATFORM-ID', jsonData.currentPlatform.id)
-	.set('HTTP-X-GO5-USER-ID', jsonData.adminUserId)
-	.send(data)
-	.end(function(err, res) {
-		expect(res).to.have.status(200);
-	done();
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
 	});
+});
+
+it('case 4: Creates un new user import - fecha nac inválida', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"Marta",
+	    	"last_name":"Perez",
+	    	"email":"marta.perez@gointegro.com", 
+	    	"supervisor_email":"soledad.coronel@gointegro.com",
+	    	"birthdate": "2020-11-00",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("Invalid birthdate");
+		done();
 	});
+});
+
+it('case 5: Creates un new user import - name vacio', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"",
+	    	"last_name":"Perez",
+	    	"email":"marta.gonzalez@gointegro.com", 
+	    	"supervisor_email":"soledad.coronel@gointegro.com",
+	    	"birthdate": "2000-11-16",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("name is required");
+		done();
+	});
+});
+
+it('case 5: Creates un new user import - email vacio', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"Marta",
+	    	"last_name":"Perez",
+	    	"email":"", 
+	    	"supervisor_email":"soledad.coronel@gointegro.com",
+	    	"birthdate": "2000-11-16",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("email is required");
+		done();
+	});
+});
 });
