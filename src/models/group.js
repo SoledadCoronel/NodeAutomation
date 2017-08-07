@@ -8,6 +8,7 @@ class Group extends AbstractModel {
 		this.serializer = new Serializer;
 
 		this.id = data.id;
+		this.name = data.name;
 		this.position = data.position;
 	}
 
@@ -16,12 +17,11 @@ class Group extends AbstractModel {
 	}
 
 	deconstruct(group) {
-		return new Group(group);
-	}
-
-	activate() {
-		this.active = true;
-		return this;
+		return new Group({
+			id: group.id,
+			name: group.name,
+			position: group.position,
+		});
 	}
 };
 

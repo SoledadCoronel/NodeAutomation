@@ -3,7 +3,7 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 class GroupSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('group', {
+		this.serializer = new Serializer('groups', {
 			attributes: [
       			'name',
       			'position'
