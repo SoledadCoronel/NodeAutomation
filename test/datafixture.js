@@ -41,30 +41,30 @@ new Promise((resolve, reject) => {
   createPlatform()
   .then((currentPlatform) => {
     loginAdminUser(currentPlatform)
-    .then((adminToken) => {
-      session.addToken(1, adminToken);
-      getPlatformRoles()
-      .then((rolesInfo) => {
-        createBasicUser(basicRole)
-        .then((basicUser) => {
-          createAdminSpaceUser(adminSpaceRole)
-          .then((adminSpaceUser) => {
-            inviteBasicUser(basicUser)
-            .then((invitationBasicUser) => {
-              inviteAdminSpaceUser(adminSpaceUser)
-              .then((invitationAdminSpaceUser) => {
-                completeBasicUserInvitation(invitationBasicUser)
-                .then((completeInvitationBasic) => {
-                  completeAdminSpaceUserInvitation(invitationAdminSpaceUser)
-                  .then((completeInvitationAdminSpace) => {
-                    loginBasicUser(currentPlatform, basicUser)
-                    .then((basicToken) => {
-                      loginAdminSpaceUser(currentPlatform, adminSpaceUser)
-                      .then((adminSpaceToken) => {
-                        let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
+  .then((adminToken) => {
+    session.addToken(1, adminToken);
+  getPlatformRoles()
+  .then((rolesInfo) => {
+    createBasicUser(basicRole)
+  .then((basicUser) => {
+    createAdminSpaceUser(adminSpaceRole)
+  .then((adminSpaceUser) => {
+    inviteBasicUser(basicUser)
+  .then((invitationBasicUser) => {
+    inviteAdminSpaceUser(adminSpaceUser)
+  .then((invitationAdminSpaceUser) => {
+    completeBasicUserInvitation(invitationBasicUser)
+  .then((completeInvitationBasic) => {
+    completeAdminSpaceUserInvitation(invitationAdminSpaceUser)
+  .then((completeInvitationAdminSpace) => {
+    loginBasicUser(currentPlatform, basicUser)
+  .then((basicToken) => {
+    loginAdminSpaceUser(currentPlatform, adminSpaceUser)
+  .then((adminSpaceToken) => {
+    let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
 
-                        jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
-                          let jsonData = require(jsonFilePath);                         
+    jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
+    let jsonData = require(jsonFilePath);                         
                         });
                       });
                     });

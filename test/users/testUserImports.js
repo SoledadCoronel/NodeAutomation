@@ -1,5 +1,6 @@
 import UserImports from './../../src/models/userImports';
 import Group from './../../src/models/group';
+import GroupItem from './../../src/models/groupItem';
 import { session } from './../../src/services/session';
 
 var jsonData = require('./../fixtures/data.json');
@@ -19,35 +20,12 @@ chai.use(chaiColors);
 
 var currentUserImport;
 var currentGroup;
+var currentGroupItem;
 
 // comienzo de la suite
 describe('SUITE - USERS - USER IMPORTS', function() {
 
-// PRECONDICIONES PARA LA SUITE
-///////////////////////////////////////////////////////////////////////////////////////////
-
-console.log("PRECONCIONES");
-it('Creates a new group', function(done) {
-session.addToken(1, jsonData.adminToken);
-
-	let group = new Group({
-		name: 'grupo1',
-		position: 0
-	});
-	group.create()
-	.then((response) => {
-		response.should.have.status('201');
-		group = response.content;
-		currentGroup = group;
-		console.log(response.content);
-		done();
-	});
-});
-
-
-
-
-/*it('case 1: Creates un new user import - supervisor inválido', function(done) {
+it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
@@ -228,5 +206,64 @@ it('case 8: Creates un new user import - nullear atributo supervisor', function(
 		//console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
-});*/
+});
+
+//console.log("PRECONCIONES");
+it('Precondicion: Creates a new group', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let group = new Group({
+		name: 'grupo1',
+		position: 0
+	});
+	group.create()
+	.then((response) => {
+		response.should.have.status('201');
+		group = response.content;
+		currentGroup = group;
+		console.log(response.content);
+		done();
+	});
+});
+
+it('Precondicion: Creates un new group item', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let groupItem = new GroupItem({
+		name: 'groupItem1',
+		position: 0,
+		group: currentGroup
+	});
+	groupItem.create()
+	.then((response) => {
+		response.should.have.status('201');
+		groupItem = response.content;
+		currentGroupItem = groupItem;
+		console.log(response.content);
+		done();
+		});
+	});
+
+it('case 2: Creates un new user import - supervisor válido', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"Marta",
+	    	"last_name":"Perez",
+	    	"email":"marta.perez@gointegro.com", 
+	    	"supervisor_email":"soledad.coronel@gointegro.com",
+	    	"birthdate": "2000-11-15",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('200');
+		console.log(JSON.stringify(response.content, null, 2));
+		done();
+	});
+});
 });
