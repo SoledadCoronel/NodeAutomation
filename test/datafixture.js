@@ -3,6 +3,8 @@ import Oauth from '../src/models/oauth';
 import Role from '../src/models/role';
 import User from '../src/models/user';
 import Invitation from '../src/models/invitation';
+import Group from '../src/models/group';
+import GroupItem from '../src/models/groupItem';
 import { session } from './../src/services/session';
 
 
@@ -32,6 +34,8 @@ var invitationBasicUser = null;
 var invitationAdminSpaceUser = null;
 var completeInvitationBasic = null;
 var completeInvitationAdminSpace = null;
+var currentGroup = null;
+var currentGroupItem = null;
 
 var fixtureData = {};
 
@@ -43,7 +47,7 @@ new Promise((resolve, reject) => {
     loginAdminUser(currentPlatform)
   .then((adminToken) => {
     session.addToken(1, adminToken);
-  getPlatformRoles()
+    getPlatformRoles()
   .then((rolesInfo) => {
     createBasicUser(basicRole)
   .then((basicUser) => {
@@ -61,10 +65,18 @@ new Promise((resolve, reject) => {
   .then((basicToken) => {
     loginAdminSpaceUser(currentPlatform, adminSpaceUser)
   .then((adminSpaceToken) => {
-    let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
+    createGroup()
+  .then((currentGroup) => {
+    createGroupItem(currentGroup)
+    .then((currentGroupItem) => {
+
+          let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
 
     jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
-    let jsonData = require(jsonFilePath);                         
+    let jsonData = require(jsonFilePath); 
+
+                            });
+                          });
                         });
                       });
                     });
@@ -269,3 +281,40 @@ function loginAdminSpaceUser(currentPlatform, adminSpaceUser) {
     return adminSpaceToken;
   });
 }
+
+function createGroup () {
+
+  let group = new Group({
+    name: 'group1',
+    position: 0
+  });
+
+  return group.create()
+  .then((response) => {
+    let groupInfo = response.content;
+    let currentGroup = {'id': groupInfo.id, 'name': groupInfo.name};
+
+    fixtureData['currentGroup'] = currentGroup;
+    return currentGroup;
+  });
+}
+
+function createGroupItem(currentGroup) {
+    let groupItem = new GroupItem({
+    name: 'groupItem1',
+    position: 0,
+    group: currentGroup
+  });
+
+  return groupItem.create()
+  .then((response) => {
+    let groupItemInfo = response.content;
+    let currentGroupItem = {'id': groupItemInfo.id, 'name': groupItemInfo.name};
+
+    fixtureData['currentGroupItem'] = currentGroupItem;
+    return currentGroupItem;
+  });
+}
+
+
+

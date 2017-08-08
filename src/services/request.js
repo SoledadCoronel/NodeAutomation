@@ -40,7 +40,7 @@ class Request {
 
 		if (token) {
 			chaiRequest.set('Authorization', 'Bearer ' + token);
-		} else if (credentials) {console.log(credentials.platformId, credentials.userId);
+		} else if (credentials) {
 			chaiRequest.set('HTTP-X-GO5-PLATFORM-ID', credentials.platformId);
 			chaiRequest.set('HTTP-X-GO5-USER-ID', credentials.userId);
 		}
