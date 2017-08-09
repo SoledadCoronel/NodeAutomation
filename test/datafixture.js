@@ -36,6 +36,7 @@ var completeInvitationBasic = null;
 var completeInvitationAdminSpace = null;
 var currentGroup = null;
 var currentGroupItem = null;
+var currentGroupItem2 = null;
 
 var fixtureData = {};
 
@@ -68,14 +69,16 @@ new Promise((resolve, reject) => {
     createGroup()
   .then((currentGroup) => {
     createGroupItem(currentGroup)
-    .then((currentGroupItem) => {
-
-          let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
+  .then((currentGroupItem) => {
+    createGroupItem2(currentGroup)
+  .then((currentGroupItem2) => {
+              let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
 
     jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
     let jsonData = require(jsonFilePath); 
 
-                            });
+                              });
+                            })
                           });
                         });
                       });
@@ -313,6 +316,23 @@ function createGroupItem(currentGroup) {
 
     fixtureData['currentGroupItem'] = currentGroupItem;
     return currentGroupItem;
+  });
+}
+
+function createGroupItem2(currentGroup) {
+    let groupItem = new GroupItem({
+    name: 'groupItem2',
+    position: 1,
+    group: currentGroup
+  });
+
+  return groupItem.create()
+  .then((response) => {
+    let groupItemInfo = response.content;
+    let currentGroupItem2 = {'id': groupItemInfo.id, 'name': groupItemInfo.name};
+
+    fixtureData['currentGroupItem2'] = currentGroupItem2;
+    return currentGroupItem2;
   });
 }
 
