@@ -1,6 +1,8 @@
 import Request from './../services/request';
 import Collection from './collection';
 
+// DATOS Y FUNCIONALIDADES
+
 class AbstractModel {
 
 	constructor (data = {}) {

@@ -15,6 +15,7 @@ class User extends AbstractModel {
 	    this['registered-date'] = data['registered-date'];
 	    this['created-at'] = data['created-at'];
 	    this['updated-at'] = data['updated-at'];
+	    
 	    this.role = data.role;
 	    this.profile = data.profile;
     	this['group-items'] = data['group-items'] || [];

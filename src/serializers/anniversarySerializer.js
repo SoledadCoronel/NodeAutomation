@@ -2,6 +2,7 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 import UserSummaries from './../models/userSummaries';
 import Greeting from './../models/greeting';
 
+//VISTA
 
 class anniversarySerializer {
 
