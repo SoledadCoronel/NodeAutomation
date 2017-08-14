@@ -28,7 +28,7 @@ describe('SUITE - USERS - MASSIVE ACTIONS', function() {
 //PRECONDICIONES: Se van a crear 2 importaciones de usuarios, para guardar el id del payload y
 // luego usarlo en las acciones massivas
 
-/*it('Creates un new user import', function(done) {
+it('Creates un new user import', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
@@ -46,14 +46,14 @@ describe('SUITE - USERS - MASSIVE ACTIONS', function() {
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('201');
-		userImports = response.content.id;
+		userImports = response.content;
 		currentUserImport = userImports;
-		console.log(currentUserImport);
 		done();
 	});
 });
 
 it('Creates a second new user import', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
 		'payload': {
@@ -70,27 +70,94 @@ it('Creates a second new user import', function(done) {
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('201');
-		userImports = response.content.id;
+		userImports = response.content;
 		currentUserImport2 = userImports;
-		console.log(currentUserImport2);
-		console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
-});*/
+});
 
 
-it('Creates massive invitacions', function(done) {
-	session.addToken(1, jsonData.basicToken);
+it('Create massive invitations', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
 
 	let actions = new MassiveActions({
 		namespace: 'user',
 		action: 'SEND_INVITATION',
-		payload: currentUserImport + ',' + currentUserImport2
+		payload: {'ids': currentUserImport.id + ',' + currentUserImport2.id}
 	});
 	actions.create()
 	.then((response) => {
-		//response.should.have.status('201');
-		console.log(response.errors);
+		response.should.have.status('201');
+		//console.log(response.content);
+		done();
+	});
+});
+
+it('Create bulk blocks', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'BLOCK_USER',
+		payload: {'ids': jsonData.basicUser.id + ',' + jsonData.adminSpaceUser.id}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		console.log(response.content);
+		done();
+	});
+});
+
+it('Create bulk unlock', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'UNBLOCK_USER',
+		payload: {'ids': jsonData.basicUser.id + ',' + jsonData.adminSpaceUser.id}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		console.log(response.content);
+		done();
+	});
+});
+
+it('Create bulk login lock', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'BLOCK_LOGIN',
+		payload: {'ids': jsonData.basicUser.id + ',' + jsonData.adminSpaceUser.id}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		console.log(response.content);
+		done();
+	});
+});
+
+it('Create bulk login unlock', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'UNBLOCK_LOGIN',
+		payload: {'ids': jsonData.basicUser.id + ',' + jsonData.adminSpaceUser.id}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		console.log(response.content);
 		done();
 	});
 });

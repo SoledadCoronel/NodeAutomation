@@ -36,6 +36,15 @@ class Session {
         
     }
 
+    destroySession() {
+        if (this.currentUser && this.currentPlatform) {
+            return {'userId': null, 'platformId': null};
+        }
+        else if(this.currentToken) {
+            return {'token': null};
+        }
+    }
+
 }
 
 export let session = new Session;

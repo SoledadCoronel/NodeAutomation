@@ -3,11 +3,12 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 class MassiveActionsSerializer {
 
 	constructor (config = {}) {
-		this.serializer = new Serializer('massiveActions', {
+		this.serializer = new Serializer('massive-actions', {
 			attributes: [
       			'namespace',
       			'action',
-                'payload'
+                'payload',
+                'result'
 			]
 		});
 

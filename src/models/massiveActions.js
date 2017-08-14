@@ -10,7 +10,9 @@ class MassiveActions extends AbstractModel {
 		this.id = data.id;
 		this.namespace = data.namespace;
 		this.action = data.action;
-		this.payload = data.payload; // VER SI FUNCIONA ASI 
+		this.payload = JSON.stringify(data.payload);
+		this.result = data.result;
+
     }
 
     endpoint() {
@@ -23,6 +25,7 @@ class MassiveActions extends AbstractModel {
 			namespace: massiveActions.namespace,
 			action: massiveActions.action,
 			payload: massiveActions.payload,
+			result: massiveActions.result,
 		});
 	}
 };

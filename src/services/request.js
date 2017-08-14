@@ -3,6 +3,8 @@ import Random from 'random-js';
 import Response from './response';
 import { session } from './session';
 
+// SE COMUNICA CON EL MODELO
+
 class Request {
 
 	constructor(baseUrl = 'http://api.cd.gointegro.net') {
