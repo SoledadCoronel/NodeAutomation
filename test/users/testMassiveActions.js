@@ -1,4 +1,6 @@
 import UserImports from './../../src/models/userImports';
+import User from './../../src/models/user';
+import Profile from './../../src/models/profile';
 import MassiveActions from './../../src/models/massiveActions';
 import Group from './../../src/models/group';
 import GroupItem from './../../src/models/groupItem';
@@ -21,6 +23,8 @@ chai.use(chaiColors);
 
 var currentUserImport;
 var currentUserImport2;
+var currentUser;
+var currentActions;
 
 // comienzo de la suite
 describe('SUITE - USERS - MASSIVE ACTIONS', function() {
@@ -94,6 +98,19 @@ it('Create massive invitations', function(done) {
 	});
 });
 
+it('fetches a profile data currentUserImport', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User()
+	.fetch(currentUserImport.id)
+	.then((response) => {
+		currentUser = response.content;
+		response.should.have.status('200');
+		expect(currentUser['status-invitation']).to.equal('invited');
+		done();
+	});
+});
+
 it('Create bulk blocks', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
@@ -106,7 +123,20 @@ it('Create bulk blocks', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		console.log(response.content);
+		//console.log(response.content);
+		done();
+	});
+});
+
+it('fetches a profile data basicUser', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User()
+	.fetch(jsonData.basicUser.id)
+	.then((response) => {
+		currentUser = response.content;
+		response.should.have.status('200');
+		expect(currentUser.status).to.equal('inactive');
 		done();
 	});
 });
@@ -123,7 +153,20 @@ it('Create bulk unlock', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		console.log(response.content);
+		//console.log(response.content);
+		done();
+	});
+});
+
+it('fetches a profile data basicUser', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User()
+	.fetch(jsonData.basicUser.id)
+	.then((response) => {
+		currentUser = response.content;
+		response.should.have.status('200');
+		expect(currentUser.status).to.equal('active');
 		done();
 	});
 });
@@ -140,7 +183,19 @@ it('Create bulk login lock', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		console.log(response.content);
+		done();
+	});
+});
+
+it('fetches a profile data basicUser', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User()
+	.fetch(jsonData.basicUser.id)
+	.then((response) => {
+		currentUser = response.content;
+		response.should.have.status('200');
+		expect(currentUser['login-enabled']).to.equal(false);
 		done();
 	});
 });
@@ -157,7 +212,38 @@ it('Create bulk login unlock', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
+		done();
+	});
+});
+
+it('fetches a profile data basicUser', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User()
+	.fetch(jsonData.basicUser.id)
+	.then((response) => {
+		currentUser = response.content;
+		response.should.have.status('200');
+		expect(currentUser['login-enabled']).to.equal(true);
+		done();
+	});
+});
+
+it('Create massive invitations', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'SEND_INVITATION',
+		payload: {'ids': currentUserImport.id + ',' + currentUserImport2.id}
+	});
+	actions.create()
+	.then((response) => {
+		currentActions = response.content;
+		//response.should.have.status('201');
 		console.log(response.content);
+		expect(currentActions.result['affected-users']).to.equal(2);
 		done();
 	});
 });

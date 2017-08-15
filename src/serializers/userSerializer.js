@@ -12,6 +12,7 @@ class UserSerializer {
                 'last-name',
                 'email',
                 'status',
+                'status-invitation',
                 'login-enabled',
                 'role'
             ],
