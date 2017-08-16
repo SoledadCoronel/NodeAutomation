@@ -25,6 +25,7 @@ class MassiveActions extends AbstractModel {
 			namespace: massiveActions.namespace,
 			action: massiveActions.action,
 			payload: massiveActions.payload,
+			filters: massiveActions.filters,
 			result: massiveActions.result,
 		});
 	}

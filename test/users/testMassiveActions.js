@@ -229,7 +229,29 @@ it('fetches a profile data basicUser', function(done) {
 	});
 });
 
-it('Create massive invitations', function(done) {
+it('Create bulk login unlock', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'SEND_INVITATION',
+		payload: {'filters': {
+					'invitation-status': ''
+					'status':'inactive',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		console.log(response.content);
+		//response.should.have.status('201');
+		done();
+	});
+});
+
+/*it('Create massive invitations', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -246,7 +268,7 @@ it('Create massive invitations', function(done) {
 		expect(currentActions.result['affected-users']).to.equal(2);
 		done();
 	});
-});
+});*/
 
 });
 

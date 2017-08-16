@@ -41,7 +41,7 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('400');
-		response.errors[0].title.should.be.eql("Invalid supervisor");
+		response.errors[0].title.should.be.eql("The supervisor is not valid");
 		done();
 	});
 });
