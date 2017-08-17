@@ -229,14 +229,59 @@ it('fetches a profile data basicUser', function(done) {
 	});
 });
 
-it('Create bulk login unlock', function(done) {
+
+// solo va a invitar a dos usuarios porque los demás ya están registrados.
+it('Create massive invitations - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
 		namespace: 'user',
 		action: 'SEND_INVITATION',
 		payload: {'filters': {
-					'invitation-status': ''
+					'status':'active',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":2,"errors":null}');
+		done();
+	});
+});
+
+// va a bloquear a los registrados y a los invitados. 
+it('Create bulk blocks - con filters', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'BLOCK_USER',
+		payload: {'filters': {
+					'status':'active',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
+		done();
+	});
+});
+
+// filtra por usuarios bloqueados anteriormente e itenta volver a bloquearlos
+it('Create bulk blocks - con filters', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'BLOCK_USER',
+		payload: {'filters': {
 					'status':'inactive',
 	    			'login-enabled':true,
 	    			'query':""
@@ -245,30 +290,60 @@ it('Create bulk login unlock', function(done) {
 	});
 	actions.create()
 	.then((response) => {
-		console.log(response.content);
-		//response.should.have.status('201');
+		//console.log(response);
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
 		done();
 	});
 });
 
-/*it('Create massive invitations', function(done) {
+// filtra por usuarios bloqueados y los desbloquea
+it('Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
-
 
 	let actions = new MassiveActions({
 		namespace: 'user',
-		action: 'SEND_INVITATION',
-		payload: {'ids': currentUserImport.id + ',' + currentUserImport2.id}
+		action: 'UNBLOCK_USER',
+		payload: {'filters': {
+					'status':'inactive',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
 	});
 	actions.create()
 	.then((response) => {
-		currentActions = response.content;
-		//response.should.have.status('201');
-		console.log(response.content);
-		expect(currentActions.result['affected-users']).to.equal(2);
+		//console.log(response);
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
 		done();
 	});
-});*/
+});
+
+// filtra por usuarios bloqueados (en este caso no hay) y desbloquearlos
+it('Create bulk unblocks - con filters', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'UNBLOCK_USER',
+		payload: {'filters': {
+					'status':'inactive',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		console.log(response);
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
+		done();
+	});
+});
+
+
 
 });
 
