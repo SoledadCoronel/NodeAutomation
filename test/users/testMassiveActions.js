@@ -23,6 +23,7 @@ chai.use(chaiColors);
 
 var currentUserImport;
 var currentUserImport2;
+var currentUserImport3;
 var currentUser;
 var currentActions;
 
@@ -80,8 +81,64 @@ it('Creates a second new user import', function(done) {
 	});
 });
 
+it('Creates a third new user import', function(done) {
+	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
-it('Create massive invitations', function(done) {
+	let attributes = {
+		'payload': {
+	    	"first_name":"Mauro",
+	    	"last_name":"Regna",
+	    	"email":"mauro.regna+2@gointegro.com", 
+	    	"supervisor_email":"soledad.coronel@gointegro.com",
+	    	"birthdate": "2000-11-20",
+	    	"access":"blocked",
+	    	"groups": jsonData.currentGroup.name + ':' + jsonData.currentGroupItem.name
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.should.have.status('201');
+		userImports = response.content;
+		currentUserImport3 = userImports;
+		console.log(currentUserImport3.id);
+		done();
+	});
+});
+
+// se cambia a false el login_enabled del tercer usuario
+
+/*it('fetches a profile admin user', function(done) {
+
+	session.addToken(1, jsonData.adminToken);
+	new User()
+	.fetch(currentUserImport3.id)
+	.then((response) => {
+		response.should.have.status('200');
+		let user3 = response.content;
+		currentUserImport3 = user3;
+		console.log(currentUserImport3.id);
+		done();
+	});
+});*/
+
+it('Change login_enabled to basic user', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User({
+		id: jsonData.basicUser.id, 
+		'login-enabled': false
+	})
+	.update()
+	.then((response) => {
+		//response.should.have.status('200');
+		console.log(response.content);
+		done();
+	});
+});
+
+/*it('Create massive invitations', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -247,7 +304,7 @@ it('Create massive invitations - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":2,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":3,"errors":null}');
 		done();
 	});
 });
@@ -269,7 +326,7 @@ it('Create bulk blocks - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":5,"errors":null}');
 		done();
 	});
 });
@@ -315,7 +372,7 @@ it('Create bulk unblocks - con filters', function(done) {
 	.then((response) => {
 		//console.log(response);
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":5,"errors":null}');
 		done();
 	});
 });
@@ -343,7 +400,28 @@ it('Create bulk unblocks - con filters', function(done) {
 	});
 });
 
+// filtra por usuarios bloqueados anteriormente e itenta volver a bloquearlos
+it('Create bulk blocks - con filters', function(done) {
+	session.addToken(1, jsonData.adminToken);
 
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'BLOCK_USER',
+		payload: {'filters': {
+					'status':'inactive',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		//console.log(response);
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
+		done();
+	});
+});*/
 
 });
 
