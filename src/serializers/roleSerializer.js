@@ -5,8 +5,8 @@ class RoleSerializer {
     constructor (config = {}) {
         this.serializer = new Serializer('role', {
             attributes: [
-                //'name',
-                //'status'
+                'name',
+                'status'
             ]
         });
 

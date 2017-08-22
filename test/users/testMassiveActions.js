@@ -30,16 +30,16 @@ var currentActions;
 // comienzo de la suite
 describe('SUITE - USERS - MASSIVE ACTIONS', function() {
 
-//PRECONDICIONES: Se van a crear 2 importaciones de usuarios, para guardar el id del payload y
+//PRECONDICIONES: Se van a crear 3 importaciones de usuarios, para guardar el id del payload y
 // luego usarlo en las acciones massivas
 
-it('Creates un new user import', function(done) {
+it('1. Creates un new user import', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
 		'payload': {
 	    	"first_name":"Mauro",
-	    	"last_name":"Regna",
+	    	"last_name":"Regña",
 	    	"email":"mauro.regna@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-15",
@@ -57,13 +57,13 @@ it('Creates un new user import', function(done) {
 	});
 });
 
-it('Creates a second new user import', function(done) {
+it('2. Creates a second new user import', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
 		'payload': {
 	    	"first_name":"Mauro",
-	    	"last_name":"Regna",
+	    	"last_name":"R'egna",
 	    	"email":"mauro.regna+1@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-20",
@@ -81,13 +81,13 @@ it('Creates a second new user import', function(done) {
 	});
 });
 
-it('Creates a third new user import', function(done) {
+it('3. Creates a third new user import', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
 		'payload': {
 	    	"first_name":"Mauro",
-	    	"last_name":"Regna",
+	    	"last_name":"Rëgna",
 	    	"email":"mauro.regna+2@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-20",
@@ -102,43 +102,14 @@ it('Creates a third new user import', function(done) {
 		response.should.have.status('201');
 		userImports = response.content;
 		currentUserImport3 = userImports;
-		console.log(currentUserImport3.id);
 		done();
 	});
 });
 
 // se cambia a false el login_enabled del tercer usuario
 
-/*it('fetches a profile admin user', function(done) {
 
-	session.addToken(1, jsonData.adminToken);
-	new User()
-	.fetch(currentUserImport3.id)
-	.then((response) => {
-		response.should.have.status('200');
-		let user3 = response.content;
-		currentUserImport3 = user3;
-		console.log(currentUserImport3.id);
-		done();
-	});
-});*/
-
-it('Change login_enabled to basic user', function(done) {
-	session.addToken(1, jsonData.adminToken);
-
-	new User({
-		id: jsonData.basicUser.id, 
-		'login-enabled': false
-	})
-	.update()
-	.then((response) => {
-		//response.should.have.status('200');
-		console.log(response.content);
-		done();
-	});
-});
-
-/*it('Create massive invitations', function(done) {
+it('4. Create massive invitations', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -150,12 +121,11 @@ it('Change login_enabled to basic user', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		//console.log(response.content);
 		done();
 	});
 });
 
-it('fetches a profile data currentUserImport', function(done) {
+it('5. Fetches a profile data currentUserImport', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new User()
@@ -168,7 +138,7 @@ it('fetches a profile data currentUserImport', function(done) {
 	});
 });
 
-it('Create bulk blocks', function(done) {
+it('6. Create bulk blocks', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -180,12 +150,11 @@ it('Create bulk blocks', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		//console.log(response.content);
 		done();
 	});
 });
 
-it('fetches a profile data basicUser', function(done) {
+it('7. Fetches a profile data basicUser', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new User()
@@ -198,7 +167,7 @@ it('fetches a profile data basicUser', function(done) {
 	});
 });
 
-it('Create bulk unlock', function(done) {
+it('8. Create bulk unlock', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -210,12 +179,11 @@ it('Create bulk unlock', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		//console.log(response.content);
 		done();
 	});
 });
 
-it('fetches a profile data basicUser', function(done) {
+it('9. Fetches a profile data basicUser', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new User()
@@ -228,7 +196,7 @@ it('fetches a profile data basicUser', function(done) {
 	});
 });
 
-it('Create bulk login lock', function(done) {
+it('10. Create bulk login lock', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -244,7 +212,7 @@ it('Create bulk login lock', function(done) {
 	});
 });
 
-it('fetches a profile data basicUser', function(done) {
+it('11. Fetches a profile data basicUser', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new User()
@@ -257,7 +225,7 @@ it('fetches a profile data basicUser', function(done) {
 	});
 });
 
-it('Create bulk login unlock', function(done) {
+it('12. Create bulk login unlock', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -273,7 +241,7 @@ it('Create bulk login unlock', function(done) {
 	});
 });
 
-it('fetches a profile data basicUser', function(done) {
+it('13. Fetches a profile data basicUser', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	new User()
@@ -288,7 +256,7 @@ it('fetches a profile data basicUser', function(done) {
 
 
 // solo va a invitar a dos usuarios porque los demás ya están registrados.
-it('Create massive invitations - con filters', function(done) {
+it('14. Create massive invitations - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -309,8 +277,8 @@ it('Create massive invitations - con filters', function(done) {
 	});
 });
 
-// va a bloquear a los registrados y a los invitados. 
-it('Create bulk blocks - con filters', function(done) {
+// va a bloquear a todos los usuarios que se encuentren activos
+it('15. Create bulk blocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -331,31 +299,8 @@ it('Create bulk blocks - con filters', function(done) {
 	});
 });
 
-// filtra por usuarios bloqueados anteriormente e itenta volver a bloquearlos
-it('Create bulk blocks - con filters', function(done) {
-	session.addToken(1, jsonData.adminToken);
-
-	let actions = new MassiveActions({
-		namespace: 'user',
-		action: 'BLOCK_USER',
-		payload: {'filters': {
-					'status':'inactive',
-	    			'login-enabled':true,
-	    			'query':""
-	    		}
-	    	}
-	});
-	actions.create()
-	.then((response) => {
-		//console.log(response);
-		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
-		done();
-	});
-});
-
-// filtra por usuarios bloqueados y los desbloquea
-it('Create bulk unblocks - con filters', function(done) {
+// va a desbloquear a todos los usuarios que se encuentren bloqueados
+it('16. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -370,15 +315,53 @@ it('Create bulk unblocks - con filters', function(done) {
 	});
 	actions.create()
 	.then((response) => {
-		//console.log(response);
 		response.should.have.status('201');
 		expect(response.content.result).to.equal('{"affected-users":5,"errors":null}');
 		done();
 	});
 });
 
-// filtra por usuarios bloqueados (en este caso no hay) y desbloquearlos
-it('Create bulk unblocks - con filters', function(done) {
+
+// intenta desbloquear a todos los usuarios que estan activos
+it('17. Create bulk unblocks - con filters', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	let actions = new MassiveActions({
+		namespace: 'user',
+		action: 'UNBLOCK_USER',
+		payload: {'filters': {
+					'status':'active',
+	    			'login-enabled':true,
+	    			'query':""
+	    		}
+	    	}
+	});
+	actions.create()
+	.then((response) => {
+		response.should.have.status('201');
+		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
+		done();
+	});
+});
+
+// modifica el estado de un usuario básico registrado - PRECONDICION
+it('18. Change login_enabled to basic user', function(done) {
+	session.addToken(1, jsonData.adminToken);
+
+	new User({
+		id: jsonData.basicUser.id, 
+		status: 'inactive',
+		role: jsonData.basicRole
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
+
+// intenta desbloquear a todos los usuarios que estan inactivos
+it('19. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -393,20 +376,19 @@ it('Create bulk unblocks - con filters', function(done) {
 	});
 	actions.create()
 	.then((response) => {
-		console.log(response);
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":1,"errors":null}');
 		done();
 	});
 });
 
-// filtra por usuarios bloqueados anteriormente e itenta volver a bloquearlos
-it('Create bulk blocks - con filters', function(done) {
+// se vuelve a correr el mismo caso anterior
+it('20. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
 		namespace: 'user',
-		action: 'BLOCK_USER',
+		action: 'UNBLOCK_USER',
 		payload: {'filters': {
 					'status':'inactive',
 	    			'login-enabled':true,
@@ -416,12 +398,11 @@ it('Create bulk blocks - con filters', function(done) {
 	});
 	actions.create()
 	.then((response) => {
-		//console.log(response);
 		response.should.have.status('201');
 		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
 		done();
 	});
-});*/
+});
 
 });
 

@@ -1,20 +1,22 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
-import Profile from './../models/profile';
-import GroupItem from './../models/groupItem';
 import Role from './../models/role';
+import User from './../models/user';
 
 class UserSerializer {
 
     constructor (config = {}) {
-        this.serializer = new Serializer('user', {
+        this.serializer = new Serializer('users', {
             attributes: [
-                'name',
-                'last-name',
-                'email',
-                'status',
-                'status-invitation',
-                'login-enabled',
-                'role'
+              'name',
+              'last-name',
+              'email',
+              'status',
+              'status-invitation',
+              'login-enabled',
+              'registered-date',
+              'created-at',
+              'updated-at',
+              'role'
             ],
             role: {
                 ref: (user, role) => role.id,
@@ -24,20 +26,6 @@ class UserSerializer {
         });
 
         this.deserializer = new Deserializer({
-            profiles: {
-                valueForRelationship: function (relationship) {
-                    return new Profile({
-                        id: relationship.id,
-                    });
-                }
-            },
-            'group-items': {
-                valueForRelationship: function (relationship) {
-                    return new GroupItem({
-                        id: relationship.id,
-                    });
-                }
-            },
             roles: {
                 valueForRelationship: function (relationship) {
                     return new Role({
