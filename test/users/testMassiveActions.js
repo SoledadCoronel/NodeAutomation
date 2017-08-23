@@ -361,7 +361,7 @@ it('18. Change login_enabled to basic user', function(done) {
 });
 
 // intenta desbloquear a todos los usuarios que estan inactivos
-it('19. Create bulk unblocks - con filters', function(done) {
+/*it('19. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -402,7 +402,7 @@ it('20. Create bulk unblocks - con filters', function(done) {
 		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
 		done();
 	});
-});
+});*/
 
 });
 
