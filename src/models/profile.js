@@ -54,8 +54,6 @@ class Profile extends AbstractModel {
 			//'personal-email': profile['personal-email'],
 			//'marital-status': profile['marital-status'],
 			//'job-type': profile['job-type'],
-		//relationships
-			//user: profile.user,
 		});
 	}
 

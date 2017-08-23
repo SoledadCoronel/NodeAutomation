@@ -31,10 +31,10 @@ var currentPost5 = null;
 var currentPost6 = null;
 // comienzo de la suite
 describe('SUITE - HASHTAG - SUGGESTIONS', function() {
-	session.addToken(1, jsonData.adminToken);
 
 
 it('fetches a profile user', function(done) {
+	session.addToken(1, jsonData.adminToken);
 	new User()
 	.fetch(jsonData.basicUser.id)
 	.then((response) => {
@@ -45,7 +45,7 @@ it('fetches a profile user', function(done) {
 });
 
 it('creates a new public space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio publico',
 		description: 'espacio publico',
@@ -66,7 +66,7 @@ it('creates a new public space', function(done) {
 });
 
 it('creates a new company space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio company',
 		description: 'espacio company',
@@ -87,7 +87,7 @@ it('creates a new company space', function(done) {
 });
 
 it('creates a new private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio privado',
 		description: 'espacio privado',
@@ -108,7 +108,7 @@ it('creates a new private space', function(done) {
 });
 
 it('creates new hashtag #testing', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #testing en perfil de usuario',
 		target: profileUser
@@ -118,12 +118,13 @@ it('creates new hashtag #testing', function(done) {
 		response.should.have.status('201');
 		post = response.content;
 		currentProfilePost = post;
+		//console.log(response.errors);
 		done();
 	});
 });
 
 it('creates new hashtag #TEsting', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #TEsting en perfil de usuario',
 		target: profileUser
@@ -138,7 +139,7 @@ it('creates new hashtag #TEsting', function(done) {
 });
 
 it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	new FeedItem()
 	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
@@ -165,7 +166,7 @@ it('Get posts filtering by hashtag - valid uppercase and lowercase', function(do
 	});
 
 it('creates new hashtag #testing', function(done) {
-session.addToken(1, jsonData.adminToken);
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testeando',
 		target: publicSpace
@@ -180,7 +181,7 @@ session.addToken(1, jsonData.adminToken);
 });
 
 it('creates new hashtag #hash tag', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #hash tag',
 		target: publicSpace
@@ -195,7 +196,7 @@ it('creates new hashtag #hash tag', function(done) {
 });
 
 it('creates new hashtag #hash-tag', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #hash-tag',
 		target: publicSpace
@@ -210,7 +211,7 @@ it('creates new hashtag #hash-tag', function(done) {
 });
 
 it('creates new hashtag #testDeIntegracion - company space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testDeIntegracion',
 		target: companySpace
@@ -225,7 +226,7 @@ it('creates new hashtag #testDeIntegracion - company space', function(done) {
 });
 
 it('creates new hashtag #testDeRegresion - private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testDeRegresion',
 		target: privateSpace
@@ -240,7 +241,7 @@ it('creates new hashtag #testDeRegresion - private space', function(done) {
 });
 
 it('creates new hashtag #testDeRegresion - private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #téstDeRegresion',
 		target: privateSpace

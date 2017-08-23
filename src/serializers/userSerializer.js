@@ -1,6 +1,7 @@
 import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Role from './../models/role';
 import User from './../models/user';
+import Profile from './../models/profile';
 
 class UserSerializer {
 
@@ -22,6 +23,11 @@ class UserSerializer {
                 ref: (user, role) => role.id,
                 attributes: ['name'],
                 included: true
+            },
+            profile: {
+                ref: (user, profile) => profile.id,
+                attributes: ['name'],
+                included: true
             }
         });
 
@@ -29,6 +35,13 @@ class UserSerializer {
             roles: {
                 valueForRelationship: function (relationship) {
                     return new Role({
+                        id: relationship.id,
+                    });
+                }
+            },
+            profiles: {
+                valueForRelationship: function (relationship) {
+                    return new Profile({
                         id: relationship.id,
                     });
                 }
