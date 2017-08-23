@@ -272,7 +272,7 @@ it('14. Create massive invitations - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":3,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
 		done();
 	});
 });
@@ -294,7 +294,7 @@ it('15. Create bulk blocks - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":5,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":6,"errors":null}');
 		done();
 	});
 });
@@ -316,7 +316,7 @@ it('16. Create bulk unblocks - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":5,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":6,"errors":null}');
 		done();
 	});
 });
