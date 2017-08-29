@@ -30,7 +30,7 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"jorge.motumbo@gointegro.com",
 	    	"birthdate": "2000-11-15",
 	    	"groups":""
@@ -52,7 +52,7 @@ it('case 2: Creates un new user import - supervisor válido', function(done) {
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-15",
 	    	"groups": jsonData.currentGroup.name + ':' + jsonData.currentGroupItem.name
@@ -74,7 +74,7 @@ it('case 3: Creates un new user import - groupItems de un mismo grupo', function
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-15",
 	    	"groups":jsonData.currentGroup.name +':'+ jsonData.currentGroupItem.name +','+ jsonData.currentGroup.name +':'+ jsonData.currentGroupItem2.name
@@ -95,7 +95,7 @@ it('case 4: Creates un new user import - fecha nac válida', function(done) {
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-16",
 	    	"groups":""
@@ -116,7 +116,7 @@ it('case 5: Creates un new user import - nullear last_name (atributo obligatorio
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"#delete",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-16",
 	    	"groups":""
@@ -138,7 +138,7 @@ it('case 6: Creates un new user import - fecha nac inválida', function(done) {
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2020-11-00",
 	    	"groups":""
@@ -204,7 +204,7 @@ it('case 9: Creates un new user import - nullear atributo supervisor', function(
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
-	    	"email":"marta.perez@gointegro.com", 
+	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"#delete",
 	    	"birthdate": "2000-11-16",
 	    	"groups":""
