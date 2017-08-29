@@ -81,31 +81,6 @@ it('2. Creates a second new user import', function(done) {
 	});
 });
 
-it('3. Creates a third new user import', function(done) {
-	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
-
-	let attributes = {
-		'payload': {
-	    	"first_name":"Mauro",
-	    	"last_name":"Rëgna",
-	    	"email":"mauro.regna+2@gointegro.com", 
-	    	"supervisor_email":"soledad.coronel@gointegro.com",
-	    	"birthdate": "2000-11-20",
-	    	"access":"blocked",
-	    	"groups": jsonData.currentGroup.name + ':' + jsonData.currentGroupItem.name
-	    	}
-	};
-
-	let userImports = new UserImports(attributes);
-	userImports.create()
-	.then((response) => {
-		response.should.have.status('201');
-		userImports = response.content;
-		currentUserImport3 = userImports;
-		done();
-	});
-});
-
 // se cambia a false el login_enabled del tercer usuario
 
 
@@ -121,6 +96,7 @@ it('4. Create massive invitations', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
+		console.log()
 		done();
 	});
 });
@@ -264,7 +240,7 @@ it('14. Create massive invitations - con filters', function(done) {
 		action: 'SEND_INVITATION',
 		payload: {'filters': {
 					'status':'active',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -272,7 +248,7 @@ it('14. Create massive invitations - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":2,"errors":null}');
 		done();
 	});
 });
@@ -286,7 +262,7 @@ it('15. Create bulk blocks - con filters', function(done) {
 		action: 'BLOCK_USER',
 		payload: {'filters': {
 					'status':'active',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -294,7 +270,7 @@ it('15. Create bulk blocks - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":6,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
 		done();
 	});
 });
@@ -308,7 +284,7 @@ it('16. Create bulk unblocks - con filters', function(done) {
 		action: 'UNBLOCK_USER',
 		payload: {'filters': {
 					'status':'inactive',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -316,7 +292,7 @@ it('16. Create bulk unblocks - con filters', function(done) {
 	actions.create()
 	.then((response) => {
 		response.should.have.status('201');
-		expect(response.content.result).to.equal('{"affected-users":6,"errors":null}');
+		expect(response.content.result).to.equal('{"affected-users":4,"errors":null}');
 		done();
 	});
 });
@@ -331,7 +307,7 @@ it('17. Create bulk unblocks - con filters', function(done) {
 		action: 'UNBLOCK_USER',
 		payload: {'filters': {
 					'status':'active',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -361,7 +337,7 @@ it('18. Change login_enabled to basic user', function(done) {
 });
 
 // intenta desbloquear a todos los usuarios que estan inactivos
-/*it('19. Create bulk unblocks - con filters', function(done) {
+it('19. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -369,7 +345,7 @@ it('18. Change login_enabled to basic user', function(done) {
 		action: 'UNBLOCK_USER',
 		payload: {'filters': {
 					'status':'inactive',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -391,7 +367,7 @@ it('20. Create bulk unblocks - con filters', function(done) {
 		action: 'UNBLOCK_USER',
 		payload: {'filters': {
 					'status':'inactive',
-	    			'login-enabled':true,
+	    			'login-enabled':'true',
 	    			'query':""
 	    		}
 	    	}
@@ -402,7 +378,7 @@ it('20. Create bulk unblocks - con filters', function(done) {
 		expect(response.content.result).to.equal('{"affected-users":0,"errors":null}');
 		done();
 	});
-});*/
+});
 
 });
 
