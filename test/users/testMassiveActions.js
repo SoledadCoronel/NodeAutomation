@@ -335,7 +335,7 @@ it('17. Change status to basic user', function(done) {
 });
 
 // intenta desbloquear a todos los usuarios que estan inactivos
-it('18. Create bulk unblocks - con filters', function(done) {
+/*it('18. Create bulk unblocks - con filters', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 	let actions = new MassiveActions({
@@ -355,7 +355,7 @@ it('18. Create bulk unblocks - con filters', function(done) {
 		expect(response.content.result).to.equal('{"affected-users":1,"errors":null}');
 		done();
 	});
-});
+});*/
 
 // se vuelve a correr el mismo caso anterior
 /*it('19. Create bulk unblocks - con filters', function(done) {
