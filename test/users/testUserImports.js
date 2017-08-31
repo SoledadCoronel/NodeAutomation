@@ -198,7 +198,65 @@ it('case 8: Creates un new user import - email vacio', function(done) {
 	});
 });
 
-it('case 9: Creates un new user import - nullear atributo supervisor', function(done) {
+it('case 9: Creates un new user import - update varios atributos inválidos', function(done) {
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"Marta",
+	    	"last_name":"Perez",
+	    	"email":"soledad.coronel+3@gointegro.com", 
+	    	"supervisor_email":"soledad.coronel+3@gointegro.com",
+	    	"document": "111111111111111111111111111111",
+	    	"extension": "515665aaaaaaaaaaaaaaaaaaaaaa",
+	    	"birthdate": "1982-03-266",
+	    	"admission_date": "1999-02-268",
+	    	"gender": "lalal",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.errors[0].title.should.be.eql("The supervisor is not valid");
+		response.errors[1].title.should.be.eql("The phone extension must not exceed 9 digits");
+		response.errors[2].title.should.be.eql("Invalid birthdate");
+		response.errors[3].title.should.be.eql("Invalid admission date");
+		response.errors[4].title.should.be.eql("Value of field \'gender\' must be part of list: male, female, , ");
+		done();
+	});
+});
+
+it('case 10: Creates un new user import - email vacio', function(done) {
+
+	let attributes = {
+		'payload': {
+	    	"first_name":"Maria",
+	    	"last_name":"Pérez",
+	    	"email":"mimail@qa.com", 
+	    	"document_type": "blah",
+	    	"document": "111111111111111111111111111111",
+	    	"extension": "515665aaaaaaaaaaaaaaaaaaaaaa",
+	    	"birthdate": "1982-03-266",
+	    	"admission_date": "1999-02-268",
+	    	"gender": "lalal",
+	    	"groups":""
+	    	}
+	};
+
+	let userImports = new UserImports(attributes);
+	userImports.create()
+	.then((response) => {
+		response.errors[0].title.should.be.eql("The phone extension must not exceed 9 digits");
+		response.errors[1].title.should.be.eql("Invalid birthdate");
+		response.errors[2].title.should.be.eql("Invalid admission date");
+		response.errors[3].title.should.be.eql("Value of field \'documentType\' must be part of list: DNI, CPF, RUT, CD, CI, RFC, , ");
+		response.errors[4].title.should.be.eql("Value of field \'gender\' must be part of list: male, female, , ");
+		done();
+	});
+});
+
+it('case 11: Creates un new user import - nullear atributo supervisor', function(done) {
 
 	let attributes = {
 		'payload': {
