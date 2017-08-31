@@ -227,7 +227,7 @@ it('case 9: Creates un new user import - update varios atributos inválidos', fu
 	});
 });
 
-it('case 10: Creates un new user import - email vacio', function(done) {
+it('case 10: Creates un new user import - multiples atributos inválidos', function(done) {
 
 	let attributes = {
 		'payload': {
