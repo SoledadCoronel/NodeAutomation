@@ -118,7 +118,6 @@ it('creates new hashtag #testing', function(done) {
 		response.should.have.status('201');
 		post = response.content;
 		currentProfilePost = post;
-		//console.log(response.errors);
 		done();
 	});
 });
