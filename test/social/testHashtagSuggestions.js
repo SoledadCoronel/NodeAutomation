@@ -20,7 +20,7 @@ chai.use(chaiColors);
 var publicSpace = null;
 var companySpace = null;
 var privateSpace = null;
-var profileUser = null;
+var currentUser = null;
 var currentProfilePost = null;
 var currentProfilePost2 = null;
 var currentPost = null;
@@ -39,7 +39,7 @@ it('fetches a profile user', function(done) {
 	.fetch(jsonData.basicUser.id)
 	.then((response) => {
 		response.should.have.status('200');
-		profileUser = response.content.profile;
+		currentUser = response.content;
 		done();
 	});
 });
@@ -111,7 +111,7 @@ it('creates new hashtag #testing', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #testing en perfil de usuario',
-		target: profileUser
+		target: currentUser
 	});
 	post.create()
 	.then((response) => {
@@ -126,7 +126,7 @@ it('creates new hashtag #TEsting', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #TEsting en perfil de usuario',
-		target: profileUser
+		target: currentUser
 	});
 	post.create()
 	.then((response) => {
