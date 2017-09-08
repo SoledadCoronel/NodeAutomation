@@ -140,7 +140,7 @@ it('creates new hashtag #TEsting', function(done) {
 it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	new FeedItem()
-	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
+	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
 			response.should.have.status('200');
 			response.content.elements.should.be.a('array');
@@ -154,7 +154,7 @@ it('Get posts filtering by hashtag - valid uppercase and lowercase', function(do
 
 	session.addToken(1, jsonData.basicToken);
 	new FeedItem()
-	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
+	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
 			response.should.have.status('200');
 			response.content.elements.should.be.a('array');
