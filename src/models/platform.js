@@ -15,6 +15,7 @@ class Platform extends AbstractModel {
 		this.timezone = data.timezone || 'America/Argentina/Buenos_Aires';
 		this.status = data.status || 'active';
 		this['users-range'] = data['users-range'] || '0-50';
+		this.country = data.country || 'ARG';
 		this.language = data.language || 'es';
 
 	}
@@ -35,6 +36,7 @@ class Platform extends AbstractModel {
 						"timezone": this.timezone,
 						"status": this.status,
 						"users-range": this['users-range'],
+						"country": this.country,
 						"language": this.language
 					}
 				},
