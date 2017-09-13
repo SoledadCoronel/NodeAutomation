@@ -12,6 +12,7 @@ class GalleryItem extends AbstractModel {
 		this.id = data.id,
 		this['file-type'] = data['file-type'];
 		this.position = data.position;
+		this.name = data.name;
 		this['created-at'] = data['created-at'];
 		this['updated-at'] = data['updated-at'];
 
@@ -27,6 +28,7 @@ class GalleryItem extends AbstractModel {
 		return new GalleryItem({
 			id: galleryItem.id,
 			'file-type': galleryItem['file-type'],
+			name: galleryItem.name,
 			position: galleryItem.position,
 			'created-at': galleryItem['created-at'],
 			'updated-at': galleryItem['updated-at'],
