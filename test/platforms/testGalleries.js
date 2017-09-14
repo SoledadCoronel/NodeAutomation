@@ -27,12 +27,14 @@ var privateSpace = null;
 var companySpace = null;
 var currentTopic = null;
 var currentImageFile = null;
+var currentVideoFile = null;
 var currentArticle = null;  
 var currentGallery = null;
 var currentGalleryItem = null;
 var currentGalleryItem2 = null;
 var currentGalleryItem3 = null; 
-var currentGalleryItem4 = null; 
+var currentGalleryItem4 = null;
+var currentGalleryItem5 = null;
 
 describe('SUITE - GALLERIES', function() {
 	session.addToken(1, jsonData.adminToken);
@@ -121,6 +123,21 @@ file.create()
 	});
 });
 
+it('User admin uploads an video', function(done) {
+
+	let file = new File({
+		prefix: 'gallery',
+		file: 'video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAAhtZGF0AAAA/21vb3YAAABsbXZoZAAAAAAAAAAAAAAAAAAAA+gAAAAAAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAACLdWR0YQAAAINtZXRhAAAAAAAAACFoZGxyAAAAAAAAAABtZGlyYXBwbAAAAAAAAAAAAAAAAFZpbHN0AAAAKaluYW0AAAAhZGF0YQAAAAEAAAAAMTAyMDkxNTg5NTQ2MzgwMDMAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTcuMjUuMTAw'
+	});
+file.create()
+.then((response) => {
+	response.should.have.status('201');
+	file = response.content;
+	currentVideoFile = file;
+	done();
+	});
+});
+
 it('Creates un new topic', function(done) {
 
 	let topic = new Topic({
@@ -182,6 +199,7 @@ it('case 2: Creates un new galleryItem', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
+		name: 'galleryItem',
 		position: 1,
 		gallery: currentGallery,
 		file: currentImageFile
@@ -199,6 +217,7 @@ it('case 3: Creates un new galleryItem2', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
+		name: 'galleryItem2',
 		position: 1,
 		gallery: currentGallery,
 		file: currentImageFile
@@ -216,6 +235,7 @@ it('case 4: Creates un new galleryItem3', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
+		name: 'galleryItem3',
 		position: 1,
 		gallery: currentGallery,
 		file: currentImageFile
@@ -233,6 +253,7 @@ it('case 5: Creates un new galleryItem4', function(done) {
 
 	let galleryItem = new GalleryItem({
 		'file-type': 'image',
+		name: 'galleryItem4',
 		position: 1,
 		gallery: currentGallery,
 		file: currentImageFile
@@ -242,6 +263,23 @@ it('case 5: Creates un new galleryItem4', function(done) {
 		response.should.have.status('201');
 		galleryItem = response.content;
 		currentGalleryItem4 = galleryItem;
+		done();
+	});
+});
+
+it('case 5: Creates un new galleryItem5', function(done) {
+
+	let galleryItem = new GalleryItem({
+		'file-type': 'image',
+		position: 1,
+		gallery: currentGallery,
+		file: currentVideoFile
+	});
+	galleryItem.create()
+	.then((response) => {
+		response.should.have.status('201');
+		galleryItem = response.content;
+		currentGalleryItem5 = galleryItem;
 		done();
 	});
 });
@@ -259,7 +297,66 @@ it('case 6: Change the position of a galleryItem', function(done) {
 	});
 });
 
-it('case 7: fetches a gallery', function(done) {
+it('case 7: Change the name of a galleryItem - video', function(done) {
+
+	new GalleryItem({
+		id: currentGalleryItem5.id, 
+		name: 'vacaciones',
+		gallery: currentGallery,
+		file: currentVideoFile
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content.name).to.equal('vacaciones');
+		done();
+	});
+});
+
+/*it('case 8: fetches a galleryItem', function(done) {
+	new GalleryItem()
+	.fetch(currentGalleryItem5.id)
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content.status).to.equal('enabled');
+        done();
+    });
+});*/
+
+it('case 8: Change the name of a galleryItem - video - character validation', function(done) {
+
+	new GalleryItem({
+		id: currentGalleryItem5.id, 
+		name: 'vacacionessssssssssssssssssssssssssssssssssssssssssssssssssss',
+		gallery: currentGallery,
+		file: currentVideoFile
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("Gallery video name length must not exceed 60 characters");
+		done();
+	});
+});
+
+it('case 9: Change the name of a galleryItem - video - special characters', function(done) {
+
+	new GalleryItem({
+		id: currentGalleryItem5.id, 
+		name: '/@😅😳😍😎😠/@',
+		gallery: currentGallery,
+		file: currentVideoFile
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content.name).to.equal('/@😅😳😍😎😠/@');
+		done();
+	});
+});
+
+
+it('case 10: fetches a gallery', function(done) {
 	new Gallery()
 	.fetch(currentGallery.id, {include: ['preview-items', 'preview-items.file']})
 	.then((response) => {
@@ -270,7 +367,7 @@ it('case 7: fetches a gallery', function(done) {
     });
 });
 
-it('case 8: fetches a galleryItem', function(done) {
+it('case 11: fetches a galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 
 			{include: ['file', 'gallery', 'prevSiblings', 'prevSiblings.file', 'nextSiblings', 'nextSiblings.file']})
@@ -284,7 +381,7 @@ it('case 8: fetches a galleryItem', function(done) {
     });
 });
 
-it('caso 9: lists all galleryItems without paginated', function(done) {
+it('caso 12: lists all galleryItems without paginated', function(done) {
 	new GalleryItem()
 	.list({filter: {'gallery': currentGallery.id}})
 		.then((response) => {
@@ -293,12 +390,12 @@ it('caso 9: lists all galleryItems without paginated', function(done) {
 			assert.property(response.content.meta.pagination, 'total-pages');
 			assert.property(response.content.meta.pagination, 'total-items');
 			expect(response.content.meta.pagination['total-pages']).to.equal(1);
-			expect(response.content.meta.pagination['total-items']).to.equal(4);
+			expect(response.content.meta.pagination['total-items']).to.equal(5);
 			done();
 		});
 	});
 
-it('caso 10: lists all galleryItems with paging', function(done) {		
+it('caso 13: lists all galleryItems with paging', function(done) {		
 	new GalleryItem()
 	.list({filter: {'gallery': currentGallery.id}, include: ['file'], page: {number: 1,size: 2}})
 		.then((response) => {
@@ -306,13 +403,13 @@ it('caso 10: lists all galleryItems with paging', function(done) {
 			assert.property(response.content.meta, 'pagination');
 			assert.property(response.content.meta.pagination, 'total-pages');
 			assert.property(response.content.meta.pagination, 'total-items');
-			expect(response.content.meta.pagination['total-pages']).to.equal(2);
-			expect(response.content.meta.pagination['total-items']).to.equal(4);
+			expect(response.content.meta.pagination['total-pages']).to.equal(3);
+			expect(response.content.meta.pagination['total-items']).to.equal(5);
 			done();
 		});
 	});
 
-it('Caso 11: lists all content-items without filters', function(done) {		
+it('Caso 14: lists all content-items without filters', function(done) {		
 	new ContentItem()
 	.list({filter: {'space': publicSpace.id, 'topic': currentTopic.id}})
 		.then((response) => {
@@ -334,7 +431,7 @@ it('Caso 12: lists all content-items filtering by gallery', function(done) {
 		});
 	});
 
-it('Caso 13: lists all content-items filtering by article', function(done) {		
+it('Caso 15: lists all content-items filtering by article', function(done) {		
 	new ContentItem()
 	.list({filter: {'space': publicSpace.id, 'topic': currentTopic.id, 'type': 'article'}, include: ['item', 'item.preview-items', 'item.preview-items.file']})
 		.then((response) => {
@@ -345,7 +442,7 @@ it('Caso 13: lists all content-items filtering by article', function(done) {
 		});
 	});
 
-it('Caso 14: a galleryItem is removed from a gallery', function(done) {
+it('Caso 16: a galleryItem is removed from a gallery', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.delete('/gallery-items/' + currentGalleryItem.id)
 	.set('content-type', 'application/vnd.api+json')
@@ -367,7 +464,7 @@ it('Caso 14: a galleryItem is removed from a gallery', function(done) {
     	done();
 	});*/
 
-it('case 15: gets data for a deleted galleryItem', function(done) {
+it('case 17: gets data for a deleted galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 
 			{include: ['file', 'gallery', 'prevSiblings', 'prevSiblings.file', 'nextSiblings', 'nextSiblings.file']})

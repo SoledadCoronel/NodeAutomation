@@ -9,6 +9,7 @@ class GalleryItemSerializer {
     this.serializer = new Serializer('gallery-items', {
       attributes: [
             'file-type',
+            'name',
             'position',
             'gallery',
             'file'
