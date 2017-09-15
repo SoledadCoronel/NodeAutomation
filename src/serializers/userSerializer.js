@@ -14,6 +14,7 @@ class UserSerializer {
               'status',
               'status-invitation',
               'login-enabled',
+              'country',
               'registered-date',
               'created-at',
               'updated-at',
