@@ -12,6 +12,7 @@ class User extends AbstractModel {
 	    this['last-name'] = data['last-name'];
 	    this.email = data.email;
 	    this.status = data.status;
+	    this.country = data.country;
 	    this['status-invitation'] = data['status-invitation'];
 	    this['login-enabled'] = data['login-enabled'];
 	    this['registered-date'] = data['registered-date'];
@@ -34,6 +35,7 @@ class User extends AbstractModel {
 			'last-name': user['last-name'],
 			email: user.email,
 			status: user.status,
+			country: user.country,
 			'status-invitation': user['status-invitation'],
 			'login-enabled': user['login-enabled'],
 			'registered-date': user['registered-date'],

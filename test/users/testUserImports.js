@@ -55,6 +55,7 @@ it('case 2: Creates un new user import - supervisor válido', function(done) {
 	    	"email":"soledad.coronel+3@gointegro.com", 
 	    	"supervisor_email":"soledad.coronel@gointegro.com",
 	    	"birthdate": "2000-11-15",
+	    	"country": "URY",
 	    	"groups": jsonData.currentGroup.name + ':' + jsonData.currentGroupItem.name
 	    	}
 	};
@@ -63,7 +64,6 @@ it('case 2: Creates un new user import - supervisor válido', function(done) {
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('201');
-		//console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
 });

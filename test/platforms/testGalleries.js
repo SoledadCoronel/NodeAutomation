@@ -313,16 +313,6 @@ it('case 7: Change the name of a galleryItem - video', function(done) {
 	});
 });
 
-/*it('case 8: fetches a galleryItem', function(done) {
-	new GalleryItem()
-	.fetch(currentGalleryItem5.id)
-	.then((response) => {
-		response.should.have.status('200');
-		expect(response.content.status).to.equal('enabled');
-        done();
-    });
-});*/
-
 it('case 8: Change the name of a galleryItem - video - character validation', function(done) {
 
 	new GalleryItem({
