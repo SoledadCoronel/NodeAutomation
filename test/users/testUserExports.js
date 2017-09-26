@@ -16,7 +16,7 @@ chai.use(chaiColors);
 
 describe('SUITE - USERS - USER EXPORTS', function() {
 
-it('case 1: ', function(done) {
+/*it('case 1: ', function(done) {
 	session.addToken(1, jsonData.adminToken);
 
 
@@ -30,5 +30,19 @@ it('case 1: ', function(done) {
 		//expect(response.content.meta.pagination['total-items']).to.equal(2);
         done();
     });
+});*/
+
+it('Caso 16: gets template', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/user-exports/')
+	.set('content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		console.log(res)
+		//res.should.have.status(204);
+		done();
+	});
 });
+
 });

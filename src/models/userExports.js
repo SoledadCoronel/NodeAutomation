@@ -6,6 +6,8 @@ class UserExports extends AbstractModel {
 
 	constructor (data = {}) {
 		super();
+		this.serializer = new Serializer;
+		this.info = data.info;
 
     }
 
@@ -15,6 +17,7 @@ class UserExports extends AbstractModel {
 
     deconstruct(userExports) {
 		return new UserExports({
+			info: userExports.info
 		});
 	}
 };

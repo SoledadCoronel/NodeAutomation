@@ -4,8 +4,9 @@ class UserExportsSerializer {
 
 	constructor (config = {}) {
 		this.serializer = new Serializer('user-exports', {
-			attributes: [
-			]
+            attributes: [
+                'data',
+            ]
 		});
 
 		this.deserializer = new Deserializer({});
