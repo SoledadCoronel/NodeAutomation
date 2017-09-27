@@ -22,7 +22,8 @@ it('Caso 1: Import a user list', function(done) {
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
 	.attach('resource', 'test/users/users.csv')
 	.end(function(err, res) {
-		console.log(res);
+		res.should.have.status(201);
+		console.log(JSON.stringify(res, null, 2));
 		done();
 	});
 });
