@@ -20,10 +20,36 @@ it('Caso 1: Import a user list', function(done) {
 	.post('/user-jobs')
 	.field('Content-Type', 'multipart/form-data')
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.attach('resource', 'test/users/users.csv')
+	.attach('resource', 'test/users/files/users.csv')
 	.end(function(err, res) {
 		res.should.have.status(201);
-		console.log(JSON.stringify(res, null, 2));
+		assert.include(res.text, '\"count-rows\":3', 'string contains substring');
+		done();
+	});
+});
+
+it('Caso 2: Import a user list - usuario sin email', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-jobs')
+	.field('Content-Type', 'multipart/form-data')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.attach('resource', 'test/users/files/users_error.csv')
+	.end(function(err, res) {
+		res.should.have.status(400);
+		assert.include(res.text, 'BULK_INVALID_FORMAT', 'string contains substring');
+		done();
+	});
+});
+
+it('Caso 3: Import a user list - archivo vacío', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-jobs')
+	.field('Content-Type', 'multipart/form-data')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.attach('resource', 'test/users/files/users_vacio.csv')
+	.end(function(err, res) {
+		res.should.have.status(400);
+		assert.include(res.text, 'BULK_INVALID_FILE', 'string contains substring');
 		done();
 	});
 });
