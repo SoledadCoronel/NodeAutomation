@@ -18,6 +18,7 @@ var currentId = null;
 var currentUserId = null; 
 var currentFileId = null;
 var currentErrorURL = null;
+var currentErrorURL1 = null;
 
 describe('SUITE - USERS - USER JOBS', function() {
 
@@ -35,7 +36,6 @@ it('Caso 1: validate csv file', function(done) {
 		currentId = res.body.data.id;
 		currentUserId = res.body.data.relationships.author.data.id;
 		currentFileId = res.body.data.relationships['validated-file'].data.id;
-		console.log(JSON.stringify(res.body, null, 2));
 		done();
 	});
 });
@@ -50,29 +50,27 @@ it('Caso 2: validate csv file - without email', function(done) {
 		res.should.have.status(400);
 		res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
 		currentErrorURL = res.body.meta['errors-url'];
-		console.log(JSON.stringify(err.body, null, 2));
-		console.log(currentErrorURL);
 		done();
 	});
 });
 
-it('Caso 2: validate csv file - without email', function(done) {
-	chai.request('http://static.cd.gointegro.net')
-	.get(+ jsonData.currentPlatform.id)
-	.set('Content-Type', 'multipart/form-data')
+it('Caso 3: Gets errors file', function(done) {
+	chai.request('')
+	.get(currentErrorURL)
+	.set('Content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
-	.attach('resource', 'test/users/files/users_error.csv')
 	.end(function(err, res) {
 		//res.should.have.status(400);
 		//res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
 		//currentErrorURL = res.body.meta['errors-url'];
-		console.log(JSON.stringify(res.body, null, 2));
-		console.log(currentErrorURL);
+		console.log(res.text);
+		console.log(JSON.stringify(res.body.text, null, 2));
 		done();
 	});
 });
 
-it('Caso 3: validate csv file - empty file', function(done) {
+it('Caso 4: validate csv file - empty file', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-jobs')
 	.set('Content-Type', 'multipart/form-data')
@@ -81,11 +79,28 @@ it('Caso 3: validate csv file - empty file', function(done) {
 	.end(function(err, res) {
 		res.should.have.status(400);
 		res.body.errors[0].code.should.be.eql("BULK_INVALID_FILE");
+		currentErrorURL1 = res.body.meta['errors-url'];
 		done();
 	});
 });
 
-it('Caso 4: Import a user list', function(done) {
+it('Caso 5: Gets errors file', function(done) {
+	chai.request('')
+	.get(currentErrorURL1)
+	.set('Content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		//res.should.have.status(400);
+		//res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
+		//currentErrorURL = res.body.meta['errors-url'];
+		console.log(res.text);
+		//console.log(JSON.stringify(res, null, 2));
+		done();
+	});
+});
+
+it('Caso 6: Import a user list', function(done) {
 	var body = {
 		"data": {
 			"type": "user-jobs",
@@ -123,7 +138,7 @@ it('Caso 4: Import a user list', function(done) {
 	});
 });
 
-it('Caso 5: Get the process status of users', function(done) {
+it('Caso 7: Get the process status of users', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.get('/user-jobs/' + currentId)
 	.set('Content-type', 'application/vnd.api+json')
