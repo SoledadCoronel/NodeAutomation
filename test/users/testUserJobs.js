@@ -61,8 +61,8 @@ it('Caso 3: Gets errors file', function(done) {
 	.set('Accept', 'application/vnd.api+json')
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
 	.end(function(err, res) {
-		console.log(res.text);
-		console.log(JSON.stringify(res.body.text, null, 2));
+		res.should.have.status(200);
+		assert.include(res.text, 'cannot be empty', 'string contains substring');
 		done();
 	});
 });
@@ -75,30 +75,39 @@ it('Caso 4: validate csv file - empty file', function(done) {
 	.attach('resource', 'test/users/files/users_vacio.csv')
 	.end(function(err, res) {
 		res.should.have.status(400);
-		console.log(res.text);
-		//res.body.errors[0].code.should.be.eql("BULK_INVALID_FILE");
-		//currentErrorURL1 = res.body.meta['errors-url'];
+		res.body.errors[0].code.should.be.eql("BULK_INVALID_FILE");
 		done();
 	});
 });
 
-it('Caso 5: Gets errors file', function(done) {
+it('Caso 5: validate csv file - without lastname', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-jobs')
+	.set('Content-Type', 'multipart/form-data')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.attach('resource', 'test/users/files/users_error2.csv')
+	.end(function(err, res) {
+		res.should.have.status(400);
+		res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
+		currentErrorURL1 = res.body.meta['errors-url'];
+		done();
+	});
+});
+
+it('Caso 6: Gets errors file', function(done) {
 	chai.request('')
 	.get(currentErrorURL1)
 	.set('Content-type', 'application/vnd.api+json')
 	.set('Accept', 'application/vnd.api+json')
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
 	.end(function(err, res) {
-		//res.should.have.status(400);
-		//res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
-		//currentErrorURL = res.body.meta['errors-url'];
-		console.log(res.text);
-		//console.log(JSON.stringify(res, null, 2));
+		res.should.have.status(200);
+		assert.include(res.text, 'cannot be empty', 'string contains substring');
 		done();
 	});
 });
 
-it('Caso 6: Import a user list', function(done) {
+it('Caso 7: Import a user list', function(done) {
 	var body = {
 		"data": {
 			"type": "user-jobs",
@@ -136,7 +145,7 @@ it('Caso 6: Import a user list', function(done) {
 	});
 });
 
-it('Caso 7: Get the process status of users', function(done) {
+it('Caso 8: Get the process status of users', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.get('/user-jobs/' + currentId)
 	.set('Content-type', 'application/vnd.api+json')
