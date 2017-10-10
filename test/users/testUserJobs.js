@@ -107,7 +107,20 @@ it('Caso 6: Gets errors file', function(done) {
 	});
 });
 
-it('Caso 7: Import a user list', function(done) {
+it('Caso 7: validate csv file - file without csv extension', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-jobs')
+	.set('Content-Type', 'multipart/form-data')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.attach('resource', 'test/users/files/users.xls')
+	.end(function(err, res) {
+		res.should.have.status(400);
+		res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
+		done();
+	});
+});
+
+it('Caso 8: Import a user list', function(done) {
 	var body = {
 		"data": {
 			"type": "user-jobs",
@@ -145,7 +158,7 @@ it('Caso 7: Import a user list', function(done) {
 	});
 });
 
-it('Caso 8: Get the process status of users', function(done) {
+it('Caso 9: Get the process status of users', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.get('/user-jobs/' + currentId)
 	.set('Content-type', 'application/vnd.api+json')
