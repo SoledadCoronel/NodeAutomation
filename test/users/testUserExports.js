@@ -39,7 +39,6 @@ it('Caso 2: Download platform users', function(done) {
 	.end(function(err, res) {
 		res.should.have.status(200);
 		assert.include(res.text, 'Soledad', 'string contains substring');
-		assert.include(res.text, 'UsuarioRolBasico', 'string contains substring');
 		assert.include(res.text, 'UsuarioRolAdminDeEspacio', 'string contains substring');
 		done();
 	});
