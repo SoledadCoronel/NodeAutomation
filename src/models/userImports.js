@@ -10,6 +10,7 @@ class UserImports extends AbstractModel {
 		this.id = data.id;
 		this.request = new Request('http://users-ms.cd.gointegro.net');
 		this.serializer = new Serializer;
+		this.create = JSON.stringify(data.create);
 		this.payload = JSON.stringify(data.payload);
 
     }
@@ -21,6 +22,7 @@ class UserImports extends AbstractModel {
     deconstruct(userImports) {
 		return new UserImports({
 			id: userImports.id,
+			create: userImports.create,
 			payload: userImports.payload
 		});
 	}

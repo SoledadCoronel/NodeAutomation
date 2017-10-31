@@ -27,7 +27,8 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
-		'payload': {
+		"create": true,
+		"payload": {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
 	    	"email":"soledad.coronel+3@gointegro.com", 
@@ -35,6 +36,7 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	    	"birthdate": "2000-11-15",
 	    	"groups":""
 	    	}
+	    
 	};
 
 	let userImports = new UserImports(attributes);
@@ -46,9 +48,10 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	});
 });
 
-it('case 2: Creates un new user import - supervisor válido', function(done) {
+/*it('case 2: Creates un new user import - supervisor válido', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -71,6 +74,7 @@ it('case 2: Creates un new user import - supervisor válido', function(done) {
 it('case 3: Creates un new user import - groupItems de un mismo grupo', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -92,6 +96,7 @@ it('case 3: Creates un new user import - groupItems de un mismo grupo', function
 it('case 4: Creates un new user import - fecha nac válida', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -113,6 +118,7 @@ it('case 4: Creates un new user import - fecha nac válida', function(done) {
 it('case 5: Creates un new user import - nullear last_name (atributo obligatorio)', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"#delete",
@@ -135,6 +141,7 @@ it('case 5: Creates un new user import - nullear last_name (atributo obligatorio
 it('case 6: Creates un new user import - fecha nac inválida', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -157,6 +164,7 @@ it('case 6: Creates un new user import - fecha nac inválida', function(done) {
 it('case 7: Creates un new user import - name vacio', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"",
 	    	"last_name":"Perez",
@@ -179,6 +187,7 @@ it('case 7: Creates un new user import - name vacio', function(done) {
 it('case 8: Creates un new user import - email vacio', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -201,6 +210,7 @@ it('case 8: Creates un new user import - email vacio', function(done) {
 it('case 9: Creates un new user import - update varios atributos inválidos', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -230,10 +240,11 @@ it('case 9: Creates un new user import - update varios atributos inválidos', fu
 it('case 10: Creates un new user import - multiples atributos inválidos', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Maria",
 	    	"last_name":"Pérez",
-	    	"email":"mimail@qa.com", 
+	    	"email":"mimail@qa.com",
 	    	"document_type": "blah",
 	    	"document": "111111111111111111111111111111",
 	    	"extension": "515665aaaaaaaaaaaaaaaaaaaaaa",
@@ -259,6 +270,7 @@ it('case 10: Creates un new user import - multiples atributos inválidos', funct
 it('case 11: Creates un new user import - nullear atributo supervisor', function(done) {
 
 	let attributes = {
+		'create':true,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -276,5 +288,5 @@ it('case 11: Creates un new user import - nullear atributo supervisor', function
 		//console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
-});
+});*/
 });
