@@ -6,7 +6,7 @@ class UserImportSerializer {
 		this.serializer = new Serializer('user-imports', {
 			attributes: [
                 'create',
-      			'payload',
+      			'payload'
 			]
 		});
 

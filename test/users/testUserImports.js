@@ -27,8 +27,8 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	let attributes = {
-		"create": true,
-		"payload": {
+		'create': true,
+		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
 	    	"email":"soledad.coronel+3@gointegro.com", 
@@ -48,7 +48,7 @@ it('case 1: Creates un new user import - supervisor inválido', function(done) {
 	});
 });
 
-/*it('case 2: Creates un new user import - supervisor válido', function(done) {
+it('case 2: Creates un new user import - supervisor válido', function(done) {
 
 	let attributes = {
 		'create':true,
@@ -110,7 +110,9 @@ it('case 4: Creates un new user import - fecha nac válida', function(done) {
 	let userImports = new UserImports(attributes);
 	userImports.create()
 	.then((response) => {
-		response.should.have.status('200');
+		response.should.have.status('400');
+		response.errors[0].title.should.be.eql("The email already exists");
+		//console.log(JSON.stringify(response.errors, null, 2));
 		done();
 	});
 });
@@ -118,7 +120,7 @@ it('case 4: Creates un new user import - fecha nac válida', function(done) {
 it('case 5: Creates un new user import - nullear last_name (atributo obligatorio)', function(done) {
 
 	let attributes = {
-		'create':true,
+		'create':false,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"#delete",
@@ -133,7 +135,7 @@ it('case 5: Creates un new user import - nullear last_name (atributo obligatorio
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('400');
-		//console.log(JSON.stringify(response.content, null, 2));
+		response.errors[0].title.should.be.eql("lastName is required");
 		done();
 	});
 });
@@ -141,7 +143,7 @@ it('case 5: Creates un new user import - nullear last_name (atributo obligatorio
 it('case 6: Creates un new user import - fecha nac inválida', function(done) {
 
 	let attributes = {
-		'create':true,
+		'create':false,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -202,7 +204,7 @@ it('case 8: Creates un new user import - email vacio', function(done) {
 	userImports.create()
 	.then((response) => {
 		response.should.have.status('400');
-		response.errors[0].title.should.be.eql("email is required");
+		response.errors[0].title.should.be.eql("A user must be identified by an email, an employee-id or a document type-number");
 		done();
 	});
 });
@@ -210,7 +212,7 @@ it('case 8: Creates un new user import - email vacio', function(done) {
 it('case 9: Creates un new user import - update varios atributos inválidos', function(done) {
 
 	let attributes = {
-		'create':true,
+		'create':false,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -270,7 +272,7 @@ it('case 10: Creates un new user import - multiples atributos inválidos', funct
 it('case 11: Creates un new user import - nullear atributo supervisor', function(done) {
 
 	let attributes = {
-		'create':true,
+		'create':false,
 		'payload': {
 	    	"first_name":"Marta",
 	    	"last_name":"Perez",
@@ -288,5 +290,5 @@ it('case 11: Creates un new user import - nullear atributo supervisor', function
 		//console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
-});*/
+});
 });
