@@ -8,7 +8,7 @@
     "datafixture": "babel-node test/datafixture.js --presets es2015",
     "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 70000",
     "galleries": "clear && mocha \"test/platforms/testGalleries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 80000",
+    "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --timeout 80000",
     "hashtagPrivateSpace": "clear && mocha \"test/social/testHashtagPrivateSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "hashtagPublicSpace": "clear && mocha \"test/social/testHashtagPublicSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
