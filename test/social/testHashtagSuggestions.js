@@ -296,20 +296,6 @@ it('Basic user filters suggestions by space company', function(done) {
 		});
 	});
 
-it('User filters suggestions for private space', function(done) {
-
-	session.addToken(1, jsonData.adminToken);
-	new Hashtag()
-	.list({filter: {'q': 'té', 'space': privateSpace.id}})
-		.then((response) => {
-			response.should.have.status('200');
-			response.content.elements.should.be.a('array');
-			response.content.elements.length.should.be.eql(5);
-			expect(response.content.meta.pagination['total-items']).to.equal(5);
-			done();
-		});
-	});
-
 it('Basic user filters suggestions without private space', function(done) {
 
 	session.addToken(1, jsonData.basicToken);
@@ -334,6 +320,20 @@ it('Basic user filters suggestions-spaceBlanco by public space', function(done) 
 			response.content.elements.should.be.a('array');
 			response.content.elements.length.should.be.eql(1);
 			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
+	});
+
+it('User filters suggestions for private space', function(done) {
+
+	session.addToken(1, jsonData.adminToken);
+	new Hashtag()
+	.list({filter: {'q': 'té', 'space': privateSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(5);
+			expect(response.content.meta.pagination['total-items']).to.equal(5);
 			done();
 		});
 	});
