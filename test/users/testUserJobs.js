@@ -9,7 +9,7 @@ var random = new Random();
 var should = chai.should();
 var expect = chai.expect;
 var assert = chai.assert;
-var sleep = require('system-sleep');
+//var sleep = require('system-sleep');
 
 chai.use(chaiHttp);
 chai.use(chaiColors);
