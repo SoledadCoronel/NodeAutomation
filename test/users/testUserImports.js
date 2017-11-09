@@ -69,8 +69,8 @@ it('case 2: Creates un new user import - supervisor válido', function(done) {
 	let userImports = new UserImports(attributes);
 	userImports.create()
 	.then((response) => {
-		//response.should.have.status('201');
-		console.log(JSON.stringify(response.content, null, 2));
+		response.should.have.status('201');
+		//console.log(JSON.stringify(response.content, null, 2));
 		done();
 	});
 });
