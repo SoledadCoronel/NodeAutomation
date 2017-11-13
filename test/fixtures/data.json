@@ -1,36 +1,36 @@
 {
   "currentPlatform": {
-    "subdomain": "subdomain6176",
-    "id": "1196"
+    "subdomain": "subdomain9406",
+    "id": "1225"
   },
-  "adminToken": "EbiKoC1SBBC72rY8VcuLWXNfwfrlfNQ3rTaAhYzt",
-  "adminUserId": "6257",
-  "basicRole": "3758",
-  "adminSpaceRole": "3759",
+  "adminToken": "GccNs0PeWtwM5MzR3uyN8RLjS1ZwGkFtP8qs2Cc8",
+  "adminUserId": "6417",
+  "basicRole": "3860",
+  "adminSpaceRole": "3861",
   "basicUser": {
-    "id": "6259",
-    "email": "basic4841@gointegro.com"
+    "id": "6418",
+    "email": "basic4002@gointegro.com"
   },
   "adminSpaceUser": {
-    "id": "6261",
-    "email": "adminSpace3636@gointegro.com"
+    "id": "6419",
+    "email": "adminSpace420@gointegro.com"
   },
-  "invitationBasicUser": "2494-211bd83c53f6090ecf015ecb231d227e2ea8405e",
-  "invitationAdminSpaceUser": "2495-2a143579837b505798dd8a9135a3bb6a4ad36dc3",
-  "completeInvitationBasic": "2494-211bd83c53f6090ecf015ecb231d227e2ea8405e",
-  "completeInvitationAdminSpace": "2495-2a143579837b505798dd8a9135a3bb6a4ad36dc3",
-  "basicToken": "bJdU4bXAvPHFOnvain7btATDmM7TfpFjlztmbggK",
-  "adminSpaceToken": "GLKauDo08Hyq1AxAZd49Tzq6a02NBcif8QIwaJLi",
+  "invitationBasicUser": "2573-f7e6636cbea18c4dfaec51d5f562607320425eb1",
+  "invitationAdminSpaceUser": "2574-776c93b646fe0ea77fdf892377525c35f7fb6f93",
+  "completeInvitationBasic": "2573-f7e6636cbea18c4dfaec51d5f562607320425eb1",
+  "completeInvitationAdminSpace": "2574-776c93b646fe0ea77fdf892377525c35f7fb6f93",
+  "basicToken": "xaXjzGEi8zKztoOafTrv2WXlBSNLM8G7P1L2Pif5",
+  "adminSpaceToken": "v2yE3AZhuVUG1uAkUrii58cr3Dis2PUQpkvULw49",
   "currentGroup": {
-    "id": "2375",
+    "id": "2437",
     "name": "group1"
   },
   "currentGroupItem": {
-    "id": "13042",
+    "id": "13381",
     "name": "groupItem1"
   },
   "currentGroupItem2": {
-    "id": "13043",
+    "id": "13382",
     "name": "groupItem2"
   }
 }

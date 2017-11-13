@@ -49,7 +49,8 @@ it('Caso 3: Download platform users by ids', function(done) {
 	.post('/user-exports/')
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
-	.send(`payload={"ids":"${jsonData.basicUser.id},${jsonData.adminSpaceUser.id}"}`)
+	.send('payload:{"filters": {"q":"Soledad"}}')
+	//.send(`payload={"ids":"${jsonData.basicUser.id},${jsonData.adminSpaceUser.id}"}`)
 	.end(function(err, res) {
 		console.log(res.text);
 		//res.should.have.status(200);
