@@ -1,5 +1,38 @@
 {
   "currentPlatform": {
+<<<<<<< HEAD
+    "subdomain": "subdomain4958",
+    "id": "1247"
+  },
+  "adminToken": "EZ4CQId6vUwEg7VSiK8Ut1bEnJ7unyfi2YT5VpXI",
+  "adminUserId": "6541",
+  "basicRole": "3934",
+  "adminSpaceRole": "3935",
+  "basicUser": {
+    "id": "6542",
+    "email": "basic6501@gointegro.com"
+  },
+  "adminSpaceUser": {
+    "id": "6543",
+    "email": "adminSpace769@gointegro.com"
+  },
+  "invitationBasicUser": "2641-b0ef15853c8c2060d26d1e71d621d67984e6a5f7",
+  "invitationAdminSpaceUser": "2642-9d613e826e1a5e30554255d40d9e33ee47e58ef3",
+  "completeInvitationBasic": "2641-b0ef15853c8c2060d26d1e71d621d67984e6a5f7",
+  "completeInvitationAdminSpace": "2642-9d613e826e1a5e30554255d40d9e33ee47e58ef3",
+  "basicToken": "wHAksti1iyJ3ZCw5cUYZFvglhEpUaol0ZOvmU0wO",
+  "adminSpaceToken": "BGpdfmFeswPJNLXyObrKNLWwQqznByoxUUvIXgkk",
+  "currentGroup": {
+    "id": "2492",
+    "name": "group1"
+  },
+  "currentGroupItem": {
+    "id": "13670",
+    "name": "groupItem1"
+  },
+  "currentGroupItem2": {
+    "id": "13671",
+=======
     "subdomain": "subdomain9273",
     "id": "1227"
   },
@@ -31,6 +64,7 @@
   },
   "currentGroupItem2": {
     "id": "13410",
+>>>>>>> test/refactoring
     "name": "groupItem2"
   }
 }
