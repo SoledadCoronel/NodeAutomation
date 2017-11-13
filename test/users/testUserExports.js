@@ -36,14 +36,13 @@ it('Caso 2: Download platform users', function(done) {
 	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
 		res.should.have.status(200);
-		console.log(res.text);
 		assert.include(res.text, 'Soledad', 'string contains substring');
 		assert.include(res.text, 'UsuarioRolAdminDeEspacio', 'string contains substring');
 		done();
 	});
 });
 
-it('Caso 3: Download platform users by ids', function(done) {
+/*it('Caso 3: Download platform users by ids', function(done) {
 
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-exports/')
@@ -55,6 +54,6 @@ it('Caso 3: Download platform users by ids', function(done) {
 		//res.should.have.status(200);
 		done();
 	});
-});
+});*/
 
 });
