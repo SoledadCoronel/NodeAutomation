@@ -48,7 +48,6 @@ it('Caso 3: Download platform users by id', function(done) {
 	.post('/user-exports/')
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
-	//.send(`payload={"filters": {"q":"UsuarioRolAdminDeEspacio"}}`)
 	.send(`payload={"ids":"${jsonData.adminUserId}"}`)
 	.end(function(err, res) {
 		assert.include(res.text, 'Soledad', 'string contains substring');
@@ -63,7 +62,6 @@ it('Caso 4: Download platform users by ids', function(done) {
 	.post('/user-exports/')
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
-	//.send(`payload={"filters": "{"q":"UsuarioRolAdminDeEspacio"}""}`)
 	.send(`payload={"ids":"${jsonData.adminUserId},${jsonData.adminSpaceUser.id}"}`)
 	.end(function(err, res) {
 		assert.include(res.text, 'Soledad', 'string contains substring');
