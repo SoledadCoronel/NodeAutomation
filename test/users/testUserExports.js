@@ -23,8 +23,7 @@ it('Caso 1: Download user template', function(done) {
 	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
 		res.should.have.status(200);
-		expect(res.text).to.equal('first_name,last_name,status,access,role,email,supervisor_email,supervisor_document_type,supervisor_document,supervisor_employee_id,job_title,groups,employee_id,country,job_phone,extension,job_cellphone,personal_phone,personal_cellphone,linkedin,facebook,twitter,admission_date,job_address,personal_address,document_type,document,gender,birthdate,personal_email,marital_status,job_type\n');
-		done();
+		expect(res.text).to.equal('first_name,last_name,status,access,role,email,document_type,document,employee_id,supervisor_email,supervisor_document_type,supervisor_document,supervisor_employee_id,job_title,groups,country,job_phone,extension,job_cellphone,personal_phone,personal_cellphone,linkedin,facebook,twitter,admission_date,job_address,personal_address,gender,birthdate,personal_email,marital_status,job_type\n');
 	});
 });
 
