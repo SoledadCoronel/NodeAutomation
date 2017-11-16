@@ -267,7 +267,7 @@ it('case 10: Creates un new user import - multiples atributos inválidos', funct
 		response.errors[0].title.should.be.eql("The phone extension must not exceed 9 digits");
 		response.errors[1].title.should.be.eql("Invalid birthdate");
 		response.errors[2].title.should.be.eql("Invalid admission date");
-		response.errors[3].title.should.be.eql("Value of field \'documentType\' must be part of list: DNI, CPF, RUT, CD, CI, RFC, , ");
+		response.errors[3].title.should.be.eql("Value of field \'documentType\' must be part of list: CC, DNI, CPF, RUT, CD, CI, RFC, , ");
 		response.errors[4].title.should.be.eql("Value of field \'gender\' must be part of list: male, female, , ");
 		done();
 	});
