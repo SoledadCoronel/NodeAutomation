@@ -150,8 +150,8 @@ function getPlatformRoles() {
 function createBasicUser(basicRole) {
 
       let user = new User({
-      name: 'UsuarioRolBasico',
-      'last-name': 'UsuarioRolBasico',
+      name: 'UsuarioRolBásico',
+      'last-name': 'UsuarioRolBásico',
       email : 'basic' + random.integer(1, 10000) + '@gointegro.com',
       status : 'active',
       'login-enabled' : true,
@@ -171,8 +171,8 @@ function createBasicUser(basicRole) {
 function createAdminSpaceUser(adminSpaceRole) {
 
   let user = new User({
-    name: 'UsuarioRolAdminDeEspacio',
-    'last-name': 'UsuarioRolAdminDeEspacio',
+    name: 'UsuarioRolAdmiñDeEspacio',
+    'last-name': 'UsuarioRolAdmiñDeEspacio',
     email : 'adminSpace' + random.integer(1, 10000) + '@gointegro.com',
     status : 'active',
     'login-enabled' : true,
