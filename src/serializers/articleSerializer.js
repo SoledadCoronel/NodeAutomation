@@ -10,6 +10,8 @@ class ArticleSerializer {
       'title',
       'content',
       'active',
+      'generate-post',
+      'generate-notification',
       'topic'
       ],
       topic: {
