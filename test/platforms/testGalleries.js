@@ -3,11 +3,13 @@ import User from './../../src/models/user';
 import Role from './../../src/models/role';
 import Space from './../../src/models/space';
 import File from './../../src/models/file';
+import Post from './../../src/models/post';
 import Topic from './../../src/models/topic';
 import Article from './../../src/models/article';
 import Gallery from './../../src/models/gallery';
 import GalleryItem from './../../src/models/galleryItem';
 import ContentItem from './../../src/models/contentItem';
+import FeedItem from './../../src/models/feedItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -60,6 +62,7 @@ it('Creates a new public space', function(done) {
 		expect(space.active).to.equal(true);
 		space = response.content;
 		publicSpace = space;
+		console.log(response.content);
 		done();
 	});
 });
@@ -194,6 +197,20 @@ it('case 1: Creates un new gallery', function(done) {
 		done();
 		});
 	});
+
+it('Change generate-post to gallery', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new Gallery({
+		id: currentGallery.id,
+		'generate-post': true,
+		topic: currentTopic
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
 
 it('case 2: Creates un new galleryItem', function(done) {
 
@@ -463,4 +480,41 @@ it('case 17: gets data for a deleted galleryItem', function(done) {
         done();
     	});
 	});
+
+it('Caso 18: Admin user get posts by space', function(done) {
+	new FeedItem()
+	.list({filter: {'space': publicSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			//console.log(JSON.stringify(response.content, null, 2));
+			//response.content.elements.should.be.a('array');
+			//response.content.elements.length.should.be.eql(1);
+			//expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
+	});
 });
+
+it('Caso 18: Admin user get posts by space', function(done) {
+	chai.request('')
+	.get(currentErrorURL)
+	.set('Content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		assert.include(res.text, 'cannot be empty', 'string contains substring');
+		done();
+	});
+});
+
+/*it('case 19: gets data for a deleted galleryItem', function(done) {
+	new Post()
+	.fetch(290)
+	.then((response) => {
+		console.log(JSON.stringify(response.content, null, 2));
+		//response.should.have.status('404');
+        done();
+    	});
+	});
+});*/
