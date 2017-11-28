@@ -461,16 +461,6 @@ it('Caso 16: a galleryItem is removed from a gallery', function(done) {
 	});
 });
 
-/*it('case 14: gets data for a deleted galleryItem', function(done) {
-	new GalleryItem()
-	.delete(currentGalleryItem.id)
-	.then((response) => {
-		response.should.have.status('204');
-        done();
-    	});
-    	done();
-	});*/
-
 it('case 17: gets data for a deleted galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 
@@ -481,7 +471,7 @@ it('case 17: gets data for a deleted galleryItem', function(done) {
     	});
 	});
 
-it('Caso 18: Admin user get posts by space', function(done) {
+/*it('Caso 18: Admin user get posts by space', function(done) {
 	new FeedItem()
 	.list({filter: {'space': publicSpace.id}})
 		.then((response) => {
@@ -493,19 +483,21 @@ it('Caso 18: Admin user get posts by space', function(done) {
 			done();
 		});
 	});
-});
+});*/
 
 it('Caso 18: Admin user get posts by space', function(done) {
-	chai.request('')
-	.get(currentErrorURL)
+	chai.request('http://api.cd.gointegro.net')
+	.get('/feed-items?filter[space]=' + publicSpace.id + '&include=item.hyperlinks')
 	.set('Content-type', 'application/vnd.api+json')
 	.set('Accept', 'application/vnd.api+json')
 	.set('Authorization', 'Bearer ' + jsonData.adminToken)
 	.end(function(err, res) {
 		res.should.have.status(200);
-		assert.include(res.text, 'cannot be empty', 'string contains substring');
+		console.log(JSON.stringify(res.body, null, 2));
+		//assert.include(res.text, 'cannot be empty', 'string contains substring');
 		done();
 	});
+});
 });
 
 /*it('case 19: gets data for a deleted galleryItem', function(done) {
