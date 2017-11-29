@@ -3,11 +3,13 @@ import User from './../../src/models/user';
 import Role from './../../src/models/role';
 import Space from './../../src/models/space';
 import File from './../../src/models/file';
+import Post from './../../src/models/post';
 import Topic from './../../src/models/topic';
 import Article from './../../src/models/article';
 import Gallery from './../../src/models/gallery';
 import GalleryItem from './../../src/models/galleryItem';
 import ContentItem from './../../src/models/contentItem';
+import FeedItem from './../../src/models/feedItem';
 import { session } from './../../src/services/session';
 var jsonData = require('./../fixtures/data.json');
 
@@ -172,6 +174,20 @@ it('Creates un new article', function(done) {
 		});
 	});
 
+it('Change generate-post to article', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new Article({
+		id: currentArticle.id,
+		'generate-post': true,
+		topic: currentTopic
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // TEST CASES
@@ -194,6 +210,20 @@ it('case 1: Creates un new gallery', function(done) {
 		done();
 		});
 	});
+
+it('Change generate-post to gallery', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new Gallery({
+		id: currentGallery.id,
+		'generate-post': true,
+		topic: currentTopic
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		done();
+	});
+});
 
 it('case 2: Creates un new galleryItem', function(done) {
 
@@ -444,16 +474,6 @@ it('Caso 16: a galleryItem is removed from a gallery', function(done) {
 	});
 });
 
-/*it('case 14: gets data for a deleted galleryItem', function(done) {
-	new GalleryItem()
-	.delete(currentGalleryItem.id)
-	.then((response) => {
-		response.should.have.status('204');
-        done();
-    	});
-    	done();
-	});*/
-
 it('case 17: gets data for a deleted galleryItem', function(done) {
 	new GalleryItem()
 	.fetch(currentGalleryItem.id, 
@@ -463,4 +483,20 @@ it('case 17: gets data for a deleted galleryItem', function(done) {
         done();
     	});
 	});
+
+it('Caso 18: Admin user get posts by space', function(done) {
+	chai.request('http://api.cd.gointegro.net')
+	.get('/feed-items?filter[space]=' + publicSpace.id + '&include=item.hyperlinks')
+	.set('Content-type', 'application/vnd.api+json')
+	.set('Accept', 'application/vnd.api+json')
+	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		assert.include(res.body.included[0].attributes.host, 'http://' + jsonData.currentPlatform.subdomain + '.pla.qa.go5.gointegro.net', 'string contains substring');
+		assert.include(res.body.included[0].attributes.path, '/gosocial/contents/galleries/' + currentGallery.id + '/space/' + publicSpace.id, 'string contains substring');
+		assert.include(res.body.included[2].attributes.host, 'http://' + jsonData.currentPlatform.subdomain + '.pla.qa.go5.gointegro.net', 'string contains substring');
+		assert.include(res.body.included[2].attributes.path, '/gosocial/contents/articles/' + currentArticle.id + '/space/' + publicSpace.id, 'string contains substring');
+		done();
+	});
+});
 });
