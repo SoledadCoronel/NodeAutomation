@@ -12,6 +12,9 @@ class Article extends AbstractModel {
 		this.title = data.title;
 		this.content = data.content;
 		this.active = data.active;
+		this.published = data.active;
+		this['generate-post'] = data['generate-post'];
+		this['generate-notification'] = data['generate-notification'];
 	    this.topic = data.topic;
     }
 
