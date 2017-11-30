@@ -49,21 +49,20 @@ it('Caso 2: validate csv file - without email', function(done) {
 	.end(function(err, res) {
 		res.should.have.status(400);
 		res.body.errors[0].code.should.be.eql("BULK_INVALID_FORMAT");
-		console.log(JSON.stringify(err, null, 2));
+		//console.log(JSON.stringify(err, null, 2));
 		currentErrorURL = res.body.meta['errors-url'];
 		done();
 	});
 });
 
 it('Caso 3: Gets errors file', function(done) {
-	chai.request('')
-	.post('http://api.cd.gointegro.net/user-jobs/processed-files/' + currentErrorURL)
-	.set('Content-type', 'application/vnd.api+json')
-	.set('Accept', 'application/vnd.api+json')
-	.set('Authorization', 'Bearer ' + jsonData.adminToken)
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-jobs/processed-files/' + currentErrorURL)
+	.type('form')
+	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
 		console.log(res);
-		//res.should.have.sattus(200);
+		//res.should.have.status(200);
 		//assert.include(res.text, 'cannot be empty', 'string contains substring');
 		done();
 	});
