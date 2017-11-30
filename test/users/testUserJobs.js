@@ -55,7 +55,7 @@ it('Caso 2: validate csv file - without email', function(done) {
 	});
 });
 
-it('Caso 3: Gets errors file', function(done) {
+/*it('Caso 3: Gets errors file', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-jobs/processed-files/' + currentErrorURL)
 	.type('form')
