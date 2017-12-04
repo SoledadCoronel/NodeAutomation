@@ -19,7 +19,7 @@
     "massiveActions": "clear && mocha \"test/users/testMassiveActions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
+    "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --timeout 70000"
     
   },
   "keywords": [
