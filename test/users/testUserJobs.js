@@ -158,7 +158,7 @@ it('Caso 8: Import a user list', function(done) {
 	});
 });
 
-it('Caso 9: Get the process status of users', function(done) {
+/*it('Caso 9: Get the process status of users', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.get('/user-jobs/' + currentId)
 	.set('Content-type', 'application/vnd.api+json')
@@ -170,5 +170,5 @@ it('Caso 9: Get the process status of users', function(done) {
 		expect(res.body.data.attributes['count-rows']).to.equal(3);
 		done();
 	});
-});
+});*/
 });
