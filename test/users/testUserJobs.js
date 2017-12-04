@@ -97,7 +97,7 @@ it('Caso 5: validate csv file - without lastname', function(done) {
 
 it('Caso 6: Gets errors file', function(done) {
 	chai.request('http://api.cd.gointegro.net')
-	.post('/user-jobs/processed-files/' + currentErrorURL)
+	.post('/user-jobs/processed-files/' + currentErrorURL1)
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
