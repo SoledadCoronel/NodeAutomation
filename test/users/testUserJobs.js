@@ -57,7 +57,7 @@ it('Caso 2: validate csv file - without email', function(done) {
 
 it('Caso 3: Gets errors file', function(done) {
 	chai.request('http://api.cd.gointegro.net')
-	.post('/user-jobs/processed-files/' + currentErrorURL)
+	.post('/user-jobs/error-files/' + currentErrorURL)
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
@@ -81,7 +81,7 @@ it('Caso 4: validate csv file - empty file', function(done) {
 	});
 });
 
-it('Caso 5: validate csv file - without lastname', function(done) {
+/*it('Caso 5: validate csv file - without lastname', function(done) {
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-jobs')
 	.set('Content-Type', 'multipart/form-data')
@@ -97,7 +97,7 @@ it('Caso 5: validate csv file - without lastname', function(done) {
 
 it('Caso 6: Gets errors file', function(done) {
 	chai.request('http://api.cd.gointegro.net')
-	.post('/user-jobs/processed-files/' + currentErrorURL1)
+	.post('/user-jobs/error-files/' + currentErrorURL1)
 	.type('form')
 	.send('access_token=' + jsonData.adminToken)
 	.end(function(err, res) {
@@ -105,7 +105,7 @@ it('Caso 6: Gets errors file', function(done) {
 		assert.include(res.text, 'cannot be empty', 'string contains substring');
 		done();
 	});
-});
+});*/
 
 it('Caso 7: validate csv file - file without csv extension', function(done) {
 	chai.request('http://api.cd.gointegro.net')
