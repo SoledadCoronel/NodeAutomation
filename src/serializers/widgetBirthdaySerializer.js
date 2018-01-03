@@ -8,6 +8,7 @@ class WidgetBirthdaySerializer {
       attributes: [
             'position',
             'status'
+            // agregar atributo nuevo
       ]
     });
 

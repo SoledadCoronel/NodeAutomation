@@ -10,6 +10,7 @@ class WidgetBirthday extends AbstractModel {
 		this.id = data.id,
 		this.position = data.position;
 		this.status = data.status;
+        // agregar atributo nuevo
     }
 
     endpoint() {
@@ -21,6 +22,7 @@ class WidgetBirthday extends AbstractModel {
     		id: widgetBirthday.id,
     		position: widgetBirthday.position,
     		status: widgetBirthday.status,
+            // agregar atributo nuevo
 		});
     }
 };
