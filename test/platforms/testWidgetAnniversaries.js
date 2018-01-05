@@ -113,6 +113,21 @@ it('Change status to widget anniversary', function(done) {
 	});
 });
 
+it('Change automated-email to widget anniversary', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetAnniversary({
+		id: currentWidget.id, 
+		'automated-email': true
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content['automated-email']).to.equal(true);
+		console.log(JSON.stringify(response.content, null, 2));
+		done();
+	});
+});
+
 it('User admin create a second widget anniversary', function(done) {
 	let widget = new WidgetAnniversary({
 		position: 1,

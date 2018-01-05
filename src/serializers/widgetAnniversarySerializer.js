@@ -8,7 +8,8 @@ class WidgetAnniversarySerializer {
       attributes: [
             'position',
             'status',
-            //agregar atributo nuevo
+            'automated-email',
+            'email-image-es',
       ]
     });
 

@@ -114,6 +114,20 @@ it('Change status to widgetBirthday', function(done) {
 	});
 });
 
+it('Change automated-email to widget widgetBirthday', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetBirthday({
+		id: currentWidget.id, 
+		'automated-email': true
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content['automated-email']).to.equal(true);
+		done();
+	});
+});
+
 it('User admin create a second widget birthday', function(done) {
 	let widget = new WidgetBirthday({
 		position: 1,

@@ -10,7 +10,8 @@ class WidgetAnniversary extends AbstractModel {
 		this.id = data.id,
 		this.position = data.position;
 		this.status = data.status;
-        // agregar atributo nuevo
+        this['automated-email'] = data['automated-email'];
+        this['email-image-es'] = data['email-image-es'];
     }
 
     endpoint() {
@@ -22,7 +23,8 @@ class WidgetAnniversary extends AbstractModel {
     		id: widgetAnniversary.id,
     		position: widgetAnniversary.position,
     		status: widgetAnniversary.status,
-            // agregar atributo nuevo
+            'automated-email' : widgetAnniversary['automated-email'],
+            'email-image-es' : widgetAnniversary['email-image-es'],
 		});
     }
 };

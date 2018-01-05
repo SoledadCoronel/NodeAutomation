@@ -7,8 +7,9 @@ class WidgetBirthdaySerializer {
     this.serializer = new Serializer('widget-birthday', {
       attributes: [
             'position',
-            'status'
-            // agregar atributo nuevo
+            'status',
+            'automated-email',
+            'email-image-es',
       ]
     });
 

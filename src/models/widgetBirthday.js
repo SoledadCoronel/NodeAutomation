@@ -10,7 +10,8 @@ class WidgetBirthday extends AbstractModel {
 		this.id = data.id,
 		this.position = data.position;
 		this.status = data.status;
-        // agregar atributo nuevo
+        this['automated-email'] = data['automated-email'];
+        this['email-image-es'] = data['email-image-es'];
     }
 
     endpoint() {
@@ -22,7 +23,8 @@ class WidgetBirthday extends AbstractModel {
     		id: widgetBirthday.id,
     		position: widgetBirthday.position,
     		status: widgetBirthday.status,
-            // agregar atributo nuevo
+           'automated-email' : widgetBirthday['automated-email'],
+           'email-image-es' : widgetBirthday['email-image-es'],
 		});
     }
 };
