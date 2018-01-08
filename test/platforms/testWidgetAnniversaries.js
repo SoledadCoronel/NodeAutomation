@@ -113,6 +113,40 @@ it('Change status to widget anniversary', function(done) {
 	});
 });
 
+it('Change automated-email to true to widget anniversary', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetAnniversary({
+		id: currentWidget.id, 
+		'automated-email': true
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content['automated-email']).to.equal(true);
+		expect(response.content['email-image-es']).to.equal('https://anniversary.es');
+		expect(response.content['email-image-en']).to.equal('https://anniversary.en');
+		expect(response.content['email-image-pt']).to.equal('https://anniversary.pt');
+		done();
+	});
+});
+
+it('Change automated-email to false to widget anniversary', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetAnniversary({
+		id: currentWidget.id, 
+		'automated-email': false
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content['automated-email']).to.equal(false);
+		//expect(response.content['email-image-es']).to.equal('https://anniversary.es');
+		//expect(response.content['email-image-en']).to.equal('https://anniversary.en');
+		//expect(response.content['email-image-pt']).to.equal('https://anniversary.pt');
+		done();
+	});
+});
+
 it('User admin create a second widget anniversary', function(done) {
 	let widget = new WidgetAnniversary({
 		position: 1,
