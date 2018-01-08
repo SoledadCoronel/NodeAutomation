@@ -114,7 +114,7 @@ it('Change status to widgetBirthday', function(done) {
 	});
 });
 
-it('Change automated-email to widget widgetBirthday', function(done) {
+it('Change automated-email to true to widget widgetBirthday', function(done) {
 	session.addToken(1, jsonData.adminToken);
 	new WidgetBirthday({
 		id: currentWidget.id, 
@@ -124,6 +124,26 @@ it('Change automated-email to widget widgetBirthday', function(done) {
 	.then((response) => {
 		response.should.have.status('200');
 		expect(response.content['automated-email']).to.equal(true);
+		expect(response.content['email-image-es']).to.equal('https://birthday.es');
+		expect(response.content['email-image-en']).to.equal('https://birthday.en');
+		expect(response.content['email-image-pt']).to.equal('https://birthday.pt');
+		done();
+	});
+});
+
+it('Change automated-email to false to widget widgetBirthday', function(done) {
+	session.addToken(1, jsonData.adminToken);
+	new WidgetBirthday({
+		id: currentWidget.id, 
+		'automated-email': false
+	})
+	.update()
+	.then((response) => {
+		response.should.have.status('200');
+		expect(response.content['automated-email']).to.equal(false);
+		//expect(response.content['email-image-es']).to.equal('https://anniversary.es');
+		//expect(response.content['email-image-en']).to.equal('https://anniversary.en');
+		//expect(response.content['email-image-pt']).to.equal('https://anniversary.pt');
 		done();
 	});
 });

@@ -10,6 +10,8 @@ class WidgetBirthdaySerializer {
             'status',
             'automated-email',
             'email-image-es',
+            'email-image-en',
+            'email-image-pt'
       ]
     });
 
