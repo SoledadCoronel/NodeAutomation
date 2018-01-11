@@ -35,7 +35,7 @@ it('1. Fetches a profile data basicUser', function(done) {
 	.then((response) => {
 		currentUser = response.content;
 		response.should.have.status('200');
-		console.log(JSON.stringify(response.content, null, 2));
+		console.log(JSON.stringify(response.content.profile, null, 2));
 		done();
 	});
 });
@@ -45,7 +45,7 @@ it('caso 12: list all users who are years old', function(done) {
 	session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': 12, 'celebration-date': '2017-11-22', 'celebration': 'birthdays', 'offset-range': 1}})
+	.list({filter: {'offset': 12, 'celebration-date': '2018-09-23', 'celebration': 'birthdays', 'offset-range': 1}})
 		.then((response) => {
 			console.log(JSON.stringify(response.content, null, 2));
 			//response.should.have.status('200');
