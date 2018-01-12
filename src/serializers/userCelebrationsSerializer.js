@@ -5,7 +5,17 @@ class UserCelebrationsSerializer {
 	constructor (config = {}) {
 		this.serializer = new Serializer('user-celebrations', {
 			attributes: [
-                'data',
+                'name',
+                'last-name',
+                'job-title',
+                'picture',
+                'language',
+                'timezone',
+                'email',
+                'platform-id',
+                'birth-date',
+                'admission-date',
+                'registration-date'
 			]
 		});
 

@@ -21,6 +21,7 @@ class User extends AbstractModel {
 	    
 	    this.role = data.role;
 	    this.profile = data.profile;
+	    this.preference = data.preference;
     	this['group-items'] = data['group-items'] || [];
     }
 

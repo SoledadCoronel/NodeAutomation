@@ -2,6 +2,7 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Role from './../models/role';
 import User from './../models/user';
 import Profile from './../models/profile';
+import UserPreferences from './../models/UserPreferences';
 
 class UserSerializer {
 
@@ -18,7 +19,9 @@ class UserSerializer {
               'registered-date',
               'created-at',
               'updated-at',
-              'role'
+              'profile',
+              'role',
+              'preference'
             ],
             role: {
                 ref: (user, role) => role.id,
@@ -27,6 +30,11 @@ class UserSerializer {
             },
             profile: {
                 ref: (user, profile) => profile.id,
+                attributes: ['name'],
+                included: true
+            },
+            preference: {
+                ref: (user, preference) => preference.id,
                 attributes: ['name'],
                 included: true
             }
@@ -46,7 +54,15 @@ class UserSerializer {
                         id: relationship.id,
                     });
                 }
+            },
+            'user-preferences': {
+                valueForRelationship: function (relationship) {
+                    return new UserPreferences({
+                        id: relationship.id,
+                    });
+                }
             }
+
         });
     }
 
