@@ -2,7 +2,7 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Role from './../models/role';
 import User from './../models/user';
 import Profile from './../models/profile';
-import UserPreferences from './../models/userPreferences';
+//import UserPreferences from './../models/userPreferences';
 
 class UserSerializer {
 
@@ -19,9 +19,9 @@ class UserSerializer {
               'registered-date',
               'created-at',
               'updated-at',
-              'profile',
               'role',
-              'preference'
+              //'preference',
+              'profile',
             ],
             role: {
                 ref: (user, role) => role.id,
@@ -32,12 +32,12 @@ class UserSerializer {
                 ref: (user, profile) => profile.id,
                 attributes: ['name'],
                 included: true
-            },
-            preference: {
+            }//,
+            /*preference: {
                 ref: (user, preference) => preference.id,
-                attributes: ['name'],
+                attributes: ['user-preferences'],
                 included: true
-            }
+            }*/
         });
 
         this.deserializer = new Deserializer({
@@ -48,21 +48,20 @@ class UserSerializer {
                     });
                 }
             },
+            /*'user-preferences': {
+                valueForRelationship: function (relationship) {
+                    return new UserPreferences({
+                        id: relationship.id,
+                    });
+                }
+            },*/
             profiles: {
                 valueForRelationship: function (relationship) {
                     return new Profile({
                         id: relationship.id,
                     });
                 }
-            },
-            'user-preferences': {
-                valueForRelationship: function (relationship) {
-                    return new UserPreferences({
-                        id: relationship.id,
-                    });
-                }
             }
-
         });
     }
 

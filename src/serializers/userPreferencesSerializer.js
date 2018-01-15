@@ -21,7 +21,7 @@ class UserPreferencesSerializer {
     });
 
     this.deserializer = new Deserializer({
-      user: {
+      users: {
         valueForRelationship: function (relationship) {
           return new User({
             id: relationship.id,

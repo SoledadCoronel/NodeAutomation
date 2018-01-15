@@ -78,7 +78,7 @@ new Promise((resolve, reject) => {
     let jsonData = require(jsonFilePath); 
 
                               });
-                            })
+                            });
                           });
                         });
                       });
@@ -92,7 +92,7 @@ new Promise((resolve, reject) => {
       });
     });
   });
-})
+});
 
 function createPlatform() {
   let platform = new Platform({
@@ -335,6 +335,3 @@ function createGroupItem2(currentGroup) {
     return currentGroupItem2;
   });
 }
-
-
-

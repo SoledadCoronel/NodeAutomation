@@ -20,9 +20,10 @@ class User extends AbstractModel {
 	    this['updated-at'] = data['updated-at'];
 	    
 	    this.role = data.role;
+	    this['group-items'] = data['group-items'] || [];
+	    //this.preference = data.preference;
 	    this.profile = data.profile;
-	    this.preference = data.preference;
-    	this['group-items'] = data['group-items'] || [];
+    	
     }
 
     endpoint() {
@@ -44,8 +45,9 @@ class User extends AbstractModel {
 			'updated-at': user['updated-at'],
 			//relationships
 			role: user.role,
-			profile: user.profile,
 			'group-items': user['group-items'],
+			//preference: user.preference,
+			profile: user.profile,	
 		});
 	}
 };
