@@ -2,7 +2,7 @@ import {Serializer, Deserializer} from 'jsonapi-serializer';
 import Role from './../models/role';
 import User from './../models/user';
 import Profile from './../models/profile';
-import UserPreferences from './../models/UserPreferences';
+import UserPreferences from './../models/userPreferences';
 
 class UserSerializer {
 

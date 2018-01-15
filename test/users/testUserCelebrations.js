@@ -1,7 +1,7 @@
 import UserCelebrations from './../../src/models/userCelebrations';
 import Role from './../../src/models/role';
 import User from './../../src/models/user';
-import UserPreferences from './../../src/models/userPreferences';
+//import UserPreferences from './../../src/models/userPreferences';
 import { session } from './../../src/services/session';
 
 var jsonData = require('./../fixtures/data.json');
@@ -110,7 +110,7 @@ it('3. Fetches a user preferences basicUser', function(done) {
 	new UserPreferences({
 		id: jsonData.basicUser.id, 
 		timezone: 'Pacific/Wake',
-		user: currentUser.id,
+		user: currentUser,
 	})
 	.update()
 	.then((response) => {

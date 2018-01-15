@@ -48,3 +48,4 @@ class UserPreferencesSerializer {
 };
 
 export default UserPreferencesSerializer;
+                
