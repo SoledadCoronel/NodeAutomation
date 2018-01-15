@@ -92,7 +92,7 @@ new Promise((resolve, reject) => {
       });
     });
   });
-});
+})
 
 function createPlatform() {
   let platform = new Platform({
@@ -122,7 +122,7 @@ function loginAdminUser(currentPlatform) {
     
     fixtureData['adminToken'] = adminToken;
     fixtureData['adminUserId'] = adminUserId;
-
+    
     return adminToken;
   });
 }

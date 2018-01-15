@@ -3,7 +3,7 @@ import AbstractModel from './abstractModel';
 
 class User extends AbstractModel {
 
-	constructor (data = {}) {
+    constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
 
@@ -21,7 +21,7 @@ class User extends AbstractModel {
 	    
 	    this.role = data.role;
 	    this['group-items'] = data['group-items'] || [];
-	    //this.preference = data.preference;
+	    this.preference = data.preference;
 	    this.profile = data.profile;
     	
     }
@@ -30,7 +30,7 @@ class User extends AbstractModel {
     	return '/users';
     }
 
-    deconstruct(user) {
+	deconstruct(user) {
 		return new User({
 			id: user.id,
 			name: user.name,
@@ -46,8 +46,9 @@ class User extends AbstractModel {
 			//relationships
 			role: user.role,
 			'group-items': user['group-items'],
-			//preference: user.preference,
-			profile: user.profile,	
+			preference: user.preference,
+			profile: user.profile,
+			
 		});
 	}
 };
