@@ -5,7 +5,7 @@ import User from './../models/user';
 class UserPreferencesSerializer {
 
   constructor (config = {}) {
-    this.serializer = new Serializer('userPreferences', {
+    this.serializer = new Serializer('user-preferences', {
       attributes: [
       'timezone',
       'language',
@@ -14,7 +14,7 @@ class UserPreferencesSerializer {
       'user'
       ],
       user: {
-        ref: (userPreferences, user) => user.id,
+        ref: (invitation, user) => user.id,
         attributes: ['name'],
         included: false
       }
