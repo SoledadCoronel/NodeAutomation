@@ -308,4 +308,8 @@ it('caso 18: list all users who meet anniversary', function(done) {
 			done();
 		});
 	});
+	var f = new Date();
+	console.log(f);
+
+
 })
