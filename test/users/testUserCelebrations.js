@@ -10,6 +10,7 @@ var jsonData = require('./../fixtures/data.json');
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
+var moment = require('moment-timezone');
 var random = new Random();
 var should = chai.should();
 var expect = chai.expect;
@@ -31,6 +32,11 @@ var currentAdminSpacePreference;
 var currentAdminUserPreference;
 var profileAdminUser;
 var currentActions;
+
+// se obtiene offset para Buenos Aires y 
+var date = new Date();
+var offsetBsAs = moment(date).tz("America/Argentina/Buenos_Aires").format('Z');
+var offsetManagua = moment(date).tz("America/Managua").format('Z');
 
 // comienzo de la suite
 describe('SUITE - USERS - USERS CELEBRATIONS', function() {
@@ -126,7 +132,7 @@ it('caso 7: list all users who are years old', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -3, 'celebration-date': '2017-09-23', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetBsAs, 'celebration-date': '2017-09-23', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			//console.log(JSON.stringify(response.content, null, 2));
 			response.should.have.status('200');
@@ -143,7 +149,7 @@ it('caso 8: list all users who are years old', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -3, 'celebration-date': '2017-09-25', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetBsAs, 'celebration-date': '2017-09-25', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			//console.log(JSON.stringify(response.content, null, 2));
 			response.should.have.status('200');
@@ -160,7 +166,7 @@ it('caso 9: list all users who are years old', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -3, 'celebration-date': '2017-09-23', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetBsAs, 'celebration-date': '2017-09-23', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			response.should.have.status('200');
 			//console.log(JSON.stringify(response.content, null, 2));
@@ -177,7 +183,7 @@ it('caso 10: list all users who are years old', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -3, 'celebration-date': '2017-09-25', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetBsAs, 'celebration-date': '2017-09-25', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			//console.log(JSON.stringify(response.content, null, 2));
 			response.should.have.status('200');
@@ -279,7 +285,7 @@ it('caso 17: list all users who are years old', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -6, 'celebration-date': '2017-09-23', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetManagua, 'celebration-date': '2017-09-23', 'celebration': 'birthdays', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			//console.log(JSON.stringify(response.content, null, 2));
 			response.should.have.status('200');
@@ -296,7 +302,7 @@ it('caso 18: list all users who meet anniversary', function(done) {
 	//session.setCredentials(jsonData.adminUserId, jsonData.currentPlatform.id);
 
 	new UserCelebrations()
-	.list({filter: {'offset': -6, 'celebration-date': '2017-09-23', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
+	.list({filter: {'offset': offsetManagua, 'celebration-date': '2017-09-23', 'celebration': 'anniversaries', 'offset-range': 1, 'platform-id': jsonData.currentPlatform.id}})
 		.then((response) => {
 			//console.log(JSON.stringify(response.content, null, 2));
 			response.should.have.status('200');
@@ -308,8 +314,5 @@ it('caso 18: list all users who meet anniversary', function(done) {
 			done();
 		});
 	});
-	var f = new Date();
-	console.log(f);
-
 
 })
