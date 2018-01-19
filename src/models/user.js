@@ -3,7 +3,7 @@ import AbstractModel from './abstractModel';
 
 class User extends AbstractModel {
 
-	constructor (data = {}) {
+    constructor (data = {}) {
 		super();
 		this.serializer = new Serializer;
 
@@ -20,15 +20,17 @@ class User extends AbstractModel {
 	    this['updated-at'] = data['updated-at'];
 	    
 	    this.role = data.role;
+	    this['group-items'] = data['group-items'] || [];
+	    this.preference = data.preference;
 	    this.profile = data.profile;
-    	this['group-items'] = data['group-items'] || [];
+    	
     }
 
     endpoint() {
     	return '/users';
     }
 
-    deconstruct(user) {
+	deconstruct(user) {
 		return new User({
 			id: user.id,
 			name: user.name,
@@ -43,8 +45,10 @@ class User extends AbstractModel {
 			'updated-at': user['updated-at'],
 			//relationships
 			role: user.role,
-			profile: user.profile,
 			'group-items': user['group-items'],
+			preference: user.preference,
+			profile: user.profile,
+			
 		});
 	}
 };

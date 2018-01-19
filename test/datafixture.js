@@ -78,7 +78,7 @@ new Promise((resolve, reject) => {
     let jsonData = require(jsonFilePath); 
 
                               });
-                            })
+                            });
                           });
                         });
                       });
@@ -122,7 +122,7 @@ function loginAdminUser(currentPlatform) {
     
     fixtureData['adminToken'] = adminToken;
     fixtureData['adminUserId'] = adminUserId;
-
+    
     return adminToken;
   });
 }
@@ -335,6 +335,3 @@ function createGroupItem2(currentGroup) {
     return currentGroupItem2;
   });
 }
-
-
-

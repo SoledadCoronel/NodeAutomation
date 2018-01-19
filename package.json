@@ -14,6 +14,7 @@
     "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "widgetBirthdays": "clear && mocha \"test/platforms/testWidgetBirthdays@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "widgetAnniversaries": "clear && mocha \"test/platforms/testWidgetAnniversaries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "userCelebrations": "clear && mocha \"test/users/testUserCelebrations@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "widgetHires": "clear && mocha \"test/platforms/testWidgetHires@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userImports": "clear && mocha \"test/users/testUserImports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "massiveActions": "clear && mocha \"test/users/testMassiveActions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
@@ -37,6 +38,7 @@
     "jsonfile": "^2.4.0",
     "mocha": "^3.0.2",
     "mocha-junit-reporter": "^1.12.1",
+    "moment-timezone": "^0.5.14",
     "random-js": "^1.0.8"
   },
   "devDependencies": {
