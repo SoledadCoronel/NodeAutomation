@@ -394,7 +394,7 @@ it('Caso 7: Get all posts in the space', function(done) {
 it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[size]=' + 2)
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[number]=1' + '&' + 'page[size]=2')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + jsonData.adminToken)
@@ -411,7 +411,7 @@ it('Caso 8: Get posts filtering by hashtag - valid range and pagination size 2',
 it('Caso 9: Get posts filtering by hashtag - valid range and pagination size 3', function(done) {
 		chai.request('http://api.cd.gointegro.net')
 		.get('/feed-items?filter[space]=' + publicSpace.id 
-			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[size]=' + 3)
+			+ '&' + 'filter[hashtag]=testing' + '&' + 'filter[from]=' + currentPost4.id + 'filter[to]=' + currentPost2.id + '&' + 'page[number]=1' + '&' + 'page[size]=3')
 		.set('content-type', 'application/vnd.api+json')
 		.set('Accept', 'application/vnd.api+json')
 		.set('Authorization', 'Bearer ' + jsonData.adminToken)

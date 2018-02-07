@@ -10,7 +10,21 @@
     "build": "./node_modules/.bin/babel src --presets es2015 -d dist",
     "api": "clear && mocha \"test/api*@(.js)\" --compilers js:babel-register"
     "datafixture": "babel-node test/datafixture.js --presets es2015",
-    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 45000",
+    "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 70000",
+    "galleries": "clear && mocha \"test/platforms/testGalleries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 80000",
+    "hashtagPrivateSpace": "clear && mocha \"test/social/testHashtagPrivateSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "hashtagPublicSpace": "clear && mocha \"test/social/testHashtagPublicSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "widgetBirthdays": "clear && mocha \"test/platforms/testWidgetBirthdays@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "widgetAnniversaries": "clear && mocha \"test/platforms/testWidgetAnniversaries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "userCelebrations": "clear && mocha \"test/users/testUserCelebrations@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "widgetHires": "clear && mocha \"test/platforms/testWidgetHires@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "userImports": "clear && mocha \"test/users/testUserImports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "massiveActions": "clear && mocha \"test/users/testMassiveActions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",
@@ -27,6 +41,7 @@
     "jsonfile": "^2.4.0",
     "mocha": "^3.0.2",
     "mocha-junit-reporter": "^1.12.1",
+    "moment-timezone": "^0.5.14",
     "random-js": "^1.0.8"
   },
   "devDependencies": {

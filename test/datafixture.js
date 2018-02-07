@@ -3,6 +3,8 @@ import Oauth from '../src/models/oauth';
 import Role from '../src/models/role';
 import User from '../src/models/user';
 import Invitation from '../src/models/invitation';
+import Group from '../src/models/group';
+import GroupItem from '../src/models/groupItem';
 import { session } from './../src/services/session';
 
 
@@ -25,12 +27,16 @@ var basicToken = null;
 var adminSpaceToken = null;
 var basicRole = null;
 var adminSpaceRole = null;
+var adminUserId = null;
 var basicUser = null;
 var adminSpaceUser = null;
 var invitationBasicUser = null;
 var invitationAdminSpaceUser = null;
 var completeInvitationBasic = null;
 var completeInvitationAdminSpace = null;
+var currentGroup = null;
+var currentGroupItem = null;
+var currentGroupItem2 = null;
 
 var fixtureData = {};
 
@@ -40,30 +46,40 @@ new Promise((resolve, reject) => {
   createPlatform()
   .then((currentPlatform) => {
     loginAdminUser(currentPlatform)
-    .then((adminToken) => {
-      session.addToken(1, adminToken);
-      getPlatformRoles()
-      .then((rolesInfo) => {
-        createBasicUser(basicRole)
-        .then((basicUser) => {
-          createAdminSpaceUser(adminSpaceRole)
-          .then((adminSpaceUser) => {
-            inviteBasicUser(basicUser)
-            .then((invitationBasicUser) => {
-              inviteAdminSpaceUser(adminSpaceUser)
-              .then((invitationAdminSpaceUser) => {
-                completeBasicUserInvitation(invitationBasicUser)
-                .then((completeInvitationBasic) => {
-                  completeAdminSpaceUserInvitation(invitationAdminSpaceUser)
-                  .then((completeInvitationAdminSpace) => {
-                    loginBasicUser(currentPlatform, basicUser)
-                    .then((basicToken) => {
-                      loginAdminSpaceUser(currentPlatform, adminSpaceUser)
-                      .then((adminSpaceToken) => {
-                        let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
+  .then((adminToken) => {
+    session.addToken(1, adminToken);
+    getPlatformRoles()
+  .then((rolesInfo) => {
+    createBasicUser(basicRole)
+  .then((basicUser) => {
+    createAdminSpaceUser(adminSpaceRole)
+  .then((adminSpaceUser) => {
+    inviteBasicUser(basicUser)
+  .then((invitationBasicUser) => {
+    inviteAdminSpaceUser(adminSpaceUser)
+  .then((invitationAdminSpaceUser) => {
+    completeBasicUserInvitation(invitationBasicUser)
+  .then((completeInvitationBasic) => {
+    completeAdminSpaceUserInvitation(invitationAdminSpaceUser)
+  .then((completeInvitationAdminSpace) => {
+    loginBasicUser(currentPlatform, basicUser)
+  .then((basicToken) => {
+    loginAdminSpaceUser(currentPlatform, adminSpaceUser)
+  .then((adminSpaceToken) => {
+    createGroup()
+  .then((currentGroup) => {
+    createGroupItem(currentGroup)
+  .then((currentGroupItem) => {
+    createGroupItem2(currentGroup)
+  .then((currentGroupItem2) => {
+              let jsonFilePath = require('path').dirname(__dirname) + '/test/fixtures/data.json';
 
-                        jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
-                          let jsonData = require(jsonFilePath);                         
+    jsonfile.writeFile(jsonFilePath, fixtureData, {spaces: 2}, function() {
+    let jsonData = require(jsonFilePath); 
+
+                              });
+                            });
+                          });
                         });
                       });
                     });
@@ -102,9 +118,11 @@ function loginAdminUser(currentPlatform) {
   }).then((response) => {
     let tokenInfo = response.content;
     adminToken = tokenInfo.access_token;
-
+    adminUserId = tokenInfo.user_id;
+    
     fixtureData['adminToken'] = adminToken;
-
+    fixtureData['adminUserId'] = adminUserId;
+    
     return adminToken;
   });
 }
@@ -125,15 +143,15 @@ function getPlatformRoles() {
       fixtureData['basicRole'] = basicRole.id;
       fixtureData['adminSpaceRole'] = adminSpaceRole.id;
 
-      return {basicRole, adminSpaceRole};
+      return basicRole;
     }); 
 }
 
 function createBasicUser(basicRole) {
 
       let user = new User({
-      name: 'UsuarioRolBasico',
-      'last-name': 'UsuarioRolBasico',
+      name: 'UsuarioRolBásico',
+      'last-name': 'UsuarioRolBásico',
       email : 'basic' + random.integer(1, 10000) + '@gointegro.com',
       status : 'active',
       'login-enabled' : true,
@@ -153,8 +171,8 @@ function createBasicUser(basicRole) {
 function createAdminSpaceUser(adminSpaceRole) {
 
   let user = new User({
-    name: 'UsuarioRolAdminDeEspacio',
-    'last-name': 'UsuarioRolAdminDeEspacio',
+    name: 'UsuarioRolAdmiñDeEspacio',
+    'last-name': 'UsuarioRolAdmiñDeEspacio',
     email : 'adminSpace' + random.integer(1, 10000) + '@gointegro.com',
     status : 'active',
     'login-enabled' : true,
@@ -264,5 +282,56 @@ function loginAdminSpaceUser(currentPlatform, adminSpaceUser) {
     fixtureData['adminSpaceToken'] = adminSpaceToken;
 
     return adminSpaceToken;
+  });
+}
+
+function createGroup () {
+
+  let group = new Group({
+    name: 'group1',
+    position: 0
+  });
+
+  return group.create()
+  .then((response) => {
+    let groupInfo = response.content;
+    let currentGroup = {'id': groupInfo.id, 'name': groupInfo.name};
+
+    fixtureData['currentGroup'] = currentGroup;
+    return currentGroup;
+  });
+}
+
+function createGroupItem(currentGroup) {
+    let groupItem = new GroupItem({
+    name: 'groupItem1',
+    position: 0,
+    group: currentGroup
+  });
+
+  return groupItem.create()
+  .then((response) => {
+    let groupItemInfo = response.content;
+    let currentGroupItem = {'id': groupItemInfo.id, 'name': groupItemInfo.name};
+
+    fixtureData['currentGroupItem'] = currentGroupItem;
+    return currentGroupItem;
+  });
+}
+
+function createGroupItem2(currentGroup) {
+    let groupItem = new GroupItem({
+    name: 'groupItem2',
+    position: 1,
+    group: currentGroup
+  });
+
+  return groupItem.create()
+  .then((response) => {
+    let groupItemInfo = response.content;
+    let currentGroupItem2 = {'id': groupItemInfo.id, 'name': groupItemInfo.name};
+
+    fixtureData['currentGroupItem2'] = currentGroupItem2;
+    return currentGroupItem2;
   });
 }

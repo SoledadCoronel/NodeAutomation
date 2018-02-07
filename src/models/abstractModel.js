@@ -1,6 +1,8 @@
 import Request from './../services/request';
 import Collection from './collection';
 
+// DATOS Y FUNCIONALIDADES
+
 class AbstractModel {
 
 	constructor (data = {}) {
@@ -21,15 +23,15 @@ class AbstractModel {
 	update() {
 		return this.request.patch(
 			this.endpoint() + '/' + this.id,
-			this.getSerializer().serialize(this)
-		).then(this.process());
+			this.getSerializer().serialize(this))
+		.then(this.process());
 	}
 
-	delete() {
+	delete(id) {
 		return this.request.delete(
 			this.endpoint() + '/' + this.id,
-			this.getSerializer().serialize(this)
-			).then(this.process());
+			this.getSerializer().serialize(this))
+		.then(this.process());
 	}
 	
 	fetch(id, params = {}) {
@@ -77,9 +79,14 @@ class AbstractModel {
 				return response;
 			}
 
-			return this.getSerializer()
-				.deserialize(response.getContent())
-				.then(this.build(response));
+			if (response.getStatus() != 204) {
+				return this.getSerializer()
+					.deserialize(response.getContent())
+					.then(this.build(response));				
+				} else {
+					return response;
+				}
+
         }
 	}
 

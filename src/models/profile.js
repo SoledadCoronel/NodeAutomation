@@ -16,13 +16,13 @@ class Profile extends AbstractModel {
 		//this.linkedin = data.linkedin;
 		//this.facebook = data.facebook;
 		//this.twitter = data.twitter;
-		//this['admission-date'] = data['admission-date'];
+		this['admission-date'] = data['admission-date'];
 		//this['job-address'] = data['job-address'];
 		//this['personal-address'] = data['personal-address'];
-		//this['document-type'] = data['document-type'];
+		this['document-type'] = data['document-type'];
 		this.document = data.document;
 		//this.gender = data.gender;
-		//this['birth-date'] = data['birth-date'];
+		this['birth-date'] = data['birth-date'];
 		//this['personal-email'] = data['personal-email'];
 		//this['marital-status'] = data['marital-status'];
 		//this['job-type'] = data['job-type'];
@@ -30,7 +30,7 @@ class Profile extends AbstractModel {
 	}
 
 	endpoint() {
-		return '/profile';
+		return '/profiles';
 	}
 
 	deconstruct(profile) {
@@ -44,18 +44,16 @@ class Profile extends AbstractModel {
 			//linkedin: profile.linkedin,
 			//facebook: profile.facebook,
 			//twitter: profile.twitter,
-			//'admission-date': profile['admission-date'],
+			'admission-date': profile['admission-date'],
 			//'job-address': profile['job-address'],
 			//'personal-address': profile['personal-address'],
-			//'document-type': profile['document-type'],
+			'document-type': profile['document-type'],
 			document:  profile.document,
 			//gender:  profile.gender,
-			//'birth-date':  profile['birth-date'],
+			'birth-date':  profile['birth-date'],
 			//'personal-email': profile['personal-email'],
 			//'marital-status': profile['marital-status'],
 			//'job-type': profile['job-type'],
-		//relationships
-			//user: profile.user,
 		});
 	}
 

@@ -13,6 +13,8 @@ class Gallery extends AbstractModel {
 		this.content = data.content;
 		this.active = data.active;
 		this.published = data.active;
+		this['generate-post'] = data['generate-post'];
+		this['generate-notification'] = data['generate-notification'];
 	    this.topic = data.topic;
     }
 
@@ -27,6 +29,9 @@ class Gallery extends AbstractModel {
 			content: gallery.content,
 			active: gallery.active,
 			published: gallery.published,
+			'generate-post': gallery['generate-post'],
+			'generate-notification': gallery['generate-notification'],
+
 			//relationships
 			topic: gallery.topic,
 		});

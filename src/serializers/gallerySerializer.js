@@ -11,6 +11,8 @@ class GallerySerializer {
       'content',
       'active',
       'published',
+      'generate-post',
+      'generate-notification',
       'topic'
       ],
       topic: {

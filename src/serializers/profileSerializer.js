@@ -5,21 +5,12 @@ import User from './../models/user';
 class ProfileSerializer {
 
     constructor (config = {}) {
-        this.serializer = new Serializer('profile', {
+        this.serializer = new Serializer('profiles', {
             attributes: [
-              'employee-id',
-              'personal-phone',
-              'personal-cellphone',
-              'job-phone',
-              'job-cellphone',
-              'linkedin',
-              'facebook',
-              'twitter',
               'admission-date',
-              'job-address',
-              'personal-address',
               'document-type',
               'document',
+<<<<<<< HEAD
               'gender',
               'birth-date',
               'personal-email',
@@ -76,6 +67,13 @@ class ProfileSerializer {
                 }
             }
         });
+=======
+              'birth-date'
+            ]
+        });
+
+        this.deserializer = new Deserializer({});
+>>>>>>> test/refactoring
     }
 
     serialize (data = {}) {

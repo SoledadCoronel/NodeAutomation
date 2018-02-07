@@ -20,7 +20,7 @@ chai.use(chaiColors);
 var publicSpace = null;
 var companySpace = null;
 var privateSpace = null;
-var profileUser = null;
+var currentUser = null;
 var currentProfilePost = null;
 var currentProfilePost2 = null;
 var currentPost = null;
@@ -30,22 +30,22 @@ var currentPost4 = null;
 var currentPost5 = null;
 var currentPost6 = null;
 // comienzo de la suite
-describe('SUITE - SOCIAL - HASHTAG - SUGERENCIAS', function() {
-	session.addToken(1, jsonData.adminToken);
+describe('SUITE - HASHTAG - SUGGESTIONS', function() {
 
 
 it('fetches a profile user', function(done) {
+	session.addToken(1, jsonData.adminToken);
 	new User()
 	.fetch(jsonData.basicUser.id)
 	.then((response) => {
 		response.should.have.status('200');
-		profileUser = response.content.profile;
+		currentUser = response.content;
 		done();
 	});
 });
 
 it('creates a new public space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio publico',
 		description: 'espacio publico',
@@ -66,7 +66,7 @@ it('creates a new public space', function(done) {
 });
 
 it('creates a new company space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio company',
 		description: 'espacio company',
@@ -87,7 +87,7 @@ it('creates a new company space', function(done) {
 });
 
 it('creates a new private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio privado',
 		description: 'espacio privado',
@@ -108,10 +108,10 @@ it('creates a new private space', function(done) {
 });
 
 it('creates new hashtag #testing', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #testing en perfil de usuario',
-		target: profileUser
+		target: currentUser
 	});
 	post.create()
 	.then((response) => {
@@ -123,10 +123,10 @@ it('creates new hashtag #testing', function(done) {
 });
 
 it('creates new hashtag #TEsting', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'Publicando #TEsting en perfil de usuario',
-		target: profileUser
+		target: currentUser
 	});
 	post.create()
 	.then((response) => {
@@ -138,9 +138,9 @@ it('creates new hashtag #TEsting', function(done) {
 });
 
 it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	new FeedItem()
-	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
+	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
 			response.should.have.status('200');
 			response.content.elements.should.be.a('array');
@@ -154,7 +154,7 @@ it('Get posts filtering by hashtag - valid uppercase and lowercase', function(do
 
 	session.addToken(1, jsonData.basicToken);
 	new FeedItem()
-	.list({filter: {'user': profileUser.id, 'hashtag': 'testing'}})
+	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
 		.then((response) => {
 			response.should.have.status('200');
 			response.content.elements.should.be.a('array');
@@ -165,7 +165,7 @@ it('Get posts filtering by hashtag - valid uppercase and lowercase', function(do
 	});
 
 it('creates new hashtag #testing', function(done) {
-session.addToken(1, jsonData.adminToken);
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testeando',
 		target: publicSpace
@@ -180,7 +180,7 @@ session.addToken(1, jsonData.adminToken);
 });
 
 it('creates new hashtag #hash tag', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #hash tag',
 		target: publicSpace
@@ -195,7 +195,7 @@ it('creates new hashtag #hash tag', function(done) {
 });
 
 it('creates new hashtag #hash-tag', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #hash-tag',
 		target: publicSpace
@@ -210,7 +210,7 @@ it('creates new hashtag #hash-tag', function(done) {
 });
 
 it('creates new hashtag #testDeIntegracion - company space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testDeIntegracion',
 		target: companySpace
@@ -225,7 +225,7 @@ it('creates new hashtag #testDeIntegracion - company space', function(done) {
 });
 
 it('creates new hashtag #testDeRegresion - private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #testDeRegresion',
 		target: privateSpace
@@ -240,7 +240,7 @@ it('creates new hashtag #testDeRegresion - private space', function(done) {
 });
 
 it('creates new hashtag #testDeRegresion - private space', function(done) {
-
+	session.addToken(1, jsonData.adminToken);
 	let post = new Post({
 		content: 'contenido de post con hashtag #téstDeRegresion',
 		target: privateSpace
@@ -296,20 +296,6 @@ it('Basic user filters suggestions by space company', function(done) {
 		});
 	});
 
-it('User filters suggestions for private space', function(done) {
-
-	session.addToken(1, jsonData.adminToken);
-	new Hashtag()
-	.list({filter: {'q': 'té', 'space': privateSpace.id}})
-		.then((response) => {
-			response.should.have.status('200');
-			response.content.elements.should.be.a('array');
-			response.content.elements.length.should.be.eql(5);
-			expect(response.content.meta.pagination['total-items']).to.equal(5);
-			done();
-		});
-	});
-
 it('Basic user filters suggestions without private space', function(done) {
 
 	session.addToken(1, jsonData.basicToken);
@@ -334,6 +320,20 @@ it('Basic user filters suggestions-spaceBlanco by public space', function(done) 
 			response.content.elements.should.be.a('array');
 			response.content.elements.length.should.be.eql(1);
 			expect(response.content.meta.pagination['total-items']).to.equal(1);
+			done();
+		});
+	});
+
+it('User filters suggestions for private space', function(done) {
+
+	session.addToken(1, jsonData.adminToken);
+	new Hashtag()
+	.list({filter: {'q': 'té', 'space': privateSpace.id}})
+		.then((response) => {
+			response.should.have.status('200');
+			response.content.elements.should.be.a('array');
+			response.content.elements.length.should.be.eql(5);
+			expect(response.content.meta.pagination['total-items']).to.equal(5);
 			done();
 		});
 	});

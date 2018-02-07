@@ -1,7 +1,35 @@
-PRECONCIONES
-TEST CASES
-PRECONCIONES
 TESTS CASES
-PRECONCIONES
-TESTS CASES
-PRECONCIONES
+
+
+  SUITE - HASHTAG - PUBLIC SPACE
+    ✓ creates a new public space (1415ms)
+    ✓ creates new hashtag #testing (1885ms)
+    ✓ creates new hashtag #TEsting (1627ms)
+    ✓ creates new hashtag #tesTING (2526ms)
+    ✓ creates new hashtag #TESTING (1407ms)
+    ✓ creates new hashtag #Testing (1653ms)
+    ✓ creates new hashtag #tésting (1731ms)
+    ✓ creates new hashtag #😀%&! (1305ms)
+    ✓ creates new hashtag #MaríaGüillerminaGonçalvesNuñezOcoñor (1466ms)
+    ✓ creates new hashtag #estoEsVálidoHastaAcá😀loQueSigueNoEntra (1780ms)
+    ✓ creates new hashtag ##testing (1362ms)
+    ✓ creates new hashtag #EstosSonDos#Hashtags (2156ms)
+    ✓ creates new hashtag #caracterØEspecial #carâcterEspecial (1723ms)
+    ✓ Create comment on a post1 #testing (1350ms)
+    ✓ Create comment on a post2 #testing (1491ms)
+    ✓ Create response with hashtag to comment1 with hashtag (1647ms)
+    ✓ Create response with hashtag to comment2 with hashtag (1409ms)
+    ✓ Caso 1: gets posts filtering by hashtag - valid upper / lower case (1265ms)
+    ✓ Caso 2: Get posts filtering by hashtag - valid tilde (960ms)
+    ✓ Caso 3: Get posts filtering by hashtag - validate special characters allowed (1100ms)
+    ✓ Caso 4: Get posts filtering by hashtag - validate to invalid character (1181ms)
+    ✓ Caso 5: Get posts filtering by hashtag - valid first hashtag (973ms)
+    ✓ Caso 6: Get posts filtering by hashtag - validate hashtag second hashtag (895ms)
+    ✓ Caso 7: Get all posts in the space (1441ms)
+    ✓ Caso 8: Get posts filtering by hashtag - valid range and pagination size 2 (1356ms)
+    ✓ Caso 9: Get posts filtering by hashtag - valid range and pagination size 3 (1121ms)
+    ✓ Caso 10: Get posts filtering by hashtag - olderThan (1199ms)
+
+
+  27 passing (40s)
+
