@@ -13,7 +13,11 @@ class Invitation extends AbstractModel {
 		this.password = data.password;
 		this['created-at'] = data['created-at'];
 		this['updated-at'] = data['updated-at'];
-
+		this['invitations-sent'] = data['invitations-sent'];
+		if (data.resend) {
+			this.resend = data.resend
+		}
+		
 	    this.user = data.user;
     }
 
@@ -28,6 +32,7 @@ class Invitation extends AbstractModel {
 			password: invitation.password,
 			'created-at': invitation['created-at'],
 			'updated-at': invitation['updated-at'],
+			'invitations-sent': invitation['invitations-sent'],
 			//relationships
 			user: invitation.user,
 		});

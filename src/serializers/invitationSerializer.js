@@ -9,7 +9,8 @@ class InvitationSerializer {
       attributes: [
       'status',
       'password',
-      'user'
+      'user',
+      'resend'
       ],
       user: {
         ref: (invitation, user) => user.id,
@@ -40,7 +41,7 @@ class InvitationSerializer {
 
     deserialize (data = {}) {
         return this.deserializer.deserialize(data, function (error, data) {
-            //
+            //console.log(data);
         });
 	}
 };
