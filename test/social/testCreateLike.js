@@ -22,20 +22,21 @@ var publicSpace = null;
 // variables utilizadas en los tests
 var currentPost = null;
 var currentComment = null;
+var currentResponse = null;
 
-describe('CREATE POST - PUBLIC SPACE', function() {
+describe('CREATE LIKE - PUBLIC SPACE', function() {
 	session.addToken(1, jsonData.adminToken);
 
 it('creates a new public space', function(done) {
 
 	let space = new Space({
 		name: 'espacio publico',
-		description: 'espacio publico',
+		description: 'espacio compañia',
 		icon: 'QA',
 		active: true,
 		'social-enabled': true,
 		position: 0,
-		visibility: 'public'
+		visibility: 'company'
 	});
 	space.create()
 	.then((response) => {
@@ -58,7 +59,6 @@ it('creates new POST', function(done) {
 		response.should.have.status('201');
 		post = response.content;
 		currentPost = post;
-		console.log(currentPost);
 		done();
 	});
 });
@@ -78,10 +78,10 @@ it('Create comment on a post1', function(done) {
 	});
 });
 
-it('Create response with hashtag to comment1', function(done) {
+it('Create response to comment1', function(done) {
 
 	let comment = new Comment({
-		comment: 'Respuesta con hashtag a un comentario #testing',
+		comment: 'Respuesta a un comentario',
 		subject: currentPost,
 		'reply-to': currentComment
 
@@ -89,6 +89,9 @@ it('Create response with hashtag to comment1', function(done) {
 	comment.create()
 	.then((response) => {
 		response.should.have.status('201');
+		let reply = response.content;
+		expect(reply['reply-to'].id).to.equal(currentComment.id);
+		currentResponse = reply
 		done();
 	});
 });
@@ -99,16 +102,83 @@ it('Create response with hashtag to comment1', function(done) {
 console.log("TESTS CASES");
 
 it('Caso 1: like post', function(done) {
-	session.addToken(1, jsonData.adminToken);
+	
 	let like = new Like({
 		subject: currentPost,
 	});
 	like.create()
 	.then((response) => {
-		//response.should.have.status('201');
-		//like = response.content;
-		console.log(response.errors);
+		response.should.have.status('201');
+		like = response.content;
 		done();
 	});
+});
+
+it('Caso 2: like comment', function(done) {
+	
+	let like = new Like({
+		subject: currentComment,
 	});
+	like.create()
+	.then((response) => {
+		response.should.have.status('201');
+		like = response.content;
+		done();
+	});
+});
+
+it('Caso 3: like response', function(done) {
+	
+	let like = new Like({
+		subject: currentResponse,
+	});
+	like.create()
+	.then((response) => {
+		response.should.have.status('201');
+		like = response.content;
+		expect(like.subject.id).to.equal(currentResponse.id);
+		done();
+	});
+});
+
+it('Caso 4: like post other user', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	let like = new Like({
+		subject: currentPost,
+	});
+	like.create()
+	.then((response) => {
+		response.should.have.status('201');
+		like = response.content;
+		done();
+	});
+});
+
+it('Caso 5: like comment other user', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	let like = new Like({
+		subject: currentComment,
+	});
+	like.create()
+	.then((response) => {
+		response.should.have.status('201');
+		like = response.content;
+		done();
+	});
+});
+
+it('Caso 6: like response other user', function(done) {
+	session.addToken(1, jsonData.basicToken);
+	let like = new Like({
+		subject: currentResponse,
+	});
+	like.create()
+	.then((response) => {
+		response.should.have.status('201');
+		like = response.content;
+		expect(like.subject.id).to.equal(currentResponse.id);
+		done();
+	});
+});
+
 });

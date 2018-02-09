@@ -10,13 +10,9 @@ class LikeSerializer {
       'subject'
       ],
       subject: {
-        ref: (post, subject) => subject.id,
-        
+        ref: (like, subject) => subject.id,
         included: true
-      },
-        ref: (comment, subject) => subject.id,
-        //attributes: [],
-        included: true
+      }
     });
 
     this.deserializer = new Deserializer({
@@ -49,6 +45,7 @@ class LikeSerializer {
         if (data.subject instanceof Comment) {
           serialized.data.relationships.subject.data.type = 'comments';
         }
+        delete serialized.data.attributes;
         return serialized;
     }
 
