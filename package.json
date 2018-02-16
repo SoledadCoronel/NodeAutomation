@@ -5,7 +5,7 @@
   "main": "login.js",
   "private": true,
   "scripts": {
-    "datafixture": "babel-node test/datafixture.js --presets es2015",
+    "datafixture": "babel-node test/datafixture.js --compilers js:babel-register",
     "test": "mocha \"test/**/*@(.js)\" --compilers js:babel-register --recursive -R xunit test/ > test-reports.xml --timeout 70000",
     "galleries": "clear && mocha \"test/platforms/testGalleries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 80000",
@@ -21,8 +21,8 @@
     "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive --timeout 70000",
     "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "like": "clear && mocha \"test/social/testCreateLike@(.js)\" --compilers js:babel-register --timeout 70000",
-    "invitation": "clear && mocha \"test/users/testInvitation@(.js)\" --compilers js:babel-register --timeout 70000"
+    "like": "clear && mocha \"test/social/testCreateLike@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "invitation": "clear && mocha \"test/users/testInvitation@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",
@@ -43,10 +43,10 @@
     "random-js": "^1.0.8"
   },
   "devDependencies": {
-    "babel-cli": "^6.14.0",
+    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.14.0",
     "babel-preset-es2017": "^6.24.1",
-    "babel-register": "^6.14.0"
+    "babel-register": "^6.26.0",
+    "babel-polyfill": "^6.26.0"
   }
 }

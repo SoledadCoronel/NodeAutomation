@@ -33,226 +33,165 @@ var currentPost6 = null;
 describe('SUITE - HASHTAG - SUGGESTIONS', function() {
 
 
-it('fetches a profile user', function(done) {
+before(function(done) {
 	session.addToken(1, jsonData.adminToken);
-	new User()
-	.fetch(jsonData.basicUser.id)
-	.then((response) => {
-		response.should.have.status('200');
+	
+	new User().fetch(jsonData.basicUser.id).then((response) => {
+		expect(response.status).to.equal(200);
 		currentUser = response.content;
-		done();
-	});
-});
-
-it('creates a new public space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let space = new Space({
-		name: 'espacio publico',
-		description: 'espacio publico',
-		icon: 'QA',
-		active: true,
-		'social-enabled': true,
-		position: 0,
-		visibility: 'public'
-	});
-	space.create()
-	.then((response) => {
-		response.should.have.status('201');
-		expect(space.active).to.equal(true);
-		space = response.content;
-		publicSpace = space;
-		done();
-	});
-});
-
-it('creates a new company space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let space = new Space({
-		name: 'espacio company',
-		description: 'espacio company',
-		icon: 'QA',
-		active: true,
-		'social-enabled': true,
-		position: 0,
-		visibility: 'company'
-	});
-	space.create()
-	.then((response) => {
-		response.should.have.status('201');
-		expect(space.active).to.equal(true);
-		space = response.content;
-		companySpace = space;
-		done();
-	});
-});
-
-it('creates a new private space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let space = new Space({
-		name: 'espacio privado',
-		description: 'espacio privado',
-		icon: 'QA',
-		active: true,
-		'social-enabled': true,
-		position: 0,
-		visibility: 'private'
-	});
-	space.create()
-	.then((response) => {
-		response.should.have.status('201');
-		expect(space.active).to.equal(true);
-		space = response.content;
-		privateSpace = space;
-		done();
-	});
-});
-
-it('creates new hashtag #testing', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'Publicando #testing en perfil de usuario',
-		target: currentUser
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentProfilePost = post;
-		done();
-	});
-});
-
-it('creates new hashtag #TEsting', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'Publicando #TEsting en perfil de usuario',
-		target: currentUser
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentProfilePost2 = post;
-		done();
-	});
-});
-
-it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	new FeedItem()
-	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
-		.then((response) => {
-			response.should.have.status('200');
-			response.content.elements.should.be.a('array');
-			response.content.elements.length.should.be.eql(2);
-			expect(response.content.meta.pagination['total-items']).to.equal(2);
-			done();
+		
+		let space = new Space({
+			name: 'espacio publico',
+			description: 'espacio publico',
+			icon: 'QA',
+			active: true,
+			'social-enabled': true,
+			position: 0,
+			visibility: 'public'
+		});
+		space.create().then((response) => {
+			space = response.content;
+			expect(response.status).to.equal(201);
+			expect(space.active).to.equal(true);
+			publicSpace = space;
+			
+			let space = new Space({
+				name: 'espacio company',
+				description: 'espacio company',
+				icon: 'QA',
+				active: true,
+				'social-enabled': true,
+				position: 0,
+				visibility: 'company'
+			});
+			space.create().then((response) => {
+				space = response.content;
+				expect(response.status).to.equal(201);
+				expect(space.active).to.equal(true);
+				companySpace = space;
+				
+				let space = new Space({
+					name: 'espacio privado',
+					description: 'espacio privado',
+					icon: 'QA',
+					active: true,
+					'social-enabled': true,
+					position: 0,
+					visibility: 'private'
+				});
+				space.create().then((response) => {
+					space = response.content;
+					expect(response.status).to.equal(201);
+					expect(space.active).to.equal(true);
+					privateSpace = space;
+					
+					let post = new Post({
+						content: 'Publicando #testing en perfil de usuario',
+						target: currentUser
+					});
+					post.create().then((response) => {
+						expect(response.status).to.equal(201);
+						post = response.content;
+						currentProfilePost = post;
+						
+						let post = new Post({
+							content: 'Publicando #TEsting en perfil de usuario',
+							target: currentUser
+						});
+						post.create().then((response) => {
+							expect(response.status).to.equal(201);
+							post = response.content;
+							currentProfilePost2 = post;
+							
+							new FeedItem()
+							.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
+							.then((response) => {
+								expect(response.status).to.equal(200);
+								response.content.elements.should.be.a('array');
+								response.content.elements.length.should.be.eql(2);
+								expect(response.content.meta.pagination['total-items']).to.equal(2);
+								
+								new FeedItem()
+								.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
+								.then((response) => {
+									expect(response.status).to.equal(200);
+									response.content.elements.should.be.a('array');
+									response.content.elements.length.should.be.eql(2);
+									expect(response.content.meta.pagination['total-items']).to.equal(2);
+									
+									let post = new Post({
+										content: 'contenido de post con hashtag #testeando',
+										target: publicSpace
+									});
+									post.create().then((response) => {
+										expect(response.status).to.equal(201);
+										post = response.content;
+										currentPost = post;
+										
+										let post = new Post({
+											content: 'contenido de post con hashtag #hash tag',
+											target: publicSpace
+										});
+										post.create().then((response) => {
+											expect(response.status).to.equal(201);
+											post = response.content;
+											currentPost2 = post;
+											
+											let post = new Post({
+												content: 'contenido de post con hashtag #hash-tag',
+												target: publicSpace
+											});
+											post.create().then((response) => {
+												expect(response.status).to.equal(201);
+												post = response.content;
+												currentPost3 = post;
+												
+												let post = new Post({
+													content: 'contenido de post con hashtag #testDeIntegracion',
+													target: companySpace
+												});
+												post.create().then((response) => {
+													expect(response.status).to.equal(201);
+													post = response.content;
+													currentPost4 = post;
+													let post = new Post({
+														content: 'contenido de post con hashtag #testDeRegresion',
+														target: privateSpace
+													});
+													post.create().then((response) => {
+														expect(response.status).to.equal(201);
+														post = response.content;
+														currentPost5 = post;
+														
+														let post = new Post({
+															content: 'contenido de post con hashtag #téstDeRegresion',
+															target: privateSpace
+														});
+														post.create().then((response) => {
+															expect(response.status).to.equal(201);
+															post = response.content;
+															currentPost6 = post;
+															done();
+														});
+													});
+												});
+											});
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+			});
 		});
 	});
-
-it('Get posts filtering by hashtag - valid uppercase and lowercase', function(done) {
-
-	session.addToken(1, jsonData.basicToken);
-	new FeedItem()
-	.list({filter: {'user': currentUser.id, 'hashtag': 'testing'}})
-		.then((response) => {
-			response.should.have.status('200');
-			response.content.elements.should.be.a('array');
-			response.content.elements.length.should.be.eql(2);
-			expect(response.content.meta.pagination['total-items']).to.equal(2);
-			done();
-		});
-	});
-
-it('creates new hashtag #testing', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #testeando',
-		target: publicSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost = post;
-		done();
-	});
 });
 
-it('creates new hashtag #hash tag', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #hash tag',
-		target: publicSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost2 = post;
-		done();
-	});
-});
+// TESTS CASES
+///////////////////////////////////////////////////////////////////////////////////////////
 
-it('creates new hashtag #hash-tag', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #hash-tag',
-		target: publicSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost3 = post;
-		done();
-	});
-});
-
-it('creates new hashtag #testDeIntegracion - company space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #testDeIntegracion',
-		target: companySpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost4 = post;
-		done();
-	});
-});
-
-it('creates new hashtag #testDeRegresion - private space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #testDeRegresion',
-		target: privateSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost5 = post;
-		done();
-	});
-});
-
-it('creates new hashtag #testDeRegresion - private space', function(done) {
-	session.addToken(1, jsonData.adminToken);
-	let post = new Post({
-		content: 'contenido de post con hashtag #téstDeRegresion',
-		target: privateSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost6 = post;
-		done();
-	});
-});
+console.log("TESTS CASES");
 
 it('Basic user filters suggestions publicly', function(done) {
 

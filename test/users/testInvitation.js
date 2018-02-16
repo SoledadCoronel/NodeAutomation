@@ -2,15 +2,14 @@ import User from './../../src/models/user';
 import Role from './../../src/models/role';
 import Invitation from './../../src/models/invitation';
 import { session } from './../../src/services/session';
+import 'babel-polyfill';
 var jsonData = require('./../fixtures/data.json');
 
 var chai = require('chai'), chaiColors = require('chai-colors');
 var chaiHttp = require('chai-http');
 var Random = require("random-js");
 var random = new Random();
-var should = chai.should();
 var expect = chai.expect;
-var assert = chai.assert;
 
 chai.use(chaiHttp);
 chai.use(chaiColors);
@@ -27,7 +26,7 @@ var invitationUpdated = null;
 describe('Invitation', function() {
 	session.addToken(1, jsonData.adminToken);
 
-before(function(done) { 
+before(async function() { 
 	let user = new User({
 		name: 'UsuarioRolBásico',
     	'last-name': 'UsuarioRolBásico',
@@ -36,13 +35,19 @@ before(function(done) {
     	'login-enabled' : true,
     	role: new Role({id: jsonData.basicRole})
 	});
-	user.create().then((response) => {
+	const response = await createUser(user);
+
+	//user.create().then((response) => {
 		basicUserInfo = response.content;
      	basicUser = {'id': basicUserInfo.id, 'email': basicUserInfo.email};
 
-    	done();
-    });
+    	//done();
+    //});
 });
+
+async function createUser(user) {
+	return await user.create();
+}
 
 // TESTS CASES
 ///////////////////////////////////////////////////////////////////////////////////////////

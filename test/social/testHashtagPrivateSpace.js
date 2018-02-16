@@ -25,11 +25,10 @@ var currentPost3 = null;
 
 // comienzo de la suite
 describe('SUITE - HASHTAG - PRIVATE SPACE', function() {
+	session.addToken(1, jsonData.adminToken);
 
-session.addToken(1, jsonData.adminToken);
 
-it('creates a new private space', function(done) {
-
+before(function(done) {
 	let space = new Space({
 		name: 'espacio privado',
 		description: 'espacio privado',
@@ -39,67 +38,50 @@ it('creates a new private space', function(done) {
 		position: 0,
 		visibility: 'private'
 	});
-	space.create()
-	.then((response) => {
-		response.should.have.status('201');
-		expect(space.active).to.equal(true);
+	space.create().then((response) => {
 		space = response.content;
+		expect(response.status).to.equal(201);
+		expect(space.active).to.equal(true);
 		privateSpace = space;
-		done();
+		
+		let space = new Space({
+			name: 'espacio publico',
+			description: 'espacio publico',
+			icon: 'QA',
+			active: true,
+			'social-enabled': true,
+			position: 0,
+			visibility: 'public'
+		});
+		space.create().then((response) => {
+			space = response.content;
+			expect(response.status).to.equal(201);
+			expect(space.active).to.equal(true);
+			publicSpace = space;
+
+			let post = new Post({
+				content: 'contenido de post con hashtag #TEsting',
+				target: privateSpace
+			});
+			post.create().then((response) => {
+				expect(response.status).to.equal(201);
+				post = response.content;
+				currentPost = post;
+				
+				let post = new Post({
+					content: 'contenido de post con hashtag #tésting',
+					target: privateSpace
+				});
+				post.create().then((response) => {
+					expect(response.status).to.equal(201);
+					post = response.content;
+					currentPost2 = post;
+					done();
+				});
+			});
+		});
 	});
 });
-
-it('creates a new public space', function(done) {
-
-	let space = new Space({
-		name: 'espacio publico',
-		description: 'espacio publico',
-		icon: 'QA',
-		active: true,
-		'social-enabled': true,
-		position: 0,
-		visibility: 'public'
-	});
-	space.create()
-	.then((response) => {
-		response.should.have.status('201');
-		expect(space.active).to.equal(true);
-		space = response.content;
-		publicSpace = space;
-		done();
-	});
-});
-
-it('creates new hashtag #TEsting', function(done) {
-
-	let post = new Post({
-		content: 'contenido de post con hashtag #TEsting',
-		target: privateSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost = post;
-		done();
-	});
-});
-
-it('creates new hashtag #tésting', function(done) {
-
-	let post = new Post({
-		content: 'contenido de post con hashtag #tésting',
-		target: privateSpace
-	});
-	post.create()
-	.then((response) => {
-		response.should.have.status('201');
-		post = response.content;
-		currentPost2 = post;
-		done();
-	});
-});
-
 
 // TESTS CASES
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +93,7 @@ it('Caso 1: Basic user gets posts filtering by hashtag', function(done) {
 	new FeedItem()
 	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
 		.then((response) => {
-			response.should.have.status('403');
+			expect(response.status).to.equal(403);
 			done();
 		});
 	});
@@ -139,7 +121,7 @@ it('Caso 3: Joined user posts a hashtag - private space', function(done) {
 	});
 	post.create()
 	.then((response) => {
-		response.should.have.status('201');
+		expect(response.status).to.equal(201);
 		done();
 	});
 });
@@ -166,7 +148,7 @@ it('Caso 5: Joined user posts a hashtag - public space', function(done) {
 	});
 	post.create()
 	.then((response) => {
-		response.should.have.status('201');
+		expect(response.status).to.equal(201);
 		done();
 	});
 });
@@ -176,7 +158,7 @@ it('Caso 6: User admin filtered by hashtag for private space', function(done) {
 	new FeedItem()
 	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
 		.then((response) => {
-			response.should.have.status('200');
+			expect(response.status).to.equal(200);
 			response.content.elements.should.be.a('array');
 			response.content.elements.length.should.be.eql(2);
 			expect(response.content.meta.pagination['total-items']).to.equal(2);
@@ -189,7 +171,7 @@ it('Caso 7: Basic user filters by hashtag for private space', function(done) {
 	new FeedItem()
 	.list({filter: {'space': privateSpace.id, 'hashtag': 'testing'}})
 		.then((response) => {
-			response.should.have.status('200');
+			expect(response.status).to.equal(200);
 			response.content.elements.should.be.a('array');
 			response.content.elements.length.should.be.eql(2);
 			expect(response.content.meta.pagination['total-items']).to.equal(2);
@@ -202,7 +184,7 @@ it('Caso 8: Basic user filters by hashtag by platform', function(done) {
 	new FeedItem()
 	.list({filter: {'space': publicSpace.id, 'hashtag': 'testing'}})
 		.then((response) => {
-			response.should.have.status('200');
+			expect(response.status).to.equal(200);
 			response.content.elements.should.be.a('array');
 			response.content.elements.length.should.be.eql(1);
 			expect(response.content.meta.pagination['total-items']).to.equal(1);
