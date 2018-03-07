@@ -22,7 +22,7 @@ class Oauth extends AbstractModel {
 	deconstruct(oauth) {
 		return new Oauth(oauth);
 	}
-
+	
 	login(data = {}) {
 
       	return this.chai.request('http://api.cd.gointegro.net')
@@ -43,6 +43,31 @@ class Oauth extends AbstractModel {
 				return new Response(error.response.statusCode, null, error.response.body.errors);
 			});
 	}
+
+	loginQa(data = {}) {
+		const client_id_qa = "2gjjh47us76sc8g08ogo48gkkocs0o808ko8wgsgg044kwsccs";
+		const client_secret_qa = "2yqhxezgex6o8sc48osk8wko0080w4ck004wg0cwgkog8gos4s";
+		const grant_type = "password";
+
+		return this.chai.request('http://api.qa.go5.gointegro.net/')
+		  .post('oauth/token')
+		  .set('content-type', 'application/x-www-form-urlencoded')
+		  .send({
+			  username: data.username,
+			  password: data.password,
+			  subdomain: data.subdomain,
+			  client_id: client_id_qa,
+			  client_secret: client_secret_qa,
+			  grant_type: grant_type,
+			  
+		  })
+		  .then((response) => {
+			  return new Response(response.statusCode, response.body);
+		  })
+		  .catch((error) => {
+			return new Response(error.response.statusCode, null, error.response.body.errors);
+		  });
+  }
 };
 
 export default Oauth;
