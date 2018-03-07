@@ -22,7 +22,8 @@
     "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "like": "clear && mocha \"test/social/testCreateLike@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "invitation": "clear && mocha \"test/users/testInvitation@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
+    "invitation": "clear && mocha \"test/users/testInvitation@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "acl": "clear && mocha \"test/applications/aclReconigtion.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",
