@@ -21,9 +21,10 @@ var currentComment = null;
 var currentResponse = null;
 
 describe('CREATE LIKE - PUBLIC SPACE', function() {
-	session.addToken(1, jsonData.adminToken);
+	
 
 before(function(done) {
+	session.addToken(1, jsonData.adminToken);
 	let space = new Space({
 		name: 'espacio publico',
 		description: 'espacio compañia',
@@ -82,7 +83,7 @@ before(function(done) {
 console.log("TESTS CASES");
 
 it('Caso 1: like post', function(done) {
-	
+	session.addToken(1, jsonData.adminToken);
 	let like = new Like({
 		subject: currentPost,
 	});
@@ -94,7 +95,7 @@ it('Caso 1: like post', function(done) {
 });
 
 it('Caso 2: like comment', function(done) {
-	
+	session.addToken(1, jsonData.adminToken);
 	let like = new Like({
 		subject: currentComment,
 	});
@@ -106,7 +107,7 @@ it('Caso 2: like comment', function(done) {
 });
 
 it('Caso 3: like response', function(done) {
-	
+	session.addToken(1, jsonData.adminToken);
 	let like = new Like({
 		subject: currentResponse,
 	});
