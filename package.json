@@ -18,7 +18,7 @@
     "widgetHires": "clear && mocha \"test/platforms/testWidgetHires@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userImports": "clear && mocha \"test/users/testUserImports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "massiveActions": "clear && mocha \"test/users/testMassiveActions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive --timeout 70000",
+    "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 100000",
     "like": "clear && mocha \"test/social/testCreateLike.js\" --compilers js:babel-register --recursive -R xunit --timeout 100000",
