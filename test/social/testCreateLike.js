@@ -120,7 +120,7 @@ it('Caso 3: like response', function(done) {
 });
 
 it('Caso 4: like post other user', function(done) {
-	session.addToken(1, jsonData.basicToken);
+	session.addToken(jsonData.basicUser.id, jsonData.basicToken);
 	let like = new Like({
 		subject: currentPost,
 	});
@@ -132,7 +132,7 @@ it('Caso 4: like post other user', function(done) {
 });
 
 it('Caso 5: like comment other user', function(done) {
-	//session.addToken(1, jsonData.basicToken);
+	session.addToken(jsonData.basicUser.id, jsonData.basicToken);
 	let like = new Like({
 		subject: currentComment,
 	});
@@ -144,7 +144,7 @@ it('Caso 5: like comment other user', function(done) {
 });
 
 it('Caso 6: like response other user', function(done) {
-	//session.addToken(1, jsonData.basicToken);
+	session.addToken(jsonData.basicUser.id, jsonData.basicToken);
 	let like = new Like({
 		subject: currentResponse,
 	});
