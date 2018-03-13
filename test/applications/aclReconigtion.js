@@ -7,6 +7,7 @@ import 'babel-polyfill';
 const chai = require('chai'), chaiColors = require('chai-colors');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
+const lodash = require('lodash');
 
 chai.use(chaiHttp);
 chai.use(chaiColors);
@@ -77,6 +78,24 @@ it('usario inexistente ', function(done) {
     .send()
     .catch((error) => {
         expect(error.status).to.equal(401);
+        done();
+    })
+});
+
+it('usario admin puede ver programa donde no participa ', function(done) {
+    const REC_APP = '23751';
+    const REC_PROGRAM = '2126';
+
+    let oauth = new Oauth();
+    oauth.chai.request('http://api.qa.go5.gointegro.net')
+    .get('/recognition/recognition-applications?page=1&size=50')
+    .set('Authorization', 'Bearer '+adminToken)
+    .send()
+    .then((response) => {
+        expect(response.status).to.equal(200);
+        let recApp = lodash.filter(response.body.applications, { 'id': REC_APP } )[0];
+        expect(recApp.id).to.equal(REC_APP);
+        expect(recApp.links.program).to.equal(REC_PROGRAM);
         done();
     })
 });
