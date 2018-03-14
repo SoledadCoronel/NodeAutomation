@@ -20,10 +20,10 @@
     "massiveActions": "clear && mocha \"test/users/testMassiveActions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "users": "clear && mocha \"test/users/testUsers@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userExports": "clear && mocha \"test/users/testUserExports@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 100000",
-    "like": "clear && mocha \"test/social/testCreateLike.js\" --compilers js:babel-register --recursive -R xunit --timeout 100000",
-    "invitation": "clear && mocha \"test/users/testInvitation.js\" --compilers js:babel-register --recursive -R xunit --timeout 100000",
-    "acl": "clear && mocha \"test/applications/aclReconigtion.js\" --compilers js:babel-register --recursive -R xunit --timeout 100000"
+    "userJobs": "clear && mocha \"test/users/testUserJobs@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "like": "clear && mocha \"test/social/testCreateLike.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "invitation": "clear && mocha \"test/users/testInvitation.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "acl": "clear && mocha \"test/applications/aclReconigtion.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",
@@ -38,6 +38,7 @@
     "chai-http": "^3.0.0",
     "jsonapi-serializer": "^3.4.1",
     "jsonfile": "^2.4.0",
+    "lodash": "^4.17.5",
     "mocha": "^3.0.2",
     "mocha-junit-reporter": "^1.12.1",
     "moment-timezone": "^0.5.14",
