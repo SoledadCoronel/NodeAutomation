@@ -82,7 +82,7 @@ it('usario inexistente ', function(done) {
     })
 });
 
-it('usario admin puede ver programa donde no participa ', function(done) {
+it('TPGO5-886/usario admin puede ver programa donde no participa ', function(done) {
     const REC_APP = '23751';
     const REC_PROGRAM = '2126';
 
@@ -96,6 +96,44 @@ it('usario admin puede ver programa donde no participa ', function(done) {
         let recApp = lodash.filter(response.body.applications, { 'id': REC_APP } )[0];
         expect(recApp.id).to.equal(REC_APP);
         expect(recApp.links.program).to.equal(REC_PROGRAM);
+        done();
+    })
+});
+
+it('TPGO5-887/dropdown de programa muestra programa desactivado desde BO ', function(done) {
+    const REC_APP = '23753';
+    const REC_PROGRAM = '2128';
+
+    let oauth = new Oauth();
+    oauth.chai.request('http://api.qa.go5.gointegro.net')
+    .get('/recognition/recognition-applications?page=1&size=50')
+    .set('Authorization', 'Bearer '+adminToken)
+    .send()
+    .then((response) => {
+        expect(response.status).to.equal(200);
+        let recApp = lodash.filter(response.body.applications, { 'id': REC_APP } )[0];
+        expect(recApp.id).to.equal(REC_APP);
+        expect(recApp.links.program).to.equal(REC_PROGRAM);
+        done();
+    })
+});
+
+it('TPGO5-888/dropdown de programa no muestra programas desactivado desde la aplicación ', function(done) {
+    const REC_APP = '23754';
+    const REC_PROGRAM = '2129';
+
+    let oauth = new Oauth();
+    oauth.chai.request('http://api.qa.go5.gointegro.net')
+    .get('/recognition/recognition-applications?page=1&size=50')
+    .set('Authorization', 'Bearer '+adminToken)
+    .send()
+    .then((response) => {
+        expect(response.status).to.equal(200);
+        var programIds = response.body.applications.map((application) => {
+            return lodash.get(application, 'links.program')
+        });
+        expect(programIds.includes(REC_PROGRAM)).to.equal(false);
+
         done();
     })
 });
