@@ -35,7 +35,6 @@ before(function(done) {
         session.addToken(1, adminToken);
         done();
       });
-      done();
 });
 
 // TESTS CASES
