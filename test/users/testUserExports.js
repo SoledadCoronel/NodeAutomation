@@ -41,7 +41,7 @@ it('Caso 2: Download platform users', function(done) {
 	});
 });
 
-it('Caso 3: Download platform users - excel format', function(done) {
+it('Caso 3: Download platform users - excel format - Windows', function(done) {
 
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-exports/' + '?' + 'filter[template]=0' + '&' + 'filter[windows]=1')
@@ -50,12 +50,30 @@ it('Caso 3: Download platform users - excel format', function(done) {
 	.end(function(err, res) {
 		res.should.have.status(200);
 		assert.include(res.text, 'Soledad', 'string contains substring');
-		assert.include(res.text, 'UsuarioRolAdmi�DeEspacio', 'string contains substring');
+		assert.include(res.text, 'UsuarioRolAdmiñDeEspacio', 'string contains substring');
+		//assert bom
+		expect(res.text.charCodeAt(0)).to.equal(65279);
 		done();
 	});
 });
 
-it('Caso 4: Download platform users by id', function(done) {
+it('Caso 4: Download platform users - excel format - Otros SO', function(done) {
+
+	chai.request('http://api.cd.gointegro.net')
+	.post('/user-exports/' + '?' + 'filter[template]=0' + '&' + 'filter[windows]=0')
+	.type('form')
+	.send('access_token=' + jsonData.adminToken)
+	.end(function(err, res) {
+		res.should.have.status(200);
+		assert.include(res.text, 'Soledad', 'string contains substring');
+		assert.include(res.text, 'UsuarioRolAdmiñDeEspacio', 'string contains substring');
+		//assert que no tenga bom
+		expect(res.text.charCodeAt(0)).to.equal(102);
+		done();
+	});
+});
+
+it('Caso 5: Download platform users by id', function(done) {
 
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-exports/')
@@ -69,7 +87,7 @@ it('Caso 4: Download platform users by id', function(done) {
 	});
 });
 
-it('Caso 5: Download platform users by ids', function(done) {
+it('Caso 6: Download platform users by ids', function(done) {
 
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-exports/')
@@ -84,7 +102,7 @@ it('Caso 5: Download platform users by ids', function(done) {
 	});
 });
 
-it('Caso 6: Download platform users by filters q', function(done) {
+it('Caso 7: Download platform users by filters q', function(done) {
 
 	chai.request('http://api.cd.gointegro.net')
 	.post('/user-exports/')
