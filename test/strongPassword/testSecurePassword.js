@@ -35,7 +35,7 @@ it('Caso 1: Activar stronge password', function(done) {
                 "days-to-expire": 90,
                 "login-locked": false,
                 "max-historic-passwords": 3,
-                "password-history": false,
+                "password-history": true,
                 "secure-password": false
             }
         }
