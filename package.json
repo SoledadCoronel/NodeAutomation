@@ -25,7 +25,8 @@
     "invitation": "clear && mocha \"test/users/testInvitation.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "acl": "clear && mocha \"test/applications/aclReconigtion.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "strSecure": "clear && mocha \"test/strongPassword/testSecurePassword.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "strHistory": "clear && mocha \"test/strongPassword/testPasswordHistory.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
+    "strHistory": "clear && mocha \"test/strongPassword/testPasswordHistory.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "strLocked": "clear && mocha \"test/strongPassword/testLoginLocked.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",
