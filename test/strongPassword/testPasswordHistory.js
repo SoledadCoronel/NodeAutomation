@@ -188,7 +188,7 @@ it('Caso 7: Cambiar contraseña estando logueado por una de las últimas 3 usada
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .catch((error) =>{
@@ -211,7 +211,7 @@ it('Caso 8: Cambiar contraseña estando logueado por la misma actual - Code: 101
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .catch((error) =>{
@@ -234,7 +234,7 @@ it('Caso 9: Cambiar contraseña estando logueado por una válida para liberar la
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{
@@ -256,7 +256,7 @@ it('Caso 10: Cambiar contraseña estando logueado por la primera usada (ya liber
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{
@@ -308,7 +308,7 @@ it('Caso 12: Cambiar contraseña estando logueado (sin secure-password)', functi
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{
@@ -318,11 +318,11 @@ it('Caso 12: Cambiar contraseña estando logueado (sin secure-password)', functi
     })
 });
 
-it('Caso 13: Volver a cambiar contraseña estando logueado (sin secure-password)', function(done) {
+it('Caso 13: Volver a cambiar contraseña estando logueado por una segura', function(done) {
     let data = {
         "data": {
             "attributes":{
-                "password": "123456abcd"
+                "password": "123456abcD!"
             },
             "type": "users",
             "id": jsonData.adminUserId
@@ -330,7 +330,7 @@ it('Caso 13: Volver a cambiar contraseña estando logueado (sin secure-password)
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{
@@ -370,7 +370,21 @@ it('Caso 14: Activar secure-password', function(done) {
     })
 });
 
-it('Caso 15: Cambiar contraseña por una de history-password sin ser secure-password - Code: 10104', function(done) {
+it('Caso 15: Loguearse con la nueva secure-password', function(done) {
+    oauth.login({
+        username: 'soledad.coronel@gointegro.com',
+        password: '123456abcD!',
+        subdomain: jsonData.currentPlatform.subdomain
+      }).then((response) => {
+        expect(response.status).to.equal(200);
+        let tokenInfo = response.content;
+        adminToken = tokenInfo.access_token;
+        session.addToken(1, adminToken);
+        done();
+      });
+});
+
+it('Caso 16: Cambiar contraseña por una de history-password sin ser secure-password - Code: 10104', function(done) {
     let data = {
         "data": {
             "attributes":{
@@ -382,7 +396,7 @@ it('Caso 15: Cambiar contraseña por una de history-password sin ser secure-pass
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .catch((error) =>{
@@ -393,7 +407,7 @@ it('Caso 15: Cambiar contraseña por una de history-password sin ser secure-pass
     })
 });
 
-it('Caso 16: Cambiar max-historic-passwords a 1, desactivar secure-password y days-to-expire a 10', function(done) {
+it('Caso 17: Cambiar max-historic-passwords a 1, desactivar secure-password y days-to-expire a 10', function(done) {
     let data = {
         "data": {
             "type": "secure-policies",
@@ -423,7 +437,7 @@ it('Caso 16: Cambiar max-historic-passwords a 1, desactivar secure-password y da
     })
 });
 
-it('Caso 17: Cambiar contraseña por la primera guardada por history-password', function(done) {
+it('Caso 18: Cambiar contraseña por la primera guardada por history-password', function(done) {
     let data = {
         "data": {
             "attributes":{
@@ -435,7 +449,7 @@ it('Caso 17: Cambiar contraseña por la primera guardada por history-password', 
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{

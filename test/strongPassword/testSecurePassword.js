@@ -186,7 +186,7 @@ it('Caso 8: Cambiar contraseña estando logueado por una válida', function(done
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .then((response) =>{
@@ -208,7 +208,7 @@ it('Caso 9: Cambiar contraseña estando logueado por una inválida', function(do
     };
     chai.request('http://api.cd.gointegro.net')
     .patch('/users/'+jsonData.adminUserId)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .set('Content-Type', 'application/json')
     .send(data)
     .catch((error) =>{
