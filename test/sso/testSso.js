@@ -16,7 +16,7 @@ let adminToken = null;
 describe('ENDPOINT SSO', function() {
 	
 before(function(done) {
-    session.addToken(1, adminToken);
+    session.addToken(1, jsonData.adminToken);
     done();
 });
 
