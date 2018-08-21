@@ -11,7 +11,7 @@
     "hashtagSuggestions": "clear && mocha \"test/social/testHashtagSuggestions@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 80000",
     "hashtagPrivateSpace": "clear && mocha \"test/social/testHashtagPrivateSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "hashtagPublicSpace": "clear && mocha \"test/social/testHashtagPublicSpace@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "widgetCustom": "clear && mocha \"test/platforms/testWidgetCustoms@(.js)\" --compilers js:babel-register --timeout 70000",
     "widgetBirthdays": "clear && mocha \"test/platforms/testWidgetBirthdays@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "widgetAnniversaries": "clear && mocha \"test/platforms/testWidgetAnniversaries@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "userCelebrations": "clear && mocha \"test/users/testUserCelebrations@(.js)\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
@@ -26,7 +26,8 @@
     "acl": "clear && mocha \"test/applications/aclReconigtion.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "strSecure": "clear && mocha \"test/strongPassword/testSecurePassword.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
     "strHistory": "clear && mocha \"test/strongPassword/testPasswordHistory.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
-    "strLocked": "clear && mocha \"test/strongPassword/testLoginLocked.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
+    "strLocked": "clear && mocha \"test/strongPassword/testLoginLocked.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000",
+    "sso": "clear && mocha \"test/sso/testSso.js\" --compilers js:babel-register --recursive -R xunit --timeout 70000"
   },
   "keywords": [
     "node.js",

@@ -17,8 +17,17 @@ describe('STRONG PASSWORD - SECURE PASSWORD', function() {
 	
 
 before(function(done) {
-    session.addToken(1, jsonData.adminToken);
-    done();
+    oauth.login({
+        username: 'soledad.coronel@gointegro.com',
+        password: 'myPassword',
+        subdomain: jsonData.currentPlatform.subdomain
+      }).then((response) => {
+        expect(response.status).to.equal(200);
+        let tokenInfo = response.content;
+        adminToken = tokenInfo.access_token;
+        session.addToken(1, adminToken);
+        done();
+      });
 });
 
 // TESTS CASES
@@ -42,7 +51,7 @@ it('Caso 1: Activar stronge password', function(done) {
     };
     chai.request('http://api.cd.gointegro.net')
     .post('/secure-policies/'+jsonData.currentPlatform.subdomain)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .send(data)
     .then((response) => {
         expect(response.status).to.equal(201);
@@ -56,7 +65,7 @@ it('Caso 1: Activar stronge password', function(done) {
 it('Caso 2: Get stronge password activado', function(done) {
     chai.request('http://api.cd.gointegro.net')
     .get('/secure-policies/'+jsonData.currentPlatform.subdomain)
-    .set('Authorization', 'Bearer '+jsonData.adminToken)
+    .set('Authorization', 'Bearer '+adminToken)
     .then((response) => {
         expect(response.status).to.equal(200);
         expect(response.body.data.attributes.enabled).to.equal(true);
