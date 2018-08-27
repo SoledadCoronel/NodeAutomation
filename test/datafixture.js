@@ -97,7 +97,9 @@ new Promise((resolve, reject) => {
 function createPlatform() {
   let platform = new Platform({
     name: 'Platform' + random.integer(1, 10000),
-    subdomain: 'subdomain' + random.integer(1, 10000)
+    subdomain: 'subdomain' + random.integer(1, 10000),
+    'app-soc': true,
+    'app-bnf': false
   });
 
   return platform.create().then((response) => {
@@ -105,7 +107,6 @@ function createPlatform() {
     let currentPlatform = {'subdomain': platformInfo.subdomain, 'id': platformInfo.id};
     
     fixtureData['currentPlatform'] = currentPlatform;
-    
     return currentPlatform;
   });
 }
@@ -119,7 +120,6 @@ function loginAdminUser(currentPlatform) {
     let tokenInfo = response.content;
     adminToken = tokenInfo.access_token;
     adminUserId = tokenInfo.user_id;
-    
     fixtureData['adminToken'] = adminToken;
     fixtureData['adminUserId'] = adminUserId;
     

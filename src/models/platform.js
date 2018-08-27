@@ -17,7 +17,8 @@ class Platform extends AbstractModel {
 		this['users-range'] = data['users-range'] || '0-50';
 		this.country = data.country || 'ARG';
 		this.language = data.language || 'es';
-
+		this['app-soc'] = data['app-soc'];
+		this['app-bnf'] = data['app-bnf'];
 	}
 
 	deconstruct(platform) {
@@ -37,7 +38,9 @@ class Platform extends AbstractModel {
 						"status": this.status,
 						"users-range": this['users-range'],
 						"country": this.country,
-						"language": this.language
+						"language": this.language,
+						"app-soc": this['app-soc'],
+						"app-bnf": this['app-bnf']
 					}
 				},
 				{
@@ -60,13 +63,13 @@ class Platform extends AbstractModel {
 			.send(body)
 			.then((response) => {
 				let r = new Response(response.statusCode, response.body);
-
 				return this.getSerializer()
 					.deserialize(r.getContent())
 					.then(this.build(r));
 			})
 			.catch((error) => {
-				return new Response(error.response.statusCode, null, error.response.body.errors);
+				console.log(error);
+				return new Response(error.response, null, error.response.body.errors);
 			});
 	}
 };

@@ -11,7 +11,9 @@ class PlatformSerializer {
 				'status',
 				'users-range',
                 'country',
-				'language'
+                'language',
+                'app-soc',
+                'app-bnf'
 			],
         });
 
